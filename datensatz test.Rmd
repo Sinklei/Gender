@@ -48,7 +48,6 @@ view(df)
 ```
 
 
-
 World Gender Statistics
 ```{r}
 
@@ -58,6 +57,11 @@ wgs %>% filter(Country.Name == "Germany") %>% view()
 
 
 wgs %>% count(Country.Name)
+
+
+
+wgs2 <- read.csv("data/gender_statistics_data.csv")
+
 
 
 ```
