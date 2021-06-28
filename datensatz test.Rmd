@@ -1,0 +1,30 @@
+---
+title: "datensatz test"
+author: "Kevin"
+date: "6/28/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+```{r}
+
+
+df <- read.csv("data/covi_male_cleaned.csv")
+
+
+
+
+df <- read.csv("data/Viz5_August_Female_Political_Representation.csv")
+
+
+
+df %>%
+  filter(Country.Name == "Germany") %>% 
+  ggplot() +
+  aes(x)
+
+```
