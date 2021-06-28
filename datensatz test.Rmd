@@ -10,21 +10,55 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
 
+Proportion of seats held by women in national parliaments (%)
 ```{r}
+# Proportion of seats held by women in national parliaments (%)
+
+seats <- read.csv("data/Viz5_August_Female_Political_Representation.csv")
+
+names(seats)[1] <- "country"
+names(seats)[2] <- "code"
+names(seats)[3] <- "year"
+names(seats)[4] <- "seats"
+
+seats$country <- as.character(seats$country)
+seats$code <- as.character(seats$code)
+seats$year <- as.numeric(seats$year)
+seats$seats <- as.numeric(seats$seats)
 
 
-df <- read.csv("data/covi_male_cleaned.csv")
-
-
-
-
-df <- read.csv("data/Viz5_August_Female_Political_Representation.csv")
-
-
-
-df %>%
-  filter(Country.Name == "Germany") %>% 
+seats %>%
+  filter(country == "Germany") %>% 
   ggplot() +
-  aes(x)
+  aes(x = year,
+      y = seats) +
+  geom_point()
 
 ```
+
+```{r}
+df <- read.csv("data/covi_male_cleaned.csv")
+```
+
+```{r}
+
+df <- read.csv("data/data-og0ob.csv")
+view(df)
+
+```
+
+
+
+World Gender Statistics
+```{r}
+
+wgs <- read.csv("data/world-gender-statistics.csv")
+
+wgs %>% filter(Country.Name == "Germany") %>% view()
+
+
+wgs %>% count(Country.Name)
+
+
+```
+
