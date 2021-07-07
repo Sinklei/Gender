@@ -1,0 +1,53 @@
+---
+title: "Education_DL_world_gender_statistics"
+author: "Kevin"
+date: "7/7/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+options(digits = 2)
+gender_education_DL <- read_csv("data/bereich_education_deutschland_gender_statistics.csv")
+
+is.numeric(gender_arbeit_DL$`2000 [YR2000]`)
+
+gender_arbeit_DL$`1983 [YR1983]` <- as.numeric(gender_arbeit_DL$`1983 [YR1983]`)
+gender_arbeit_DL$`1984 [YR1984]` <- as.numeric(gender_arbeit_DL$`1984 [YR1984]`)
+gender_arbeit_DL$`1985 [YR1985]` <- as.numeric(gender_arbeit_DL$`1985 [YR1985]`)
+gender_arbeit_DL$`1986 [YR1986]` <- as.numeric(gender_arbeit_DL$`1986 [YR1986]`)
+gender_arbeit_DL$`1987 [YR1987]` <- as.numeric(gender_arbeit_DL$`1987 [YR1987]`)
+gender_arbeit_DL$`1988 [YR1988]` <- as.numeric(gender_arbeit_DL$`1988 [YR1988]`) 
+gender_arbeit_DL$`1989 [YR1989]` <- as.numeric(gender_arbeit_DL$`1989 [YR1989]`)
+gender_arbeit_DL$`1990 [YR1990]` <- as.numeric(gender_arbeit_DL$`1990 [YR1990]`)
+gender_arbeit_DL$`1991 [YR1991]` <- as.numeric(gender_arbeit_DL$`1991 [YR1991]`)
+gender_arbeit_DL$`1992 [YR1992]` <- as.numeric(gender_arbeit_DL$`1992 [YR1992]`)
+gender_arbeit_DL$`1993 [YR1993]` <- as.numeric(gender_arbeit_DL$`1993 [YR1993]`)
+gender_arbeit_DL$`1994 [YR1994]` <- as.numeric(gender_arbeit_DL$`1994 [YR1994]`)
+gender_arbeit_DL$`1995 [YR1995]` <- as.numeric(gender_arbeit_DL$`1995 [YR1995]`)
+gender_arbeit_DL$`1996 [YR1996]` <- as.numeric(gender_arbeit_DL$`1996 [YR1996]`)
+gender_arbeit_DL$`1997 [YR1997]` <- as.numeric(gender_arbeit_DL$`1997 [YR1997]`)
+gender_arbeit_DL$`1998 [YR1998]` <- as.numeric(gender_arbeit_DL$`1998 [YR1998]`)
+gender_arbeit_DL$`1999 [YR1999]` <- as.numeric(gender_arbeit_DL$`1999 [YR1999]`)
+
+gender_education_DL <- data.frame(t(gender_education_DL))
+
+write.csv(gender_education_DL, "data/gender_education_DL.csv")
+
+df <- read.csv("data/gender_education_DL.csv")
+
+view(df)
+
+
+```
+
+
+excel tabelle finalisieren.
+dann hier den code runnen mit as numeric und dann sollte der fertig sein
+
+
+

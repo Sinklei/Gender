@@ -47,7 +47,6 @@ view(df)
 
 ```
 
-
 World Gender Statistics
 ```{r}
 
@@ -65,4 +64,17 @@ wgs2 <- read.csv("data/gender_statistics_data.csv")
 
 
 ```
+
+
+Arbeit
+
+```{r}
+
+df <- read.csv("data/gender_arbeit_DL.csv")
+
+view(df)
+
+
+```
+
 
