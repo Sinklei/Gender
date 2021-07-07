@@ -1,0 +1,52 @@
+---
+title: "newest dataset world gender statsitics 2021"
+author: "Linda Sinani"
+date: "4 7 2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Bereich Arbeit 
+Nachfolgend ein Auszug aus dem riesigen World Gender Statistics Datensatz. 
+Der Datensatz bezieht sich auf den Unterschied zwischen den Geschlechtern nur in Deutschland im Bereich Arbeit. 
+
+
+
+### Datensatz aufräumen
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+options(digits = 2)
+gender_arbeit_DL <- readr::read_csv(file = "data/bereich_arbeit_deutschland_gender_statsitics.csv")
+
+is.numeric(gender_arbeit_DL$`2000 [YR2000]`)
+
+gender_arbeit_DL$`1983 [YR1983]` <- as.numeric(gender_arbeit_DL$`1983 [YR1983]`)
+gender_arbeit_DL$`1984 [YR1984]` <- as.numeric(gender_arbeit_DL$`1984 [YR1984]`)
+gender_arbeit_DL$`1985 [YR1985]` <- as.numeric(gender_arbeit_DL$`1985 [YR1985]`)
+gender_arbeit_DL$`1986 [YR1986]` <- as.numeric(gender_arbeit_DL$`1986 [YR1986]`)
+gender_arbeit_DL$`1987 [YR1987]` <- as.numeric(gender_arbeit_DL$`1987 [YR1987]`)
+gender_arbeit_DL$`1988 [YR1988]` <- as.numeric(gender_arbeit_DL$`1988 [YR1988]`) 
+gender_arbeit_DL$`1989 [YR1989]` <- as.numeric(gender_arbeit_DL$`1989 [YR1989]`)
+gender_arbeit_DL$`1990 [YR1990]` <- as.numeric(gender_arbeit_DL$`1990 [YR1990]`)
+gender_arbeit_DL$`1991 [YR1991]` <- as.numeric(gender_arbeit_DL$`1991 [YR1991]`)
+gender_arbeit_DL$`1992 [YR1992]` <- as.numeric(gender_arbeit_DL$`1992 [YR1992]`)
+gender_arbeit_DL$`1993 [YR1993]` <- as.numeric(gender_arbeit_DL$`1993 [YR1993]`)
+gender_arbeit_DL$`1994 [YR1994]` <- as.numeric(gender_arbeit_DL$`1994 [YR1994]`)
+gender_arbeit_DL$`1995 [YR1995]` <- as.numeric(gender_arbeit_DL$`1995 [YR1995]`)
+gender_arbeit_DL$`1996 [YR1996]` <- as.numeric(gender_arbeit_DL$`1996 [YR1996]`)
+gender_arbeit_DL$`1997 [YR1997]` <- as.numeric(gender_arbeit_DL$`1997 [YR1997]`)
+gender_arbeit_DL$`1998 [YR1998]` <- as.numeric(gender_arbeit_DL$`1998 [YR1998]`)
+gender_arbeit_DL$`1999 [YR1999]` <- as.numeric(gender_arbeit_DL$`1999 [YR1999]`)
+
+gender_arbeit_DL <- data.frame(t(gender_arbeit_DL))
+gender_arbeit_DL <- gender_arbeit_DL[-c(2,3,4), -c(32:36)]
+```

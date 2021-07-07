@@ -12,7 +12,7 @@ library(tidyverse)
 library(ggplot2)
 library(dplyr)
 
-world_gender_stat <- readr::read_csv('C:/Users/rizab/OneDrive/Desktop/Data.csv.zip') 
+world_gender_stat <- readr::read_csv(file= "world-gender-statistics.csv")
 
 aggregate.states = c("ARB","CEB","CSS","EAP","EAR","EAS","ECA","ECS","EMU","EUU","FCS","HIC","HPC","IBD","IBT","IDA","IDB","IDX","LAC","LCN","LDC","LIC","LMC","LMY","LTE","MEA","MIC","MNA","NAC","OED","OSS","PRE","PSS","PST","SAS","SSA","SSF","SST","TEA","TEC","TLA","TMN","TSA","TSS","UMC","WLD")
  
