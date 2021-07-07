@@ -49,4 +49,6 @@ gender_arbeit_DL$`1999 [YR1999]` <- as.numeric(gender_arbeit_DL$`1999 [YR1999]`)
 
 gender_arbeit_DL <- data.frame(t(gender_arbeit_DL))
 gender_arbeit_DL <- gender_arbeit_DL[-c(2,3,4), -c(32:36)]
+
+write.csv(gender_arbeit_DL, "data/gender_arbeit_DL.csv")
 ```
