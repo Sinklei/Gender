@@ -7,6 +7,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
 ```
 
 
@@ -14,8 +15,9 @@ knitr::opts_chunk$set(echo = TRUE)
 options(digits = 2)
 gender_education_DL <- read_csv("data/bereich_education_deutschland_gender_statistics.csv")
 
-is.numeric(gender_arbeit_DL$`2000 [YR2000]`)
 
+
+#### das ist noch von dir
 gender_arbeit_DL$`1983 [YR1983]` <- as.numeric(gender_arbeit_DL$`1983 [YR1983]`)
 gender_arbeit_DL$`1984 [YR1984]` <- as.numeric(gender_arbeit_DL$`1984 [YR1984]`)
 gender_arbeit_DL$`1985 [YR1985]` <- as.numeric(gender_arbeit_DL$`1985 [YR1985]`)
@@ -34,6 +36,9 @@ gender_arbeit_DL$`1997 [YR1997]` <- as.numeric(gender_arbeit_DL$`1997 [YR1997]`)
 gender_arbeit_DL$`1998 [YR1998]` <- as.numeric(gender_arbeit_DL$`1998 [YR1998]`)
 gender_arbeit_DL$`1999 [YR1999]` <- as.numeric(gender_arbeit_DL$`1999 [YR1999]`)
 
+
+
+### das ist angepasst
 gender_education_DL <- data.frame(t(gender_education_DL))
 
 write.csv(gender_education_DL, "data/gender_education_DL.csv")
@@ -44,10 +49,6 @@ view(df)
 
 
 ```
-
-
-excel tabelle finalisieren.
-dann hier den code runnen mit as numeric und dann sollte der fertig sein
 
 
 
