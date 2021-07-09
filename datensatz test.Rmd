@@ -70,9 +70,10 @@ Arbeit
 
 ```{r}
 
-df <- read.csv("data/gender_arbeit_DL.csv")
+df <- read.csv("data/zusammensetzung_frauen_parteien.csv")
 
 view(df)
+
 
 
 ```
