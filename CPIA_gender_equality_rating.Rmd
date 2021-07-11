@@ -1,0 +1,35 @@
+---
+title: "CPIA_gender_equality_rating"
+author: "Linda Sinani"
+date: "11 7 2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+```
+
+## Gender equality rating (1= low to 6= high)
+
+Was zeigt der Indikator?
+
+Das Gender Equality Rating bewertet, inwieweit ein Land Institutionen und Programme zur Durchsetzung von Gesetzen und Richtlinien eingeführt hat, die den gleichen Zugang für Männer und Frauen in den Bereichen Bildung, Gesundheit, Wirtschaft und Rechtsschutz fördern (kopiert von The World Bank Website). Hier in den Jahren 1990 bis 2020.
+
+
+```{r}
+options(digits= 1)
+gender_equality_rating <- read_csv("data/CPIA_gender_equality_rating.csv")
+
+gender_equality_rating <- data.frame(t(gender_equality_rating))
+
+gender_equality_rating[5:16, ] <- sapply(gender_equality_rating[ ,1:271], as.numeric)
+
+gender_equality_rating <- gender_equality_rating[-c(2,4), ]
+
+write.csv(gender_equality_rating, "data/gender_equality_rating.csv")
+```
+
+
+
