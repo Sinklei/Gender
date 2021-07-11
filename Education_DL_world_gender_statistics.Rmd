@@ -16,38 +16,44 @@ options(digits = 2)
 gender_education_DL <- read_csv("data/bereich_education_deutschland_gender_statistics.csv")
 
 
-
 #### das ist noch von dir
-gender_arbeit_DL$`1983 [YR1983]` <- as.numeric(gender_arbeit_DL$`1983 [YR1983]`)
-gender_arbeit_DL$`1984 [YR1984]` <- as.numeric(gender_arbeit_DL$`1984 [YR1984]`)
-gender_arbeit_DL$`1985 [YR1985]` <- as.numeric(gender_arbeit_DL$`1985 [YR1985]`)
-gender_arbeit_DL$`1986 [YR1986]` <- as.numeric(gender_arbeit_DL$`1986 [YR1986]`)
-gender_arbeit_DL$`1987 [YR1987]` <- as.numeric(gender_arbeit_DL$`1987 [YR1987]`)
-gender_arbeit_DL$`1988 [YR1988]` <- as.numeric(gender_arbeit_DL$`1988 [YR1988]`) 
-gender_arbeit_DL$`1989 [YR1989]` <- as.numeric(gender_arbeit_DL$`1989 [YR1989]`)
-gender_arbeit_DL$`1990 [YR1990]` <- as.numeric(gender_arbeit_DL$`1990 [YR1990]`)
-gender_arbeit_DL$`1991 [YR1991]` <- as.numeric(gender_arbeit_DL$`1991 [YR1991]`)
-gender_arbeit_DL$`1992 [YR1992]` <- as.numeric(gender_arbeit_DL$`1992 [YR1992]`)
-gender_arbeit_DL$`1993 [YR1993]` <- as.numeric(gender_arbeit_DL$`1993 [YR1993]`)
-gender_arbeit_DL$`1994 [YR1994]` <- as.numeric(gender_arbeit_DL$`1994 [YR1994]`)
-gender_arbeit_DL$`1995 [YR1995]` <- as.numeric(gender_arbeit_DL$`1995 [YR1995]`)
-gender_arbeit_DL$`1996 [YR1996]` <- as.numeric(gender_arbeit_DL$`1996 [YR1996]`)
-gender_arbeit_DL$`1997 [YR1997]` <- as.numeric(gender_arbeit_DL$`1997 [YR1997]`)
-gender_arbeit_DL$`1998 [YR1998]` <- as.numeric(gender_arbeit_DL$`1998 [YR1998]`)
-gender_arbeit_DL$`1999 [YR1999]` <- as.numeric(gender_arbeit_DL$`1999 [YR1999]`)
-
-
+gender_education_DL$`1991 [YR1991]` <- as.numeric(gender_education_DL$`1991 [YR1991]`)
+gender_education_DL$`1992 [YR1992]` <- as.numeric(gender_education_DL$`1992 [YR1992]`)
+gender_education_DL$`1993 [YR1993]` <- as.numeric(gender_education_DL$`1993 [YR1993]`)
+gender_education_DL$`1994 [YR1994]` <- as.numeric(gender_education_DL$`1994 [YR1994]`)
+gender_education_DL$`1995 [YR1995]` <- as.numeric(gender_education_DL$`1995 [YR1995]`)
+gender_education_DL$`1996 [YR1996]` <- as.numeric(gender_education_DL$`1996 [YR1996]`) 
+gender_education_DL$`1997 [YR1997]` <- as.numeric(gender_education_DL$`1997 [YR1997]`)
+gender_education_DL$`1998 [YR1998]` <- as.numeric(gender_education_DL$`1998 [YR1998]`)
+gender_education_DL$`1999 [YR1999]` <- as.numeric(gender_education_DL$`1999 [YR1999]`)
+gender_education_DL$`2000 [YR2000]` <- as.numeric(gender_education_DL$`2000 [YR2000]`)
+gender_education_DL$`2001 [YR2001]` <- as.numeric(gender_education_DL$`2001 [YR2001]`)
+gender_education_DL$`2002 [YR2002]` <- as.numeric(gender_education_DL$`2002 [YR2002]`)
+gender_education_DL$`2003 [YR2003]` <- as.numeric(gender_education_DL$`2003 [YR2003]`)
+gender_education_DL$`2004 [YR2004]` <- as.numeric(gender_education_DL$`2004 [YR2004]`)
+gender_education_DL$`2005 [YR2005]` <- as.numeric(gender_education_DL$`2005 [YR2005]`)
+gender_education_DL$`2006 [YR2006]` <- as.numeric(gender_education_DL$`2006 [YR2006]`)
+gender_education_DL$`2007 [YR2007]` <- as.numeric(gender_education_DL$`2007 [YR2007]`)
+gender_education_DL$`2008 [YR2008]` <- as.numeric(gender_education_DL$`2008 [YR2008]`)
+gender_education_DL$`2009 [YR2009]` <- as.numeric(gender_education_DL$`2009 [YR2009]`)
+gender_education_DL$`2010 [YR2010]` <- as.numeric(gender_education_DL$`2010 [YR2010]`)
+gender_education_DL$`2011 [YR2011]` <- as.numeric(gender_education_DL$`2011 [YR2011]`)
+gender_education_DL$`2012 [YR2012]` <- as.numeric(gender_education_DL$`2012 [YR2012]`)
+gender_education_DL$`2013 [YR2013]` <- as.numeric(gender_education_DL$`2013 [YR2013]`)
+gender_education_DL$`2014 [YR2014]` <- as.numeric(gender_education_DL$`2014 [YR2014]`)
+gender_education_DL$`2015 [YR2015]` <- as.numeric(gender_education_DL$`2015 [YR2015]`)
+gender_education_DL$`2016 [YR2016]` <- as.numeric(gender_education_DL$`2016 [YR2016]`)
+gender_education_DL$`2017 [YR2017]` <- as.numeric(gender_education_DL$`2017 [YR2017]`)
+gender_education_DL$`2018 [YR2018]` <- as.numeric(gender_education_DL$`2018 [YR2018]`)
+gender_education_DL$`2019 [YR2019]` <- as.numeric(gender_education_DL$`2019 [YR2019]`)
+gender_education_DL$`2020 [YR2020]` <- as.numeric(gender_education_DL$`2020 [YR2020]`)
 
 ### das ist angepasst
 gender_education_DL <- data.frame(t(gender_education_DL))
 
+gender_education_DL <- gender_education_DL[-c(2,3,4, 35:65), ]
+
 write.csv(gender_education_DL, "data/gender_education_DL.csv")
-
-df <- read.csv("data/gender_education_DL.csv")
-
-view(df)
-
-
 ```
 
 
