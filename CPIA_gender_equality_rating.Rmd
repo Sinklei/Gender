@@ -17,10 +17,14 @@ Was zeigt der Indikator?
 
 Das Gender Equality Rating bewertet, inwieweit ein Land Institutionen und Programme zur Durchsetzung von Gesetzen und Richtlinien eingeführt hat, die den gleichen Zugang für Männer und Frauen in den Bereichen Bildung, Gesundheit, Wirtschaft und Rechtsschutz fördern (kopiert von The World Bank Website). Hier in den Jahren 1990 bis 2020.
 
+Was man hier gut machen kann: 
+
+timeline: Wie hat sich der Wert in den einzelnen Ländern in den letzten Jahren geändert ?
+Vergleich: Wie schneiden die Länder im Vergleich ab? Ist es, sowie man erwartet? ZB dass in Afghanistan eher low und westlichen Ländern high? Welches Land überrascht einen? (posititv/negativ)
 
 ```{r}
 options(digits= 1)
-gender_equality_rating <- read_csv("data/CPIA_gender_equality_rating.csv")
+gender_equality_rating <- read_csv("data/RAW_gender_equality_rating.csv")
 
 gender_equality_rating <- data.frame(t(gender_equality_rating))
 
