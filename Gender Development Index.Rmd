@@ -1,0 +1,45 @@
+---
+title: "Gender Gevelopment Index Datensatz"
+author: "Linda Sinani"
+date: "16 7 2021"
+output: html_document
+---
+
+
+## Gender Development Index - was zeigt der Datensatz?
+
+misst Ungleichheiten auf dem HDI (Human-DDevelopment Index) nach Geschlecht. 
+Datensatz enthält HDI-Werte, die getrennt für Frauen und Männer geschätzt werden; das Verhältnis davon ist der GDI-Wert. 
+Je näher der Wert bei 1 liegt, desto geringer ist der Unterschied zwischen Frauen und Männern. 
+Die Werte für die drei HDI-Komponenten: 
+ Lebenserwartung
+ Bildung (mit zwei Indikatoren)
+ Einkommen 
+werden ebenfalls nach Geschlecht dargestellt. 
+Datensatz enthält fünf Ländergruppierungen nach absoluter Abweichung von der Geschlechterparität bei den HDI-Werten.
+
+WERTE VON 2019
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+
+```
+
+### Erklärung von Variablen 
+
+####GDI (Gender Development Index) groups
+Countries are divided into 5 groups by absolute deviation from gender parity in HDI values. 
+
+Group 1 comprises countries with high equality in HDI achievements between women and men (absolute deviation of less than 2.5 percent)
+
+group 2 comprises countries with medium to high equality in HDI achievements between women and men (absolute deviation of 2.5�5 percent)
+
+group 3 comprises countries with medium equality in HDI achievements between women and men (absolute deviation of 5�7.5 percent)
+
+group 4 comprises countries with medium to low equality in HDI achievements between women and men (absolute deviation of 7.5�10 percent)  
+
+group 5 comprises countries with low equality in HDI achievements between women and men (absolute deviation from gender parity of more than 10 percent)
+
+####
