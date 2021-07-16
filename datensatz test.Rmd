@@ -70,7 +70,7 @@ Arbeit
 
 ```{r}
 
-df <- read.csv("data/test.csv")
+df <- read.csv("data/table5.csv")
 
 view(df)
 
