@@ -70,10 +70,12 @@ Arbeit
 
 ```{r}
 
-df <- read.csv("data/zusammensetzung_frauen_parteien.csv")
+df <- read.csv("data/test.csv")
 
 view(df)
 
+
+df
 
 
 ```
