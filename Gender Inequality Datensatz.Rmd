@@ -1,0 +1,19 @@
+---
+title: "Gender Inequality Datensatz"
+author: "Linda Sinani"
+date: "17 7 2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+
+GII <- read_csv("data/GII.csv")
+
+
+```
+
+## R Markdown
+
