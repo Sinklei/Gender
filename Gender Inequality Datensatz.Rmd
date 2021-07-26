@@ -10,7 +10,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
 
-GII <- read_csv("data/GII.csv")
+options(digits = 3)
+GII <- read_csv("data/to_work_with/GII.csv")
+
+write.csv(GII, "data/to_work_with/GII.csv")
 
 
 ```
