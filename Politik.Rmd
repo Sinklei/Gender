@@ -1,0 +1,12 @@
+---
+title: "Politik"
+author: "Kevin"
+date: "7/26/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+jo hier knalle ich meine politiksachen und so rein
