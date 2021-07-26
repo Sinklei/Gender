@@ -69,8 +69,8 @@ wgs2 <- read.csv("data/gender_statistics_data.csv")
 Arbeit
 
 ```{r}
-
-df <- read.csv("data/table5.csv")
+library(tidyverse)
+df <- read.csv("data/to_work_with/bildung_deutschland.csv")
 
 view(df)
 
