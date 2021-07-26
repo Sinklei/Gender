@@ -8,11 +8,52 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
-
 library(tidyverse)
+
+
+# datensätze
+bt_frauen <- read.csv("data//to_work_with/bundestagzusammensetzung.csv")
+parteien_frauen <- read.csv("data//to_work_with/zusammensetzung_frauen_parteien.csv")
+
+```
+
+
+
+# 1
+man kann zeigen, dass sich über die Zeit die Anzahl an Frauen im Bundestag erhöht hat
+noch einzeichnen können:
+* wahlperiode
+* prozent der frauen, prozent der männer
+* verteilung von frauen und männern?
+
+
+wahlperiode komplett weg machen?? bzw wie am besten einsetzen?
+mehrere geome in einen plot kriegen(vielleicht sogar zwei achsen.??)
+wie kann ich das umsetzen, dass die daten nicht doppelt sind? ggf datensatz umbauen? mit hovern zum beispiel zusätzliche infos?
+
+vor allen dingen auch verteilung gegenüber männer zeigen
+
+```{r}
+
+bt_frauen %>%
+  ggplot() +
+  geom_point(mapping = aes(x = jahr, y = frauen_anzahl, color = wahlperiode)) +
+  geom_point(mapping = aes(x = jahr, y = mitglieder)) +
+  NULL
+
+
+bt_frauen %>%
+  ggplot() +
+  aes(
+    x = jahr,
+    y = frauen_anzahl,
+    color = wahlperiode
+  ) +
+  geom_point() +
+  NULL
+
 
 
 
 ```
 
-jo hier knalle ich meine politiksachen und so rein
