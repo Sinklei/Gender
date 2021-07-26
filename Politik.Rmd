@@ -16,10 +16,23 @@ bt_frauen <- read.csv("data//to_work_with/bundestagzusammensetzung.csv")
 parteien_frauen <- read.csv("data//to_work_with/zusammensetzung_frauen_parteien.csv")
 
 ```
+was wäre cool zu visualisieren?
+wie sich das im laufe der zeit verändert hat? mit den bundestagen an sich?
+verteilung dann von männern und frauen zeigen
+
+verteilung innerhalb der parteien zeigen und wie sich diese im laufe der zeit verändert haben.
+
+größe der parteien??
 
 
 
-# 1
+
+# Infotext
+
+Statista. geschlechtliche Ungerechtigkeit in der Bundestagszusammensetzung etc.
+
+# Zusammensetzung Bundestag 
+
 man kann zeigen, dass sich über die Zeit die Anzahl an Frauen im Bundestag erhöht hat
 noch einzeichnen können:
 * wahlperiode
@@ -53,6 +66,41 @@ bt_frauen %>%
   NULL
 
 
+
+
+```
+
+# Frauenanteil in den Parteien
+
+parteimitglieder noch ergänzen?
+jahre vielleicht ganz raus machen (datensatz erneuern, oder einfach commands nutzen?)
+bundestag mit order (ordinale variable)
+noch weitere daten dann suchen
+
+sitzeverteilung der einzelnen bundestage vielleicht ergänzen
+
+
+```{r}
+parteien_frauen %>%
+  ggplot() +
+  aes(
+    x = jahr,
+    y = frauen_zahl,
+    color = partei
+  ) +
+  geom_point() +
+  NULL
+
+
+parteien_frauen %>%
+  filter(jahr == "2017") %>% 
+  ggplot() +
+  aes(
+    x = partei,
+    y = frauen_zahl
+  ) +
+  geom_col() +
+  NULL
 
 
 ```
