@@ -1,0 +1,16 @@
+---
+title: "Quellen"
+description: |
+  some infos
+site: distill::distill_website
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+# Learn more about creating websites with Distill at:
+# https://rstudio.github.io/distill/website.html
+
+```
+
+hier werden wir unsere Quellen aufzeigen, damit wir sagen können, woher wir das alles haben und beweisen können, dass wir uns die Scheisse nicht aus der Nase gezogen haben.

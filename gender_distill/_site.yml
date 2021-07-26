@@ -8,8 +8,16 @@ navbar:
   right:
     - text: "Home"
       href: index.html
+    - text: "Gendergleichheit"
+      href: gendergleichheit.html
+    - text: "Arbeit"
+      href: arbeit.html
+    - text: "Bildung"
+      href: bildung.html
     - text: "Politik"
       href: politik.html
+    - text: "Quellen"
+      href: quellen.html
     - text: "Wer sind wir?"
       href: about.html
 output: distill::distill_article
