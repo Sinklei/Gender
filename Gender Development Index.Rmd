@@ -18,28 +18,16 @@ Die Werte für die drei HDI-Komponenten:
 werden ebenfalls nach Geschlecht dargestellt. 
 Datensatz enthält fünf Ländergruppierungen nach absoluter Abweichung von der Geschlechterparität bei den HDI-Werten.
 
-WERTE VON 2019
+WERTE VON 2019 außer letzten beiden Variablen (2017)
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
 
+GDI <- readr:: read_csv(file= "data/raw/GDI.csv")
+
+GDI[ ,3:5] <- round(GDI[, 3:5], digits = 3)
+GDI[ ,6:11]<- round(GDI[, 6:11], digits = 1)
+
 ```
-
-### Erklärung von Variablen 
-
-####GDI (Gender Development Index) groups
-Countries are divided into 5 groups by absolute deviation from gender parity in HDI values. 
-
-Group 1 comprises countries with high equality in HDI achievements between women and men (absolute deviation of less than 2.5 percent)
-
-group 2 comprises countries with medium to high equality in HDI achievements between women and men (absolute deviation of 2.5�5 percent)
-
-group 3 comprises countries with medium equality in HDI achievements between women and men (absolute deviation of 5�7.5 percent)
-
-group 4 comprises countries with medium to low equality in HDI achievements between women and men (absolute deviation of 7.5�10 percent)  
-
-group 5 comprises countries with low equality in HDI achievements between women and men (absolute deviation from gender parity of more than 10 percent)
-
-####

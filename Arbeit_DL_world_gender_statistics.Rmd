@@ -52,3 +52,35 @@ gender_arbeit_DL <- gender_arbeit_DL[-c(2,3,4), -c(32:36)]
 
 write.csv(gender_arbeit_DL, "data/gender_arbeit_DL.csv")
 ```
+
+
+## Erklärung Variablen
+"Employers, female (% of female employment) (modeled ILO estimate)"
+"Employers, male (% of male employment) (modeled ILO estimate)"
+"Employers, total (% of total employment) (modeled ILO estimate)"
+"Employment in agriculture (% of total employment) (modeled ILO estimate)"
+"Employment in agriculture, female (% of female employment) (modeled ILO estimate)"
+"Employment in agriculture, male (% of male employment) (modeled ILO estimate)"
+"Employment in industry (% of total employment) (modeled ILO estimate)"
+"Employment in industry, female (% of female employment) (modeled ILO estimate)"
+"Employment in industry, male (% of male employment) (modeled ILO estimate)"
+"Employment in services (% of total employment) (modeled ILO estimate)"
+"Employment in services, female (% of female employment) (modeled ILO estimate)"
+"Employment in services, male (% of male employment) (modeled ILO estimate)"
+"Female share of employment in senior and middle management (%)"
+"Law prohibits discrimination in employment based on gender (1=yes; 0=no)"
+"Part time employment, female (% of total part time employment)"
+"Part time employment, male (% of total male employment)"
+"Part time employment, total (% of total employment)","Self-employed, female (% of female employment) (modeled ILO estimate)"
+"Self-employed, male (% of male employment) (modeled ILO estimate)"
+"Self-employed, total (% of total employment) (modeled ILO estimate)"
+"There is legislation on sexual harassment in employment (1=yes; 0=no)"
+"Unemployment, female (% of female labor force) (modeled ILO estimate)"
+"Unemployment, female (% of female labor force) (national estimate)"
+"Unemployment, male (% of male labor force) (modeled ILO estimate)"
+"Unemployment, male (% of male labor force) (national estimate)","Unemployment, total (% of total labor force) (modeled ILO estimate)"
+"Unemployment, total (% of total labor force) (national estimate)"
+"Wage and salaried workers, female (% of female employment) (modeled ILO estimate)"
+"Wage and salaried workers, male (% of male employment) (modeled ILO estimate)"
+"Wage and salaried workers, total (% of total employment) (modeled ILO estimate)"
+"Criminal penalties or civil remedies exist for sexual harassment in employment (1=yes; 0=no)"
