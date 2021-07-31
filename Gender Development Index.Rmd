@@ -4,30 +4,102 @@ author: "Linda Sinani"
 date: "16 7 2021"
 output: html_document
 ---
-
-
-## Gender Development Index - was zeigt der Datensatz?
-
-misst Ungleichheiten auf dem HDI (Human-DDevelopment Index) nach Geschlecht. 
-Datensatz enthält HDI-Werte, die getrennt für Frauen und Männer geschätzt werden; das Verhältnis davon ist der GDI-Wert. 
-Je näher der Wert bei 1 liegt, desto geringer ist der Unterschied zwischen Frauen und Männern. 
-Die Werte für die drei HDI-Komponenten: 
- Lebenserwartung
- Bildung (mit zwei Indikatoren)
- Einkommen 
-werden ebenfalls nach Geschlecht dargestellt. 
-Datensatz enthält fünf Ländergruppierungen nach absoluter Abweichung von der Geschlechterparität bei den HDI-Werten.
-
-WERTE VON 2019 außer letzten beiden Variablen (2017)
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
 
-GDI <- readr:: read_csv(file= "data/raw/GDI.csv")
-
-GDI[ ,3:5] <- round(GDI[, 3:5], digits = 3)
-GDI[ ,6:11]<- round(GDI[, 6:11], digits = 1)
+GDI <- read_csv("data/to_work_with/GDI.csv")
+View(GDI)
 
 ```
+
+## Gender Development Index - was misst der Datensatz?
+misst die geschlechtsspezifischen Unterschiede bei den Errungenschaften der menschlichen Entwicklung in 167 Ländern, indem er die Ungleichheiten zwischen Frauen und Männern in den drei grundlegenden Dimensionen der menschlichen Entwicklung aufteilt:
+
+Gesundheit -> gemessen an Lebenserwartung von Frauen + Männern bei der Geburt
+Bildung -> gemessen an erwartete Schuljahren von Frauen + Männern im Kindesalter, durchschnittliche Schuljahre F+M für Erwachsene ab 25 Jahren  
+Lebensstandard definiert als die Verfügung über wirtschaftliche Ressourcen -> gemessen an geschätzem Bruttoarbeitseinkommen von Frauen und Männern
+
+## Unterschied HDI/GDI/GII
+UNPD veröffentlicht jedes Jahr den "Human Development Report". Einen Bericht über die menschliche Entwicklung. 
+
+HDI= Index der menschlichen Entwicklung. is eine komplexe Maße für die 3 Schlüsseldimensionen menschlicher Entwcikung:
+ein langes und gesundes Leben, Zugang zu Wissen und ein angenmessener Lebensstandard. Der HDI ist das geomentrische Mittel der normalisierten Indizes für alle 3 Dimensionen. 
+
+GDI ist ein Zusatz zum HDI seit 2014. Er nimmt die gleichen Vriablen des HDI und teilt diese auf die Geschlechter auf. Er teilt den HDI Wert in Werte für Frauen und Männer und ist das Verhältnis aus beiden.Je näher der Wert bei 1 liegt, desto geringer ist der Unterschied zwischen Frauen und Männern. Er liegt zwischen 0 und 1 (0= Ungleich -> desto mehr sind Frauen benachteiligt gegenüber Männern, 1=Gleichstand). Bei Werten über 1 fehlt es an Gleichstellung von Männern. Da sind Frauen gegenüber Männern im Vorteil. 
+
+Als zusätzlichen Vergleichsmaßstab zur Gleichberechtigung gibt es seit 2010 den GII.
+Geschlechtsspezifische Ungleichheit (GII)
+Index der geschlechtsspezifischen Entwicklung (GDI)
+
+
+## Was zeigt er?
+
+Der GDI ist nicht direkt ein Maß für geschlechtsspezifische Ungleichheiten, sondern eher ein Hinweis auf die Benachteiligung (oder den Vorteil) von Frauen bei den HDI-Komponenten. 
+
+Der GDI zeigt, wie stark Frauen gegenüber Männern im Rückstand sind und wie groß der Aufholbedarf von Frauen in den einzelnen Dimensionen der menschlichen Entwicklung ist. Er ist nützlich, um die tatsächlichen geschlechtsspezifischen Unterschiede bei den Errungenschaften der menschlichen Entwicklung zu verstehen, und er ist informativ, um politische Instrumente zur Schließung der Kluft zu entwerfen.
+
+Der GDI trägt zu einem besseren Verständnis der geschlechtsspezifischen Unterschiede bei den Errungenschaften der menschlichen Entwicklung bei. Er gibt Aufschluss über die geschlechtsspezifischen Unterschiede bei den drei grundlegenden Fähigkeiten: Gesundheit, Bildung und Verfügungsgewalt über wirtschaftliche Ressourcen, und ist nützlich für die Gestaltung und Überwachung von Maßnahmen zur Schließung der Lücken.
+
+WICHTIG: Interessanterweise wartet das UNDP beim GDI auch mit einem neuen Rangfolgen-Ansatz auf. Nicht das Land mit dem höheren GDI-Wert (Estland) steht an der Spitze, sondern das Land, das der absoluten Gleichheit am nächsten kommt: die Slowakei.
+
+## Wie wird er gemessen?
+
+Für die Umwandlung der Indikatoren in eine Skala zwischen Null und Eins werden dieselben Variablen wie beim HDI verwendet. Die einzige Ausnahme ist die Lebenserwartung bei der Geburt, bei der die variablen angepasst werden, um den empirischen Befund widerzuspiegeln, dass Frauen im Durchschnitt einen biologischen Vorteil gegenüber Männern haben und etwa 5 Jahre länger leben. 
+
+##Limitationen
+Stephan Klasen: Working Paper: UNDP’s gender-related measures: Current problems and proposals for fixing them. Diskussionspapier Nr. 220. In: Leibniz-Informationszentrum Wirtschaft. Februar 2017: https://www.econstor.eu/bitstream/10419/157265/1/882698184.pdf 
+
+## Quellen vom GDI
+
+http://hdr.undp.org/en/composite/GDI 
+
+http://hdr.undp.org/sites/default/files/hdr2020.pdf
+
+http://hdr.undp.org/sites/default/files/hdr2020_technical_notes.pdf
+
+https://de.wikipedia.org/wiki/Index_der_geschlechtsspezifischen_Entwicklung#L%C3%A4nder_ohne_GDI 
+
+https://www.die-gdi.de/die-aktuelle-kolumne/article/neue-masszahlen-neue-einsichten-der-bericht-ueber-die-menschliche-entwicklung-2014/
+
+Quellen der Variablen: 
+Life expectancy at birth: UNDESA (2019).
+
+Expected years of schooling: UNESCO Institute
+for Statistics (2020), ICF Macro Demographic and
+Health Surveys, United Nations Children’s Fund
+(UNICEF) Multiple Indicator Cluster Surveys and
+OECD (2019).
+
+Mean years of schooling for adults ages 25 and
+older: UNESCO Institute for Statistics (2020),
+Barro and Lee (2018), ICF Macro Demographic
+and Health Surveys, UNICEF’s Multiple Indicator
+Cluster Surveys and OECD (2019).
+
+Estimated earned income: Human Development
+Report Office estimates based on female and male
+shares of the economically active population, the
+ratio of the female to male wage in all sectors and
+gross national income in 2017 purchasing power
+parity (PPP) terms, and female and male shares
+of population from ILO (2020), UNDESA (2019),
+World Bank (2020), United Nations Statistics
+Division (2020) and IMF (2020).
+
+## WAS wir visualisieren können
+
+20 Länder sind über 1,00 GDI Wert -> Frauen sind gegenüber Männern im Vorteil
+Interessant: Ukraine einziges Land mit 1,00 -> Frauen sind bei der geschlechtsspezifischen Entwicklung gegenüber Männern nicht benachteiligt. 
+
+Im HDI Rank ist DL zwar auf Platz 6, hat aber einen GDI Wert von 0,972 -> selber Wert auch in Malaysia (Platz 62 im HDI Rank) + Hong Kong China (Platz 4 im HDI Rank) -> wie kann das sein? Wie sehen dort die einzelnen Werte aus? Vergleich der Länder?
+Warum ist Deutschlands GDI Wert nicht so gut wie der in der Urkaine? 
+
+GDI + GII der Länder im vergleich? Dann aber die Frage: Wofür? was soll uns das zeigen? UUH IDEE: Landkarte: Gender Inequality Value + Gender Development Value 2 Landkarten untereinander (https://espace-mondial-atlas.sciencespo.fr/en/topic-contrasts-and-inequalities/map-1C37-EN-human-development-index-gender-development-index-ecological-footprintandnbsp.html)
+```{R}
+arrange(GDI, desc(GDI$GDI_value))
+```
+## WIE wir visualisieren können
+
+
