@@ -1,5 +1,5 @@
 ---
-title: "Gender Inequality Datensatz"
+title: "Gender Inequality Index"
 author: "Linda Sinani"
 date: "17 7 2021"
 output: html_document
@@ -9,14 +9,93 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
+library(dplyr)
 
 options(digits = 3)
 GII <- read_csv("data/to_work_with/GII.csv")
-
-write.csv(GII, "data/to_work_with/GII.csv")
-
-
+View(GII)
 ```
 
-## R Markdown
+## Was ist der Gender Inequality Index?
 
+misst geschlechtsspezifische Ungleichheiten auf 3 Ebenen der menschlchen Entwicklung in 162 Ländern:
+1. reproduktive Gesundheit -> gemessen an der Müttersterblichkeitsrate + Geburtenate bei Jugendlichen 
+2.Empowerment/Selbstbestimmung -> gemessen an Anteil der von Frauen besetzten Parlamentssitze, Anteil Frauen über 25 im Vergleich zu Männern, die mindestens Sekundarabschluss haben 
+3. wirtschaftlicher Status -> Vergleich Männer + Frauen: Arbeitsmarktbeteiligung, gemessen an Erwerbsquote der weiblichen + männlichen Bevölkerung ab 15 Jahren 
+
+## Was zeigt er? 
+
+den Verlust an potenzieller menschlicher Entwicklung aufgrund der Ungleichheit zwischen den Leistungen von Frauen und Männern in den 3 Bereichen. Der GII spiegelt wider, wie sehr Frauen in diesen Bereichen benachteiligt sind
+
+Der GII liegt zwischen 0 und 1. Je höher der GII-Wert ist, desto größer sind die Ungleichheiten zwischen Frauen und Männern und desto größer ist der Verlust für die menschliche Entwicklung.
+
+Es gibt kein Land mit perfekter Gleichstellung der Geschlechter. Alle Länder erleiden einen gewissen Verlust an Errungenschaften in Schlüsselaspekten der menschlichen Entwicklung, wenn die Ungleichheit der Geschlechter berücksichtigt wird.Die Komponentenindikatoren zeigen Bereiche auf, in denen kritische politische Maßnahmen erforderlich sind, und sie regen proaktives Denken und öffentliche Maßnahmen zur Überwindung systematischer Benachteiligungen von Frauen an.
+Er kann Regierungen und anderen helfen, das Ausmaß der geschlechtsspezifischen Ungleichheiten bei der Teilhabe zu verstehen. Die einzelnen Indikatoren zeigen Bereiche auf, in denen die Politik dringend eingreifen muss. 
+
+## Limitationen 
+
+GII hat einige Einschränkungen (wie es bei zusammengesetzen/umfassenden Messungen üblich ist): 
+
+misst nicht die Länge und Breite der Ungleichheit zwischen den Geschlechtern. Erfassung zB parlamentare Vertretung auf nationaler Ebenene, nicht aber auf lokaler Regierungsebene und in anderen Bereichen des öffentlichen kommunalen Lebens. 
+
+Bei der Arbeitsmarktbeteiligung fehlen Daten über die Qualität der Arbeitsplätze. Generell werden wichtige Dimensionen des beruflichen Lebens außer Acht gelassen: unbezahlte Arbeit + Fakt, dass Frauen typischrweise die Aufgabe der Haushaltsführung + Pflege zugesprochen wird. 
+
+Was im GII aufgrund von fehlenden Daten nicht berücksichtigt wird: 
+Vermögenseigentum
+Unterstützung bei der Kinderbetreuung 
+geschlechtsspezifische Gewalt 
+Beteiligung an kommunalen Entscheidungsprozessen 
+
+## Quellen vom GII
+
+GII stützt sich auf öffentlichen Daten aus internationalen Datenbanken:
+
+- Müttersterblichkeitsrate: WHO, UNICEF,UNFPA, World Bank Group and United Nations Population Division (2019)
+
+- Geburtenrate bei Jugendlichen: UNDESA (2019)
+
+- Frauenanteil Sitze im Parlament: IPU (2020)
+
+- Arbeitsmarktbeteiligung: International Labour Organization ILO (2020)
+
+- Vergleich Frau Mann Sekundärabschluss: UNESCO Institute for Statistics (2020) and
+Barro and Lee (2018)
+
+QUELLE: http://hdr.undp.org/en/faq-page/gender-inequality-index-gii#t294n2913
+Berechnungen der Indizes: http://hdr.undp.org/sites/default/files/hdr2020_technical_notes.pdf
+
+## WAS wir mit dem Datensatz visualisieren können: 
+
+Deutschland im internationalen Vergleich.
+Deutschland im europäischen Vergleich?
+Erstmal zeigen, was die 3 besten und 3 schlechtesten Länder sind im GII Ranking 
+Wo steht Deutschland im GII Ranking? Welche Länder sind unmittelbar davor und danach? 
+Mit den Ländern vergleichen: Ist dort die Müttersterblchkeitsrate niedriger? weniger Parlamentssitze? weniger Frauen mit Sekundärabschluss? 
+Ist irgendwas unterwartet? zB Dass Deutschland vor Japan ist aber in Japan mehr Frauen im Parlament sitzen (nur als Beispiel gedacht!)
+
+## WIE wir visualisieren können:
+
+interaktive Landkarte/ Heatmap um ersten Überblick zu bekommen: GII Value wird angezeigt wenn man über die Länder geht + man kann rein zoomen. Zusätzlich durch Farskala anzeigen, ob
+Wert hoch oder niedrig ist 0=grün 1=rot 
+
+Was man dann sehen wird: In Europa ist der Wert besser als in arabischen/ afrikanischen Ländern 
+
+barchart: um zu bestimmen, was die Länder mit den besten und schlechtesten Werten sind: GII Rank auf der x Achse und der GII Value auf der y-Achse
+
+am schlechteten: Jemen, Papua Neuguinea, Chad, Zentrlische Afrikanische Republik
+am besten: Schweiz, Dänemark, Schweden, Niederlande
+
+
+Wo steckt Deutschland?  GII Rannking auf Platz 20 + Wert 0,084
+Interessant, dass DL noch hinter Arabischen Emirate (Platz 18, Value 0,079) und Republik Korea ist (Platz 11, 0,064) -> zeigt die Limitationen des Konstrukts (siehe oben)
+
+vllt DL mit bestem + schlechtestem Land in einer tabelle vergleichen oder nur alle Werte von DL zeigen 
+
+PROBLEM: Wie?
+
+m + f Arbeitsmarktbeteiligung ist zsm mehr als 100% aslo geht keine Donut Chart oder?
+
+```{r setup, include=FALSE}
+
+arrange(GII,GII_Rank)
+```
