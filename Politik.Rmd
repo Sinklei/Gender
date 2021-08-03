@@ -11,9 +11,20 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 
 
-# datensätze
-bt_frauen <- read.csv("data//to_work_with/bundestagzusammensetzung.csv")
-parteien_frauen <- read.csv("data//to_work_with/zusammensetzung_frauen_parteien.csv")
+# datensätze einlesen und cleanen/ordnen
+
+bt_frauen <- read.csv("data/to_work_with/bundestagzusammensetzung.csv") %>% 
+                mutate(maenner_anzahl = (mitglieder-frauen_anzahl),
+                       maenner_perc = (100-frauen_perc))
+
+bt <- bt_frauen[c(1,2,3,7,6,4,5)]
+
+view(parteien_frauen)
+
+
+
+
+parteien_frauen <- read.csv("data/to_work_with/zusammensetzung_frauen_parteien.csv")
 
 ```
 was wäre cool zu visualisieren?
@@ -30,6 +41,30 @@ größe der parteien??
 # Infotext
 
 Statista. geschlechtliche Ungerechtigkeit in der Bundestagszusammensetzung etc.
+googlen nach allgemeinem Meinungsbild zu Männer und Frauen Verteilung in der Politik
+
+
+# seats in parliament
+
+schwierig. muss ich mir die quelle nochmal genauer anschauen
+
+
+```{r}
+
+seats <- read.csv("data/to_work_with/GII.csv") %>% 
+            select(Country, Share.of.seats.in.parliament_.._held_by_women.)
+
+
+seats %>% view()
+
+
+
+
+```
+
+
+
+
 
 # Zusammensetzung Bundestag 
 
@@ -46,26 +81,38 @@ wie kann ich das umsetzen, dass die daten nicht doppelt sind? ggf datensatz umba
 
 vor allen dingen auch verteilung gegenüber männer zeigen
 
+zeitliche achse ist die y achse und geht von oben nach unten, so wie die website auch gestaltet ist
+wichtig ist es zu zeigen, dass sich die anzahl und prozent an frauen über die jahre gesteigert hat, jedoch im vergleich zu den männern immer noch sehr klein ist
+
+
+in eine grafik kriegen
+
+* y achse bundestag in richtiger reihenfolge von oben nach unten
+* frauen und männer anzahl
+* vielleicht noch irgendwie prozente reinbringen
+* gesamt mitgliederanzahl
+* auf wahlperiode scheissen?? nur eine nehmen??
+
+
 ```{r}
 
-bt_frauen %>%
+bt %>%
   ggplot() +
-  geom_point(mapping = aes(x = jahr, y = frauen_anzahl, color = wahlperiode)) +
-  geom_point(mapping = aes(x = jahr, y = mitglieder)) +
+  geom_point(mapping = aes(x = bundestag, y = frauen_anzahl, color = wahlperiode)) +
+  geom_point(mapping = aes(x = bundestag, y = maenner_anzahl, color = wahlperiode)) +
+  geom_point(mapping = aes(x = bundestag, y = mitglieder)) +
+  coord_flip()
   NULL
 
 
-bt_frauen %>%
+bt %>% 
   ggplot() +
-  aes(
-    x = jahr,
-    y = frauen_anzahl,
-    color = wahlperiode
-  ) +
+  aes(x = bundestag,
+      y = frauen_perc) +
   geom_point() +
-  NULL
-
-
+  coord_flip()
+  
+  
 
 
 ```
@@ -80,15 +127,19 @@ noch weitere daten dann suchen
 sitzeverteilung der einzelnen bundestage vielleicht ergänzen
 
 
+gibt es daten zu der anzahl der parteien und den anzahl der männer
+missing values herausfindne können?
+
 ```{r}
 parteien_frauen %>%
   ggplot() +
   aes(
-    x = jahr,
+    x = bundestag,
     y = frauen_zahl,
     color = partei
   ) +
   geom_point() +
+  coord_flip()
   NULL
 
 
