@@ -27,7 +27,7 @@ UNPD veröffentlicht jedes Jahr den "Human Development Report". Einen Bericht ü
 HDI= Index der menschlichen Entwicklung. is eine komplexe Maße für die 3 Schlüsseldimensionen menschlicher Entwcikung:
 ein langes und gesundes Leben, Zugang zu Wissen und ein angenmessener Lebensstandard. Der HDI ist das geomentrische Mittel der normalisierten Indizes für alle 3 Dimensionen. 
 
-GDI ist ein Zusatz zum HDI seit 2014. Er nimmt die gleichen Vriablen des HDI und teilt diese auf die Geschlechter auf. Er teilt den HDI Wert in Werte für Frauen und Männer und ist das Verhältnis aus beiden.Je näher der Wert bei 1 liegt, desto geringer ist der Unterschied zwischen Frauen und Männern. Er liegt zwischen 0 und 1 (0= Ungleich -> desto mehr sind Frauen benachteiligt gegenüber Männern, 1=Gleichstand). Bei Werten über 1 fehlt es an Gleichstellung von Männern. Da sind Frauen gegenüber Männern im Vorteil. 
+GDI ist ein Zusatz zum HDI seit 2014. Er nimmt die gleichen Variablen des HDI und teilt diese auf die Geschlechter auf. Er teilt den HDI Wert in Werte für Frauen und Männer und ist das Verhältnis aus beiden.Je näher der Wert bei 1 liegt, desto geringer ist der Unterschied zwischen Frauen und Männern. Er liegt zwischen 0 und 1 (0= Ungleich -> desto mehr sind Frauen benachteiligt gegenüber Männern, 1=Gleichstand). Bei Werten über 1 fehlt es an Gleichstellung von Männern. Da sind Frauen gegenüber Männern im Vorteil. 
 
 Als zusätzlichen Vergleichsmaßstab zur Gleichberechtigung gibt es seit 2010 den GII.
 Geschlechtsspezifische Ungleichheit (GII)
@@ -88,7 +88,9 @@ of population from ILO (2020), UNDESA (2019),
 World Bank (2020), United Nations Statistics
 Division (2020) and IMF (2020).
 
-## WAS wir visualisieren können
+## WAS + WIe wir visualisieren können
+
+1. 
 
 20 Länder sind über 1,00 GDI Wert -> Frauen sind gegenüber Männern im Vorteil
 Interessant: Ukraine einziges Land mit 1,00 -> Frauen sind bei der geschlechtsspezifischen Entwicklung gegenüber Männern nicht benachteiligt. 

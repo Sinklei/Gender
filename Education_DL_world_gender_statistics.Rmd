@@ -10,7 +10,6 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
 
-
 ```{r}
 options(digits = 4)
 
@@ -18,5 +17,8 @@ Bildung <- read.csv("data/to_work_with/bildung_deutschland.csv")
 view(Bildung)
 ```
 
+## WAS + WIE wir visualisieren: 
 
+WASBildungschancen: Abschluss der Grundschule, Sekundarstufe, mindestens BA, mindestens MA, mindestens Promo
+Wie? 
 

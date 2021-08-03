@@ -73,27 +73,32 @@ Wo steht Deutschland im GII Ranking? Welche Länder sind unmittelbar davor und d
 Mit den Ländern vergleichen: Ist dort die Müttersterblchkeitsrate niedriger? weniger Parlamentssitze? weniger Frauen mit Sekundärabschluss? 
 Ist irgendwas unterwartet? zB Dass Deutschland vor Japan ist aber in Japan mehr Frauen im Parlament sitzen (nur als Beispiel gedacht!)
 
-## WIE wir visualisieren können:
+## WAS + WIE wir visualisieren können:
 
-interaktive Landkarte/ Heatmap um ersten Überblick zu bekommen: GII Value wird angezeigt wenn man über die Länder geht + man kann rein zoomen. Zusätzlich durch Farskala anzeigen, ob
-Wert hoch oder niedrig ist 0=grün 1=rot 
+1. interaktive Landkarte/ Heatmap um ersten Überblick zu bekommen: GII Value + Ländername wird angezeigt wenn man über die Länder geht + man kann rein zoomen. Zusätzlich durch Farbskala anzeigen, ob
+Wert hoch oder niedrig ist https://espace-mondial-atlas.sciencespo.fr/en/topic-contrasts-and-inequalities/map-1C37-EN-human-development-index-gender-development-index-ecological-footprintandnbsp.html
 
 Was man dann sehen wird: In Europa ist der Wert besser als in arabischen/ afrikanischen Ländern 
 
-barchart: um zu bestimmen, was die Länder mit den besten und schlechtesten Werten sind: GII Rank auf der x Achse und der GII Value auf der y-Achse
+2. barchart: um zu bestimmen, was die Länder mit den besten und schlechtesten Werten sind: GII Rank auf der x Achse und der GII Value auf der y-Achse -> schlechteste, beste + Deutschland in 1 Barplot: alle die nicht relevant sind werden mit Punkten dargestellt
 
 am schlechteten: Jemen, Papua Neuguinea, Chad, Zentrlische Afrikanische Republik
 am besten: Schweiz, Dänemark, Schweden, Niederlande
 
 
+3. Werte der Variablen für die Länder (schlechteste, beste + DL): Mütteryterblichkeitsrate, Jugendgeburtenrate, Sitze im Parlament als einzelne Barchart Visualisierungen 
+
+Sekundarabschluss + Arbeitsmarktbeteiligung als einzelne Visualisierungen in Form einer Alterspyramide: Werte für m + f rechts und links 
+
+Als Info: Hättet ihr gedacht, dass DL hinter arabischen Emirate + Korea liegt?
+
 Wo steckt Deutschland?  GII Rannking auf Platz 20 + Wert 0,084
-Interessant, dass DL noch hinter Arabischen Emirate (Platz 18, Value 0,079) und Republik Korea ist (Platz 11, 0,064) -> zeigt die Limitationen des Konstrukts (siehe oben)
+ Arabischen Emirate (Platz 18, Value 0,079) und Republik Korea ist (Platz 11, 0,064) 
+ -> zeigt die Limitationen des Konstrukts (siehe oben)
 
-vllt DL mit bestem + schlechtestem Land in einer tabelle vergleichen oder nur alle Werte von DL zeigen 
 
-PROBLEM: Wie?
 
-m + f Arbeitsmarktbeteiligung ist zsm mehr als 100% aslo geht keine Donut Chart oder?
+
 
 ```{r setup, include=FALSE}
 

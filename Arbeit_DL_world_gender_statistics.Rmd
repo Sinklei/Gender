@@ -28,21 +28,21 @@ gender_arbeit_DL <- readr::read_csv(file = "data/to_work_with/gender_arbeit_DL.c
 
 ```
 
-## WAS wir visualisieren 
+## WAS + WIE wir visualisieren 
 
+WICHTIG: ILO modeled estimated 
+
+vielleicht visualisieren: 
 Wie sich das Verhältnis zwischen den Geschlechtern im Bereich Arbeit über die Zeit geändert hat:
 
-PROBLEM: Industry female 22% Industry Male 49% aund generell 38??
+timeline wie bei twitter tídy tuesday 
 
 
-WIE wir visualisieren:
-verschiedene Formate für timelines/ Linecharts
+1. tree map für webiblichen Anteil in Agriculture, Industrie, Services -> kann man interaktiv machen
+dasselbe auch für männlichen Anteil 
 
-stacked bar chart nur für den Anteil Frauen in Agriculture, Industrie, Services -> kann man interaktiv machen: x Achse die Jahre, y Achse die Werte und wenn man auf die verschiedenen Areas geht, wird gezeigt welcher Bereich das ist, also ob Agriculture etc. 
+gesetzlliches Bild 3 Variablen mit ja/nein in den verschiedenen Jahren. in Text schreiben
 
-gesetzlliches Meinungsbild 3 Variablen mit ja/nein in den verschiedenen Jahren. Wie hat sich das Meinungsbild geändert über die Zeit? -> Wie visualisieren?? weil nur ja nein und die timeline 
-
-female percent + male percent fast gleiche Werte und vor allem niedrige Werte - wie kann das sein?
 
 ## Erklärung Variablen
 "Employers, female (% of female employment) (modeled ILO estimate)"
