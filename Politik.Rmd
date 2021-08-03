@@ -46,17 +46,57 @@ googlen nach allgemeinem Meinungsbild zu Männer und Frauen Verteilung in der Po
 
 # seats in parliament
 
-schwierig. muss ich mir die quelle nochmal genauer anschauen
 vielleicht karte zeigen mit allen ländern
+
+Hintergrundinfos:
+Proportion of seats held by women in national parliaments (%)(SG.GEN.PARL.ZS)
+Definition: Women in parliaments are the percentage of parliamentary seats in a single or lower chamber held by women.
+Quelle: Inter-Parliamentary Union (IPU) (www.ipu.org). For the year of 1998, the data is as of August 10, 1998.
+aggregation method: Weighted average
+
+meine Quelle: https://databank.worldbank.org/source/gender-statistics
+
+könnte auch mit Bildung zusammenhängen, dass für Frauen nicht dieselben Voraussetzungen gelten wie für Männer
+
+
+
 
 
 ```{r}
 
-seats <- read.csv("data/to_work_with/GII.csv") %>% 
-            select(Country, Share.of.seats.in.parliament_.._held_by_women.)
+before_clean_seats <- read.csv("data/raw/before_clean_seats_parliaments.csv", check.names = F)
 
+library(dplyr)
+
+seats <- before_clean_seats %>% 
+            filter(country != "") %>% 
+            pivot_longer(cols = -country, names_to = "year", values_to = "n") %>% 
+            mutate_if(is.numeric, round)
+
+
+###
 
 seats %>% view()
+
+seats %>% 
+  filter(country %in% c("Germany", "Austria")) %>% 
+  filter(year %in% 2010:2020) %>% 
+  ggplot() +
+  aes(x = year,
+      y = n,
+      color = country) +
+  geom_point()
+
+
+library(maps)
+
+# Check all available geospatial objects:
+# help(package='maps')
+
+# Map of the world:
+map('world',col="grey", fill=TRUE, bg="white", lwd=0.05, mar=rep(0,4),border=0, ylim=c(-80,80) )
+
+map_data("world") %>% view()
 
 
 
