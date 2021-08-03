@@ -94,12 +94,22 @@ Division (2020) and IMF (2020).
 Interessant: Ukraine einziges Land mit 1,00 -> Frauen sind bei der geschlechtsspezifischen Entwicklung gegenüber Männern nicht benachteiligt. 
 
 Im HDI Rank ist DL zwar auf Platz 6, hat aber einen GDI Wert von 0,972 -> selber Wert auch in Malaysia (Platz 62 im HDI Rank) + Hong Kong China (Platz 4 im HDI Rank) -> wie kann das sein? Wie sehen dort die einzelnen Werte aus? Vergleich der Länder?
-Warum ist Deutschlands GDI Wert nicht so gut wie der in der Urkaine? 
+Warum ist Deutschlands GDI Wert nicht so gut wie der in der Urkaine? Werte anschauen:
 
-GDI + GII der Länder im vergleich? Dann aber die Frage: Wofür? was soll uns das zeigen? UUH IDEE: Landkarte: Gender Inequality Value + Gender Development Value 2 Landkarten untereinander (https://espace-mondial-atlas.sciencespo.fr/en/topic-contrasts-and-inequalities/map-1C37-EN-human-development-index-gender-development-index-ecological-footprintandnbsp.html)
+GDI + GII der Länder im Vergleich? Dann aber die Frage: Wofür? was soll uns das zeigen? UUH IDEE: Landkarte: Gender Inequality Value + Gender Development Value 2 Landkarten untereinander (https://espace-mondial-atlas.sciencespo.fr/en/topic-contrasts-and-inequalities/map-1C37-EN-human-development-index-gender-development-index-ecological-footprintandnbsp.html)
+
+
 ```{R}
 arrange(GDI, desc(GDI$GDI_value))
+
+
 ```
+
 ## WIE wir visualisieren können
 
+Selbes Prinzip wie bei GII? Heatmap 
 
+Barplot nebeneinander: Länder, die gleichen Wert haben wie DL: Expected years of schooling Männer und Frauen im vegleich: x Achse Länder und Frau und Mann als einzelnen Bar - y Achse die expected years of schooling 
+-> x Achse Länder vllt auch mit Flagge??
+
+dasselbe auch für: life expectancy at birth + estimated gross national income 

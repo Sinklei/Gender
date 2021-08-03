@@ -8,7 +8,6 @@ output: html_document
 ```{r setup, include=FALSE}
 
 library(ggplot2)
-library(tidyr)
 library(dplyr)
 
 knitr::opts_chunk$set(echo = TRUE)
@@ -18,41 +17,32 @@ knitr::opts_chunk$set(echo = TRUE)
 Nachfolgend ein Auszug aus dem riesigen World Gender Statistics Datensatz. 
 Der Datensatz bezieht sich auf den Unterschied zwischen den Geschlechtern nur in Deutschland im Bereich Arbeit. 
 
-
+Datensatz geht von 1970-2020, aber meisten Daten gibt es ab 1991 bis 2019
 
 ### Datensatz aufräumen
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
 options(digits = 2)
-gender_arbeit_DL <- readr::read_csv(file = "data/bereich_arbeit_deutschland_gender_statsitics.csv")
+gender_arbeit_DL <- readr::read_csv(file = "data/to_work_with/gender_arbeit_DL.csv")
 
-is.numeric(gender_arbeit_DL$`2000 [YR2000]`)
-
-gender_arbeit_DL$`1983 [YR1983]` <- as.numeric(gender_arbeit_DL$`1983 [YR1983]`)
-gender_arbeit_DL$`1984 [YR1984]` <- as.numeric(gender_arbeit_DL$`1984 [YR1984]`)
-gender_arbeit_DL$`1985 [YR1985]` <- as.numeric(gender_arbeit_DL$`1985 [YR1985]`)
-gender_arbeit_DL$`1986 [YR1986]` <- as.numeric(gender_arbeit_DL$`1986 [YR1986]`)
-gender_arbeit_DL$`1987 [YR1987]` <- as.numeric(gender_arbeit_DL$`1987 [YR1987]`)
-gender_arbeit_DL$`1988 [YR1988]` <- as.numeric(gender_arbeit_DL$`1988 [YR1988]`) 
-gender_arbeit_DL$`1989 [YR1989]` <- as.numeric(gender_arbeit_DL$`1989 [YR1989]`)
-gender_arbeit_DL$`1990 [YR1990]` <- as.numeric(gender_arbeit_DL$`1990 [YR1990]`)
-gender_arbeit_DL$`1991 [YR1991]` <- as.numeric(gender_arbeit_DL$`1991 [YR1991]`)
-gender_arbeit_DL$`1992 [YR1992]` <- as.numeric(gender_arbeit_DL$`1992 [YR1992]`)
-gender_arbeit_DL$`1993 [YR1993]` <- as.numeric(gender_arbeit_DL$`1993 [YR1993]`)
-gender_arbeit_DL$`1994 [YR1994]` <- as.numeric(gender_arbeit_DL$`1994 [YR1994]`)
-gender_arbeit_DL$`1995 [YR1995]` <- as.numeric(gender_arbeit_DL$`1995 [YR1995]`)
-gender_arbeit_DL$`1996 [YR1996]` <- as.numeric(gender_arbeit_DL$`1996 [YR1996]`)
-gender_arbeit_DL$`1997 [YR1997]` <- as.numeric(gender_arbeit_DL$`1997 [YR1997]`)
-gender_arbeit_DL$`1998 [YR1998]` <- as.numeric(gender_arbeit_DL$`1998 [YR1998]`)
-gender_arbeit_DL$`1999 [YR1999]` <- as.numeric(gender_arbeit_DL$`1999 [YR1999]`)
-
-gender_arbeit_DL <- data.frame(t(gender_arbeit_DL))
-gender_arbeit_DL <- gender_arbeit_DL[-c(2,3,4), -c(32:36)]
-
-write.csv(gender_arbeit_DL, "data/gender_arbeit_DL.csv")
 ```
 
+## WAS wir visualisieren 
+
+Wie sich das Verhältnis zwischen den Geschlechtern im Bereich Arbeit über die Zeit geändert hat:
+
+PROBLEM: Industry female 22% Industry Male 49% aund generell 38??
+
+
+WIE wir visualisieren:
+verschiedene Formate für timelines/ Linecharts
+
+stacked bar chart nur für den Anteil Frauen in Agriculture, Industrie, Services -> kann man interaktiv machen: x Achse die Jahre, y Achse die Werte und wenn man auf die verschiedenen Areas geht, wird gezeigt welcher Bereich das ist, also ob Agriculture etc. 
+
+gesetzlliches Meinungsbild 3 Variablen mit ja/nein in den verschiedenen Jahren. Wie hat sich das Meinungsbild geändert über die Zeit? -> Wie visualisieren?? weil nur ja nein und die timeline 
+
+female percent + male percent fast gleiche Werte und vor allem niedrige Werte - wie kann das sein?
 
 ## Erklärung Variablen
 "Employers, female (% of female employment) (modeled ILO estimate)"
