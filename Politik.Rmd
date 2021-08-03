@@ -47,6 +47,7 @@ googlen nach allgemeinem Meinungsbild zu Männer und Frauen Verteilung in der Po
 # seats in parliament
 
 schwierig. muss ich mir die quelle nochmal genauer anschauen
+vielleicht karte zeigen mit allen ländern
 
 
 ```{r}
@@ -63,6 +64,9 @@ seats %>% view()
 ```
 
 
+# aktueller Bundestag
+
+yeah
 
 
 
