@@ -169,13 +169,22 @@ seats %>%
   geom_jitter(alpha = 0.1) +
   coord_flip()
 
-
 seats %>% 
   filter(region == "Germany") %>% 
   ggplot() +
   aes(x = year,
       y = number) +
   geom_point()
+
+
+##
+
+library(tidytext)
+library(ggiraph)
+
+
+
+
 
 ```
 
