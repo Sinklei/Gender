@@ -12,7 +12,7 @@ library(tidyverse)
 
 options(digits = 3)
 GII <- read_csv("data/to_work_with/GII.csv")
-View(GII)
+
 ```
 
 ## Was ist der Gender Inequality Index?
@@ -102,107 +102,8 @@ arrange(GII,GII_Rank)
 
 
 ## Landkarte  
-```{r setup, include=FALSE}
-
-# Landkarte herunterladen 
-
-download.file("http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip" , destfile="data/world_shape_file.zip")
-
-list.files("data/world_shape_file")
-
-library(raster)
-
-my_spdf <- shapefile("data/world_shape_file/TM_WORLD_BORDERS_SIMPL-0.3.shp")
-
-# Basic (unwichtig)
-par(mar=c(0,0,0,0))
-plot(my_spdf, col="#f2f2f2", bg="skyblue", lwd=0.25, border=0 )
-
-library(rgdal)
-library(maptools)
-if (!require(gpclib)) install.packages("gpclib", type="source")
-gpclibPermit()
-
-library(broom)
-spdf_fortified <- tidy(my_spdf, region = "NAME")
-
-
-library(ggplot2)
-ggplot() +
-  geom_polygon(data = spdf_fortified, aes( x = long, y = lat, group = group), fill="#69b3a2", color="white") +
-  theme_void() 
-
-# background map 
-
-library(leaflet)
-
-m <- leaflet()
-m <- addTiles(m)
-m
-
-# zoom auf Deutschland
-
-m <- leaflet(spdf_fortified)%>% addTiles()  %>% setView( lat=51.1642292, lng=10.4541194 , zoom=5) %>%
-  addPolygons(lat=51.1642292, lng=10.4541194, stroke = FALSE, fillOpacity = 0.5, smoothFactor = 0.5)
-m
-
-library(htmlwidgets)
-saveWidget(m, file=paste0( getwd(), "/data/backgroundMapBasic.html"))
-
-# GII Value einfügen
-
-map <- spdf_fortified %>%
-  left_join(. , GII, by=c("id"="Country"))
-
-write.csv(map, file= "data/map.csv")
-
-library(ggplot2)
-
-ggplot() +
-  geom_polygon(data = map, aes(fill= GII_Value , x = long, y = lat, group = group)) +
-  theme_void() +
-  coord_map()
-
-m <- leaflet(map)%>% addTiles()  %>% setView( lat=51.1642292, lng=10.4541194 , zoom=5) %>%
-  addPolygons(lat=51.1642292, lng=10.4541194, stroke = TRUE, fillOpacity = 0.9, color=  ~colorNumeric("mypalette"), weight= 0.3, smoothFactor = 0.5)
-m
-
-
-# my color palette 
-
-library(RColorBrewer)
-
-mypalette <- RColorBrewer::brewer.pal(8, "Accent")
-
-
-
-```
-
-
-
-
-
-
-
-
-
-
-
 
 ```{r setup, include=FALSE}
-
-# Landkarte herunterladen 
-
-download.file("http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip" , destfile="data/world_shape_file.zip")
-
-list.files("data/world_shape_file")
-
-my_spdf <- shapefile("data/world_shape_file/TM_WORLD_BORDERS_SIMPL-0.3.shp")
-
-my_spdf@data$POP2005[ which(my_spdf@data$POP2005 == 0)] = NA
-my_spdf@data$POP2005 <- as.numeric(as.character(my_spdf@data$POP2005)) / 1000000 %>% round(2)
-
-
 
 library(sf)
 library(raster)
@@ -215,6 +116,21 @@ library(ggplot2)
 library(sp)
 
 
+
+# Landkarte herunterladen 
+
+download.file("http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip",  destfile=("data/world_shape_file.zip"))
+
+list.files("data/world_shape_file")
+
+my_spdf <- shapefile("data/world_shape_file/TM_WORLD_BORDERS_SIMPL-0.3.shp")
+
+my_spdf@data$POP2005[ which(my_spdf@data$POP2005 == 0)] = NA
+my_spdf@data$POP2005 <- as.numeric(as.character(my_spdf@data$POP2005)) / 1000000 %>% round(2)
+
+
+
+# GII + world df mergen
 world <- world
 
 class(world)
@@ -223,12 +139,53 @@ plot(world)
 
 world_sp = as(world, Class = "Spatial")
 
-# world_sf = st_as_sf(world_sp) 
 
-merged_world <- left_join(world, GII, by= "name_long" )
 
-plot(merged_world)
+GII_world <- left_join(world, GII, by= "name_long" )
+write.csv(GII_world, "data/to_work_with/GII_world.csv")
 
-tm_shape(merged_world) + tm_fill(col = "GII_Value")
 
+
+plot(GII_world)
+tm_shape(GII_world) + tm_fill(col = "GII_Value")
+
+
+
+# Farbpalette
+library(RColorBrewer)
+mybins <- c(0,0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8)
+mypalette <- colorBin( palette="YlOrBr", domain=GII_world$GII_Value , na.color="transparent", bins=mybins)
+
+
+
+# Text für Tooltips
+mytext <- paste(
+    "Land:", GII_world$name_long ,"<br/>", 
+    "Kontinent:", GII_world$continent, "<br/>", 
+    "GII Wert:", GII_world$GII_Value, 
+    sep="") %>%
+  lapply(htmltools::HTML)
+
+
+
+
+# endgültige Visualisierung
+GII_map <-leaflet(GII_world) %>% 
+  addTiles()  %>% 
+  setView( lat=51.1642292, lng=10.4541194 , zoom=2) %>%
+  addPolygons( 
+    fillColor = ~mypalette(GII_Value), 
+    stroke=TRUE, 
+    fillOpacity = 0.9, 
+    color="white", 
+    weight=0.3,
+label = mytext,
+    labelOptions = labelOptions( 
+      style = list("font-weight" = "normal", padding = "3px 8px"), 
+      textsize = "13px", 
+      direction = "auto")) %>%
+  addLegend( pal=mypalette, values=~GII_Value, opacity=0.9, title = "GII Wert", position = "bottomleft" )
+
+library(htmlwidgets)
+saveWidget(GII_map, file=paste0( getwd(), "/data/Visualisierungen/GII_map.html"))
 ```
