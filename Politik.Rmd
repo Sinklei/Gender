@@ -9,6 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
+library(dplyr)
 
 
 # datensätze einlesen und cleanen/ordnen
@@ -18,9 +19,6 @@ bt_frauen <- read.csv("data/to_work_with/bundestagzusammensetzung.csv") %>%
                        maenner_perc = (100-frauen_perc))
 
 bt <- bt_frauen[c(1,2,3,7,6,4,5)]
-
-view(parteien_frauen)
-
 
 
 
@@ -46,7 +44,7 @@ googlen nach allgemeinem Meinungsbild zu Männer und Frauen Verteilung in der Po
 
 # seats in parliament
 
-vielleicht karte zeigen mit allen ländern
+DAS SIND NUR PROZENTE, um das besser einordnen zu können wären Gesamtzahlen und davon dann Anteil Frauen natürlich sehr sinnvoll, aber das kriegt man bestimmt nicht hin, vor allem weil das ja schon übel schwer ist, das für Deutschland herauszufinden
 
 Hintergrundinfos:
 Proportion of seats held by women in national parliaments (%)(SG.GEN.PARL.ZS)
@@ -59,49 +57,128 @@ meine Quelle: https://databank.worldbank.org/source/gender-statistics
 könnte auch mit Bildung zusammenhängen, dass für Frauen nicht dieselben Voraussetzungen gelten wie für Männer
 
 
-
-
-
 ```{r}
+# SEATS DATENSATZ VORBEREITEN
 
 before_clean_seats <- read.csv("data/raw/before_clean_seats_parliaments.csv", check.names = F)
-
-library(dplyr)
 
 seats <- before_clean_seats %>% 
             filter(country != "") %>% 
             pivot_longer(cols = -country, names_to = "year", values_to = "n") %>% 
-            mutate_if(is.numeric, round)
+            mutate_if(is.numeric, round) %>% 
+            filter(n != "NA")
+
+names(seats)[1] <- "region"
+names(seats)[3] <- "number"
+
+```
 
 
-###
+```{r}
+# MAP
 
-seats %>% view()
-
-seats %>% 
-  filter(country %in% c("Germany", "Austria")) %>% 
-  filter(year %in% 2010:2020) %>% 
-  ggplot() +
-  aes(x = year,
-      y = n,
-      color = country) +
-  geom_point()
-
-
-library(maps)
 
 # Check all available geospatial objects:
 # help(package='maps')
 
+library(maps)
+
 # Map of the world:
-map('world',col="grey", fill=TRUE, bg="white", lwd=0.05, mar=rep(0,4),border=0, ylim=c(-80,80) )
+map('world',col="grey", fill=TRUE, bg="white", lwd=0.05, mar=rep(0,4),border=0, ylim=c(-80,80))
 
-map_data("world") %>% view()
+mapdata <- map_data("world")
+
+seats_map <- full_join(mapdata, seats, by = "region")
+
+seats_map1 <- seats_map %>% filter(!is.na(seats_map$number))
 
 
 
+
+map1 <- ggplot(seats_map,
+        aes(x = long, y = lat, group = group)) +
+        geom_polygon(aes(fill = number), color = "black")
+
+map2 <- map1 + scale_fill_gradient(name = "Anzahl an Frauen im Parlament", low = "skyblue", high = "red", na.value = "grey50") +
+         theme(axis.text.x = element_blank(),
+                axis.text.y = element_blank(),
+                axis.ticks = element_blank(),
+                axis.title.x = element_blank(),
+                axis.title.y = element_blank(),
+                rect = element_blank())
+
+map2
 
 ```
+
+
+```{r}
+# BUBBLE
+
+seats %>% view()
+
+
+seats %>% 
+  filter(region %in% c("Germany", "Afghanistan", "Angola", "Bahrain")) %>% 
+  ggplot() +
+  aes(x = year, 
+      y = number,
+      color = region) +
+  geom_point() +
+  NULL
+
+
+
+o <- seats %>% 
+      filter(number == "40")
+
+
+view(o)
+
+max(seats$number)
+min(seats$number)
+mean(seats$number)
+median(seats$number)
+sd(seats$number)
+range(seats$number)
+
+seats %>% count(number, sort = T)
+
+### Welche Lände rkönnte man so nehmen für eine Grafik??
+# Deutschland 
+# max Rwanda 64
+# min mehrere Länder mit 0 (auch Papa dings da)
+# mean liegt bei 17 ca
+# median bei 16
+# sd bei 10
+
+
+
+seats %>% 
+  ggplot() +
+  aes(x = year,
+      y = number) +
+  geom_jitter(alpha = 0.1) +
+  geom_boxplot()
+
+seats %>%
+  filter(year == "2020") %>% 
+  ggplot() +
+  aes(x = year,
+      y = number) +
+  geom_jitter(alpha = 0.1) +
+  coord_flip()
+
+
+seats %>% 
+  filter(region == "Germany") %>% 
+  ggplot() +
+  aes(x = year,
+      y = number) +
+  geom_point()
+
+```
+
 
 
 # aktueller Bundestag
@@ -187,8 +264,9 @@ parteien_frauen %>%
   NULL
 
 
+  
+  
 parteien_frauen %>%
-  filter(jahr == "2017") %>% 
   ggplot() +
   aes(
     x = partei,
