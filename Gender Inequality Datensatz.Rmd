@@ -63,14 +63,6 @@ Barro and Lee (2018)
 QUELLE: http://hdr.undp.org/en/faq-page/gender-inequality-index-gii#t294n2913
 Berechnungen der Indizes: http://hdr.undp.org/sites/default/files/hdr2020_technical_notes.pdf
 
-## WAS wir mit dem Datensatz visualisieren können: 
-
-Deutschland im internationalen Vergleich.
-Deutschland im europäischen Vergleich?
-Erstmal zeigen, was die 3 besten und 3 schlechtesten Länder sind im GII Ranking 
-Wo steht Deutschland im GII Ranking? Welche Länder sind unmittelbar davor und danach? 
-Mit den Ländern vergleichen: Ist dort die Müttersterblchkeitsrate niedriger? weniger Parlamentssitze? weniger Frauen mit Sekundärabschluss? 
-Ist irgendwas unterwartet? zB Dass Deutschland vor Japan ist aber in Japan mehr Frauen im Parlament sitzen (nur als Beispiel gedacht!)
 
 ## WAS + WIE wir visualisieren können:
 
@@ -79,10 +71,10 @@ Wert hoch oder niedrig ist https://espace-mondial-atlas.sciencespo.fr/en/topic-c
 
 Was man dann sehen wird: In Europa ist der Wert besser als in arabischen/ afrikanischen Ländern 
 
-2. barchart: um zu bestimmen, was die Länder mit den besten und schlechtesten Werten sind: GII Rank auf der x Achse und der GII Value auf der y-Achse -> schlechteste, beste + Deutschland in 1 Barplot: alle die nicht relevant sind werden mit Punkten dargestellt
+2. Lollipop Chart: um zu bestimmen, was die Länder mit den besten und schlechtesten Werten sind: GII Rank auf der x Achse und der GII Value auf der y-Achse -> schlechteste, beste + Deutschland in 1 Barplot: alle die nicht relevant sind werden mit Punkten dargestellt
 
-am schlechteten: Jemen, Papua Neuguinea, Chad, Zentrlische Afrikanische Republik
-am besten: Schweiz, Dänemark, Schweden, Niederlande
+am schlechteten: Jemen, Papua Neuguinea, Chad
+am besten: Schweiz, Dänemark, Schweden
 
 
 3. Werte der Variablen für die Länder (schlechteste, beste + DL): Mütteryterblichkeitsrate, Jugendgeburtenrate, Sitze im Parlament als einzelne Barchart Visualisierungen 
@@ -102,7 +94,6 @@ arrange(GII,GII_Rank)
 
 
 ## Landkarte  
-
 ```{r setup, include=FALSE}
 
 library(sf)
@@ -160,8 +151,8 @@ mypalette <- colorBin( palette="YlOrBr", domain=GII_world$GII_Value , na.color="
 
 # Text für Tooltips
 mytext <- paste(
-    "Land:", GII_world$name_long ,"<br/>", 
-    "Kontinent:", GII_world$continent, "<br/>", 
+    "Country:", GII_world$name_long ,"<br/>", 
+    "GII Rank:", GII_world$GII_Rank, "<br/>", 
     "GII Wert:", GII_world$GII_Value, 
     sep="") %>%
   lapply(htmltools::HTML)
@@ -188,4 +179,68 @@ label = mytext,
 
 library(htmlwidgets)
 saveWidget(GII_map, file=paste0( getwd(), "/data/Visualisierungen/GII_map.html"))
+```
+
+
+
+
+
+
+
+
+
+
+
+# Lollipop Chart
+```{r setup, include=FALSE}
+
+library(ggplot2)
+library(dplyr)
+library(hrbrthemes)
+library(tidyverse)
+
+
+  
+GII_fil <- filter(GII, GII$name_long %in% c("Germany", "Switzerland", "Sweden", "Denmark", "Yemen", "Papua New Guinea", "Chad"))  
+GII_fil <- arrange(GII_fil, GII_fil$GII_Value)
+  
+GII_fil$name_long <- factor(GII_fil$name_long, levels= c("Yemen", "Papua New Guinea", "Chad", "Germany", "Sweden", "Denmark", "Switzerland"))
+
+write.csv(GII_fil, file="data/GII_fil.csv")
+
+GII_lollipop <- GII_fil %>%  
+ggplot(aes(x=GII_fil$name_long, y=GII_fil$GII_Value)) +
+  geom_segment(aes
+               (x=GII_fil$name_long, xend=GII_fil$name_long, y=0, yend=GII_fil$GII_Value),
+               color= ifelse(GII_fil$name_long %in% c("Germany"), "skyblue", "black"),
+               size= ifelse(GII_fil$name_long %in% c("Germany"), 1, 1), alpha= 0.6) +
+  geom_point(color= ifelse(GII_fil$name_long %in% c("Germany"), "blue", "grey"),
+              size= ifelse(GII_fil$name_long %in% c("Germany"), 4, 4), alpha=0.6, shape=16, stroke=2)+
+  scale_y_continuous(limits= c(0,1))+
+  scale_x_discrete(labels= c("#162 Jemen", "#161 Papua Neuguinea", "#160 Tschad", "#20 Deutschland", "#3 Schweden", "#2 Dänemark", "#1 Schweiz"))+
+  theme_ipsum() + 
+  coord_flip()+
+  theme(legend.position = "none",
+        panel.grid.major.y = element_blank(),
+    panel.border = element_blank(),
+    axis.ticks.y = element_blank()) +
+  xlab("Ranking") + 
+  ylab("GII Wert") +
+  labs(title= "Gender Inequality Index (GII) - Länderranking", 
+       subtitle= "Deutschland zwischen den 3 besten und schlechtesten Ländern",
+       caption= "Quelle: UNDP - Human Development Report 2020") 
+```
+
+
+
+
+
+# fancy Tabelle
+```{r setup, include=FALSE}
+
+library(reactable)
+
+GII_fil2 <-read.csv("data/GII_fil2.csv")
+
+reactable(GII_fil2)
 ```
