@@ -208,7 +208,7 @@ GII_fil$name_long <- factor(GII_fil$name_long, levels= c("Yemen", "Papua New Gui
 
 write.csv(GII_fil, file="data/GII_fil.csv")
 
-GII_lollipop <- GII_fil %>%  
+GII_fil %>%  
 ggplot(aes(x=GII_fil$name_long, y=GII_fil$GII_Value)) +
   geom_segment(aes
                (x=GII_fil$name_long, xend=GII_fil$name_long, y=0, yend=GII_fil$GII_Value),
