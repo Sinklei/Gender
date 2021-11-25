@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(dplyr)
 library(packcircles)
+
 ```
 
 
@@ -57,6 +58,7 @@ scale.bundestag <- c("1. Bundestag 1949-1953",
 
 bundestag$bundestag <- ordered(bundestag$bundestag, levels = scale.bundestag)
 
+view(bundestag)
 
 # ------------------------------------------
 
@@ -79,7 +81,7 @@ parteien_frauen <- read.csv("data/to_work_with/zusammensetzung_frauen_parteien.c
 
 parteien_frauen$bundestag <- ordered(parteien_frauen$bundestag, levels = scale.bundestag)
 
-
+view(parteien_frauen)
 
 # -----------------------------------------
 
@@ -101,6 +103,8 @@ names(seats)[1] <- "region"
 names(seats)[3] <- "percentage"
 seats$year <- as.numeric(seats$year)
 
+
+view(seats)
 
 # -----------------------------------------
 
@@ -363,12 +367,13 @@ bundestag %>%
   NULL
 
 
+  view(bundestag)
 bundestag %>% 
+  filter(wahlperiode == "beginn") %>% 
   ggplot() +
   aes(x = bundestag,
       y = frauen_perc) +
-  geom_point() +
-  coord_flip()
+  geom_point()
   
   
 
