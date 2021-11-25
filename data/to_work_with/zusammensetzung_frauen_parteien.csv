@@ -1,4 +1,4 @@
-"bundestag","partei","frauen_perc","frauen_zahl"
+"bundestag","partei","frauen_perc","frauen_anzahl"
 "1. Bundestag 1949-1953","CDU/CSU",7.7,11
 "1. Bundestag 1949-1953","FDP",0.0,0
 "1. Bundestag 1949-1953","SPD",9.6,13
@@ -107,9 +107,15 @@
 "18. Bundestag 2013-2017","Gruenen",55.6,35
 "18. Bundestag 2013-2017","Linke",56.3,36
 "18. Bundestag 2013-2017","AfD",,
-"19. Bundestag 2017","CDU/CSU",19.9,49
-"19. Bundestag 2017","FDP",22.5,18
-"19. Bundestag 2017","SPD",41.8,64
-"19. Bundestag 2017","Gruenen",58.2,39
-"19. Bundestag 2017","Linke",53.6,37
-"19. Bundestag 2017","AfD",10.8,10
+"19. Bundestag 2017-2021","CDU/CSU",19.9,49
+"19. Bundestag 2017-2021","FDP",22.5,18
+"19. Bundestag 2017-2021","SPD",41.8,64
+"19. Bundestag 2017-2021","Gruenen",58.2,39
+"19. Bundestag 2017-2021","Linke",53.6,37
+"19. Bundestag 2017-2021","AfD",10.8,10
+"20. Bundestag 2021","CDU/CSU",23.4,46
+"20. Bundestag 2021","FDP",23.9,22
+"20. Bundestag 2021","SPD",41.7,86
+"20. Bundestag 2021","Gruenen",59.3,70
+"20. Bundestag 2021","Linke",53.8,21
+"20. Bundestag 2021","AfD",13.3,11

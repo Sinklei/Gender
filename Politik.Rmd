@@ -11,18 +11,102 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(dplyr)
 library(packcircles)
+```
 
+
+```{r, include=TRUE}
 # datensätze einlesen und cleanen/ordnen
+# ------------------------------------------
+  
 
-bt_frauen <- read.csv("data/to_work_with/bundestagzusammensetzung.csv") %>% 
-                mutate(maenner_anzahl = (mitglieder-frauen_anzahl),
-                       maenner_perc = (100-frauen_perc))
+### 1 bundestag
 
-bt <- bt_frauen[c(1,2,3,7,6,4,5)]
+# selbst generierter Datensatz aus Wikipedia Tabelle (https://de.wikipedia.org/wiki/Frauenanteil_im_Deutschen_Bundestag_seit_1949)
+# datensatz zeigt die anzahl/prozente von männern und frauen in den bundestagen an
 
+
+bundestag_raw <- read.csv("data/to_work_with/bundestagzusammensetzung.csv") %>% 
+                  mutate(maenner_anzahl = (mitglieder-frauen_anzahl),
+                          maenner_perc = (100-frauen_perc))
+
+bundestag <- bundestag_raw[c(1,2,3,7,6,4,5)]
+
+# cleaning: ordinale variable für bundestag
+
+scale.bundestag <- c("1. Bundestag 1949-1953",
+                     "2. Bundestag 1953-1957",
+                     "3. Bundestag 1957-1961",
+                     "4. Bundestag 1961-1965",
+                     "5. Bundestag 1965-1969",
+                     "6. Bundestag 1969-1972",
+                     "7. Bundestag 1972-1976",
+                     "8. Bundestag 1976-1980",
+                     "9. Bundestag 1980-1983",
+                     "10. Bundestag 1983-1987",
+                     "11. Bundestag 1987-1990",
+                     "12. Bundestag 1990-1994",
+                     "13. Bundestag 1994-1998",
+                     "14. Bundestag 1998-2002",
+                     "15. Bundestag 2002-2005",
+                     "16. Bundestag 2005-2009",
+                     "17. Bundestag 2009-2013",
+                     "18. Bundestag 2013-2017",
+                     "19. Bundestag 2017-2021",
+                     "20. Bundestag 2021"
+                     )
+
+bundestag$bundestag <- ordered(bundestag$bundestag, levels = scale.bundestag)
+
+
+# ------------------------------------------
+
+
+### 2 parteien_frauen
+
+# selbst generierter Datensatz aus Wikipedia Tabelle (https://de.wikipedia.org/wiki/Frauenanteil_im_Deutschen_Bundestag_seit_1949)
+# datensatz zeigt die anzahl/prozente von Frauen in den einzelnen Parteien
 
 
 parteien_frauen <- read.csv("data/to_work_with/zusammensetzung_frauen_parteien.csv")
+
+
+# kann man vielleicht hinzufügen, wenn es genug daten geben sollte.
+#mutate(maenner_anzahl = (mitglieder-frauen_anzahl),
+#maenner_perc = (100-frauen_perc))
+
+
+# cleaning: ordinale variable für bundestag
+
+parteien_frauen$bundestag <- ordered(parteien_frauen$bundestag, levels = scale.bundestag)
+
+
+
+# -----------------------------------------
+
+### 3 SEATS DATENSATZ
+
+# datensatz zeigt prozente von frauen in parlamenten aus verschiedenen ländern
+
+
+before_clean_seats <- read.csv("data/raw/before_clean_seats_parliaments.csv", check.names = F)
+
+seats <- before_clean_seats %>% 
+            filter(country != "") %>% 
+            pivot_longer(cols = -country, names_to = "year", values_to = "n") %>% 
+            mutate_if(is.numeric, round) %>% 
+            filter(n != "NA") %>% 
+            filter(country != "High income")
+
+names(seats)[1] <- "region"
+names(seats)[3] <- "percentage"
+seats$year <- as.numeric(seats$year)
+
+
+# -----------------------------------------
+
+
+
+
 
 ```
 was wäre cool zu visualisieren?
@@ -40,9 +124,15 @@ größe der parteien??
 
 Statista. geschlechtliche Ungerechtigkeit in der Bundestagszusammensetzung etc.
 googlen nach allgemeinem Meinungsbild zu Männer und Frauen Verteilung in der Politik
+artikel von tagesschau zur zusammensetzung von männern und frauen im neuen bundestag
+was gibt es sonst noch zum neuen bundestag?
 
 
 # seats in parliament
+
+von kleinem zum großen gehen können.
+"wir haben die bundestagswahl 2021 hinter uns. so sieht es bei uns in deutschland aus. wie sieht es in der ganzen welt aus??"
+
 
 DAS SIND NUR PROZENTE, um das besser einordnen zu können wären Gesamtzahlen und davon dann Anteil Frauen natürlich sehr sinnvoll, aber das kriegt man bestimmt nicht hin, vor allem weil das ja schon übel schwer ist, das für Deutschland herauszufinden
 
@@ -57,74 +147,18 @@ meine Quelle: https://databank.worldbank.org/source/gender-statistics
 könnte auch mit Bildung zusammenhängen, dass für Frauen nicht dieselben Voraussetzungen gelten wie für Männer
 
 
-```{r}
-# SEATS DATENSATZ VORBEREITEN
-
-before_clean_seats <- read.csv("data/raw/before_clean_seats_parliaments.csv", check.names = F)
-
-seats <- before_clean_seats %>% 
-            filter(country != "") %>% 
-            pivot_longer(cols = -country, names_to = "year", values_to = "n") %>% 
-            mutate_if(is.numeric, round) %>% 
-            filter(n != "NA") %>% 
-            filter(country != "High income")
-
-names(seats)[1] <- "region"
-names(seats)[3] <- "number"
-seats$year <- as.numeric(seats$year)
-
-
-
-```
-
-
-```{r, map}
-# MAP
-
-
-# Check all available geospatial objects:
-# help(package='maps')
-
-library(maps)
-
-# Map of the world:
-map('world',col="grey", fill=TRUE, bg="white", lwd=0.05, mar=rep(0,4),border=0, ylim=c(-80,80))
-
-mapdata <- map_data("world")
-
-seats_map <- full_join(mapdata, seats, by = "region")
-
-seats_map1 <- seats_map %>% filter(!is.na(seats_map$number))
-
-
-
-
-map1 <- ggplot(seats_map,
-        aes(x = long, y = lat, group = group)) +
-        geom_polygon(aes(fill = number), color = "black")
-
-map2 <- map1 + scale_fill_gradient(name = "Anzahl an Frauen im Parlament", low = "skyblue", high = "red", na.value = "grey50") +
-         theme(axis.text.x = element_blank(),
-                axis.text.y = element_blank(),
-                axis.ticks = element_blank(),
-                axis.title.x = element_blank(),
-                axis.title.y = element_blank(),
-                rect = element_blank())
-
-map2
-
-```
-
 
 ```{r, datenlage checken}
 
 # Datenlage checken
 
+view(seats)
+
 seats %>% 
   filter(region %in% c("Germany", "Afghanistan", "Angola", "Bahrain")) %>% 
   ggplot() +
   aes(x = year, 
-      y = number,
+      y = percentage,
       color = region) +
   geom_point() +
   NULL
@@ -133,7 +167,7 @@ seats %>%
 seats %>% 
   ggplot() +
   aes(x = as.character(year),
-      y = number) +
+      y = percentage) +
   geom_jitter(alpha = 0.1) +
   geom_boxplot()
 
@@ -143,7 +177,7 @@ seats %>%
   filter(year == "2020") %>% 
   ggplot() +
   aes(x = year,
-      y = number) +
+      y = percentage) +
   geom_boxplot() +
   geom_jitter(alpha = 0.4) +
   coord_flip()
@@ -153,7 +187,7 @@ seats %>%
   filter(region == "Rwanda") %>% 
   ggplot() +
   aes(x = year,
-      y = number) +
+      y = percentage) +
   geom_point()
 
 
@@ -169,33 +203,33 @@ seats %>%
 
 o <- seats %>% 
       filter(year == "2020",
-             #number == "61",
+             #percentage == "61",
              region == "Germany")
 
 view(o)
 
 seats %>% 
-  filter(number > 40) %>% count()
+  filter(percentage > 40) %>% count()
   ggplot() +
   aes(x = year,
-      y = number) +
+      y = percentage) +
   geom_jitter()
 
 
 
 
-max(o$number)
-min(seats$number)
-mean(seats$number)
-median(seats$number)
-sd(seats$number)
-range(seats$number)
+max(o$percentage)
+min(seats$percentage)
+mean(seats$percentage)
+median(seats$percentage)
+sd(seats$percentage)
+range(seats$percentage)
 
-seats %>% count(number, sort = T)
+seats %>% count(percentage, sort = T)
 ```
 
 
-```{r, circular packing bubble plot tutorial}
+```{r, circular packing bubble plot tutorial, include=FALSE}
 ## circular packing // bubble plot (tutorial)
 
 library(packcircles)
@@ -245,7 +279,7 @@ seats_bubble <- seats %>% filter(year == "2020",
 
 # Generate the layout. This function return a dataframe with one line per bubble. 
 # It gives its center (x and y) and its radius, proportional of the value
-seats_packing <- circleProgressiveLayout(seats_bubble$number, sizetype = "area")
+seats_packing <- circleProgressiveLayout(seats_bubble$percentage, sizetype = "area")
 
 # We can add these packing information to the initial data frame
 seats_bubble <- cbind(seats_bubble, seats_packing)
@@ -269,8 +303,8 @@ ggplot() +
   geom_polygon(data = seats.gg, aes(x, y, group = id, fill = as.factor(id), color = "black", alpha = 0.6)) +
   
    # Add text in the center of each bubble + control its size
-  geom_text(data = seats_bubble, aes(x, y, size=number, label = region)) +
-  geom_text(data = seats_bubble_label, aes(x, y, size=number, label = number)) +
+  geom_text(data = seats_bubble, aes(x, y, size=percentage, label = region)) +
+  geom_text(data = seats_bubble_label, aes(x, y, size=percentage, label = percentage)) +
   scale_size_continuous(range = c(1,4)) +
   
   # General theme:
@@ -320,7 +354,7 @@ in eine grafik kriegen
 
 ```{r}
 
-bt %>%
+bundestag %>%
   ggplot() +
   geom_point(mapping = aes(x = bundestag, y = frauen_anzahl, color = wahlperiode)) +
   geom_point(mapping = aes(x = bundestag, y = maenner_anzahl, color = wahlperiode)) +
@@ -329,7 +363,7 @@ bt %>%
   NULL
 
 
-bt %>% 
+bundestag %>% 
   ggplot() +
   aes(x = bundestag,
       y = frauen_perc) +
@@ -359,7 +393,7 @@ parteien_frauen %>%
   ggplot() +
   aes(
     x = bundestag,
-    y = frauen_zahl,
+    y = frauen_anzahl,
     color = partei
   ) +
   geom_point() +
@@ -373,11 +407,59 @@ parteien_frauen %>%
   ggplot() +
   aes(
     x = partei,
-    y = frauen_zahl
+    y = frauen_anzahl
   ) +
   geom_col() +
   NULL
 
 
 ```
+
+
+
+
+
+###### map
+
+
+
+```{r, include=FALSE}
+# MAP
+
+
+# Check all available geospatial objects:
+# help(package='maps')
+
+library(maps)
+
+# Map of the world:
+map('world',col="grey", fill=TRUE, bg="white", lwd=0.05, mar=rep(0,4),border=0, ylim=c(-80,80))
+
+mapdata <- map_data("world")
+
+seats_map <- full_join(mapdata, seats, by = "region")
+
+seats_map1 <- seats_map %>% filter(!is.na(seats_map$number))
+
+
+
+
+map1 <- ggplot(seats_map,
+        aes(x = long, y = lat, group = group)) +
+        geom_polygon(aes(fill = number), color = "black")
+
+map2 <- map1 + scale_fill_gradient(name = "Anzahl an Frauen im Parlament", low = "skyblue", high = "red", na.value = "grey50") +
+         theme(axis.text.x = element_blank(),
+                axis.text.y = element_blank(),
+                axis.ticks = element_blank(),
+                axis.title.x = element_blank(),
+                axis.title.y = element_blank(),
+                rect = element_blank())
+
+map2
+
+```
+
+
+
 
