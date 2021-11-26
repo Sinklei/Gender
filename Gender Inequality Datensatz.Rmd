@@ -4,7 +4,7 @@ author: "Linda Sinani"
 date: "17 7 2021"
 output: html_document
 ---
-
+# Der Hauptdatensatz GII
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
@@ -13,6 +13,19 @@ library(tidyverse)
 options(digits = 3)
 GII <- read_csv("data/to_work_with/GII.csv")
 
+#colnames(GII)
+
+#names(GII)[4]<- "HDI Platzierung"
+#names(GII)[5]<- "Land"
+#names(GII)[6] <-"GII Wert"
+#names(GII)[7]<- "GII Platzierung"
+#names(GII)[8]<- "Müttersterblichkeitsrate (Tode pro 100.000 Lebendgeburten)"
+#names(GII)[9]<- "Jugendgeburtenrate (Geburten pro 1.000 Frauen im Alter von 15-19 Jahren)"
+#names(GII)[10]<- "Anteil von Frauensitze im Parlament (in %)"
+#names(GII)[11]<- "Frauen über 25 Jahren mit mindestens Sekundarbschluss (in %)"
+#names(GII)[12]<- "Männer über 25 Jahren mit mindestens Sekundarbschluss (in %)"
+#names(GII)[13]<- "Erwerbsquote der weiblichen Bevölkerung ab 15 Jahren (in %)"
+#names(GII)[14]<- "Erwerbsquote der männlichen Bevölkerung ab 15 Jahren (in %)"
 ```
 
 ## Was ist der Gender Inequality Index?
@@ -89,7 +102,7 @@ Wo steckt Deutschland?  GII Rannking auf Platz 20 + Wert 0,084
 
 ```{r setup, include=FALSE}
 
-arrange(GII,GII_Rank)
+arrange(GII,GII$`GII Platzierung`)
 ```
 
 
@@ -132,9 +145,10 @@ world_sp = as(world, Class = "Spatial")
 
 
 
-GII_world <- left_join(world, GII, by= "name_long" )
-write.csv(GII_world, "data/to_work_with/GII_world.csv")
+GII_WELT <- left_join(world, GII, by= "name_long" )
 
+# in jamovi die englischen Ländernamen ins deutsche übersetzt: data/toworkwith/ GII_world
+GII_world <- read_csv("data/to_work_with/GII_world.csv")
 
 
 plot(GII_world)
@@ -151,20 +165,19 @@ mypalette <- colorBin( palette="YlOrBr", domain=GII_world$GII_Value , na.color="
 
 # Text für Tooltips
 mytext <- paste(
-    "Country:", GII_world$name_long ,"<br/>", 
-    "GII Rank:", GII_world$GII_Rank, "<br/>", 
-    "GII Wert:", GII_world$GII_Value, 
+    "Land:", GII_world$name_long ,"<br/>", 
+    "GII-Platzierung:", GII_world$GII_Rank, "<br/>", 
+    "GII-Wert:", GII_world$GII_Value, 
     sep="") %>%
   lapply(htmltools::HTML)
-
-
 
 
 # endgültige Visualisierung
 GII_map <-leaflet(GII_world) %>% 
   addTiles()  %>% 
   setView( lat=51.1642292, lng=10.4541194 , zoom=2) %>%
-  addPolygons( 
+  addPolygons(
+    data = GII_WELT,
     fillColor = ~mypalette(GII_Value), 
     stroke=TRUE, 
     fillOpacity = 0.9, 
@@ -176,6 +189,7 @@ label = mytext,
       textsize = "13px", 
       direction = "auto")) %>%
   addLegend( pal=mypalette, values=~GII_Value, opacity=0.9, title = "GII Wert", position = "bottomleft" )
+show(GII_map)
 
 library(htmlwidgets)
 saveWidget(GII_map, file=paste0( getwd(), "/data/Visualisierungen/GII_map.html"))
@@ -224,7 +238,7 @@ ggplot(aes(x=GII_fil$name_long, y=GII_fil$GII_Value)) +
         panel.grid.major.y = element_blank(),
     panel.border = element_blank(),
     axis.ticks.y = element_blank()) +
-  xlab("Ranking") + 
+  xlab("Platzierung") + 
   ylab("GII Wert") +
   labs(title= "Gender Inequality Index (GII) - Länderranking", 
        subtitle= "Deutschland zwischen den 3 besten und schlechtesten Ländern",
@@ -237,10 +251,39 @@ ggplot(aes(x=GII_fil$name_long, y=GII_fil$GII_Value)) +
 
 # fancy Tabelle
 ```{r setup, include=FALSE}
-
 library(reactable)
 
-GII_fil2 <-read.csv("data/GII_fil2.csv")
+
+#GII_fil die unnötigen Variablen raus nehmen
+
+GII_fil2 <- GII_fil[,c(-1:-4, -6,-7)]
+
+names(GII_fil2)[1] <- "Land"
+names(GII_fil2)[2]<- "Müttersterblichkeitsrate"
+names(GII_fil2)[3]<- "Jugendgeburtenrate"
+names(GII_fil2)[4]<- "Frauensitze"
+names(GII_fil2)[5]<- "Frauen_Sekundarbschluss"
+names(GII_fil2)[6]<- "Männer_Sekundarbschluss"
+names(GII_fil2)[7]<- "Erwerbsquote_weiblich"
+names(GII_fil2)[8]<- "Erwerbsquote_männlich"
+
+reactable(GII_fil2,
+            defaultColDef = colDef(
+    header = function(value) gsub(".", " ", value, fixed = TRUE),
+    cell = function(value) format(value, nsmall = 1),
+    align = "center",
+    minWidth = 70,
+    headerStyle = list(background = "#f7f7f8")
+  ),
+          columns = list(
+            Müttersterblichkeitsrate = colDef(name= "Müttersterblichkeitsrate (Tode pro 100.000 Lebendeburten)"),
+            Jugendgeburtenrate = colDef(name= "Geburtenrate bei Jugendlichen (pro 1.000 Frauen im Alter von 15-19 Jahren"),
+            Frauensitze= colDef(name = "Anteil von Frauensitze im Parlament (in %)"),
+            Frauen_Sekundarbschluss = colDef(name=  "Frauen über 25 Jahren mit mindestens Sekundarbschluss (in %)"),
+            Männer_Sekundarbschluss= colDef(name="Männer über 25 Jahren mit mindestens Sekundarbschluss (in %)"),
+            Erwerbsquote_weiblich= colDef(name= "Erwerbsquote der weiblichen Bevölkerung ab 15 Jahren (in %)"),
+            Erwerbsquote_männlich = colDef(name = "Erwerbsquote der männlichen Bevölkerung ab 15 Jahren (in %)")))
 
 reactable(GII_fil2)
+
 ```
