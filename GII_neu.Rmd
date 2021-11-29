@@ -1,0 +1,175 @@
+---
+title: "GII_neu"
+author: "Linda Sinani"
+date: "29 11 2021"
+output: html_document
+---
+
+## Was ist der Gender Inequality Index?
+
+misst geschlechtsspezifische Ungleichheiten auf 3 Ebenen der menschlchen Entwicklung in 162 Ländern:
+1. reproduktive Gesundheit -> gemessen an der Müttersterblichkeitsrate + Geburtenate bei Jugendlichen 
+2.Empowerment/Selbstbestimmung -> gemessen an Anteil der von Frauen besetzten Parlamentssitze, Anteil Frauen über 25 im Vergleich zu Männern, die mindestens Sekundarabschluss haben 
+3. wirtschaftlicher Status -> Vergleich Männer + Frauen: Arbeitsmarktbeteiligung, gemessen an Erwerbsquote der weiblichen + männlichen Bevölkerung ab 15 Jahren 
+
+## Was zeigt er? 
+
+den Verlust an potenzieller menschlicher Entwicklung aufgrund der Ungleichheit zwischen den Leistungen von Frauen und Männern in den 3 Bereichen. Der GII spiegelt wider, wie sehr Frauen in diesen Bereichen benachteiligt sind
+
+Der GII liegt zwischen 0 und 1. Je höher der GII-Wert ist, desto größer sind die Ungleichheiten zwischen Frauen und Männern und desto größer ist der Verlust für die menschliche Entwicklung.
+
+Es gibt kein Land mit perfekter Gleichstellung der Geschlechter. Alle Länder erleiden einen gewissen Verlust an Errungenschaften in Schlüsselaspekten der menschlichen Entwicklung, wenn die Ungleichheit der Geschlechter berücksichtigt wird.Die Komponentenindikatoren zeigen Bereiche auf, in denen kritische politische Maßnahmen erforderlich sind, und sie regen proaktives Denken und öffentliche Maßnahmen zur Überwindung systematischer Benachteiligungen von Frauen an.
+Er kann Regierungen und anderen helfen, das Ausmaß der geschlechtsspezifischen Ungleichheiten bei der Teilhabe zu verstehen. Die einzelnen Indikatoren zeigen Bereiche auf, in denen die Politik dringend eingreifen muss. 
+
+## Limitationen 
+
+GII hat einige Einschränkungen (wie es bei zusammengesetzen/umfassenden Messungen üblich ist): 
+
+misst nicht die Länge und Breite der Ungleichheit zwischen den Geschlechtern. Erfassung zB parlamentare Vertretung auf nationaler Ebenene, nicht aber auf lokaler Regierungsebene und in anderen Bereichen des öffentlichen kommunalen Lebens. 
+
+Bei der Arbeitsmarktbeteiligung fehlen Daten über die Qualität der Arbeitsplätze. Generell werden wichtige Dimensionen des beruflichen Lebens außer Acht gelassen: unbezahlte Arbeit + Fakt, dass Frauen typischrweise die Aufgabe der Haushaltsführung + Pflege zugesprochen wird. 
+
+Was im GII aufgrund von fehlenden Daten nicht berücksichtigt wird: 
+Vermögenseigentum
+Unterstützung bei der Kinderbetreuung 
+geschlechtsspezifische Gewalt 
+Beteiligung an kommunalen Entscheidungsprozessen 
+
+## Quellen vom GII
+
+GII stützt sich auf öffentlichen Daten aus internationalen Datenbanken:
+
+- Müttersterblichkeitsrate: WHO, UNICEF,UNFPA, World Bank Group and United Nations Population Division (2019)
+
+- Geburtenrate bei Jugendlichen: UNDESA (2019)
+
+- Frauenanteil Sitze im Parlament: IPU (2020)
+
+- Arbeitsmarktbeteiligung: International Labour Organization ILO (2020)
+
+- Vergleich Frau Mann Sekundärabschluss: UNESCO Institute for Statistics (2020) and
+Barro and Lee (2018)
+
+QUELLE: http://hdr.undp.org/en/faq-page/gender-inequality-index-gii#t294n2913
+Berechnungen der Indizes: http://hdr.undp.org/sites/default/files/hdr2020_technical_notes.pdf
+
+
+## WAS + WIE wir visualisieren können:
+
+1. interaktive Landkarte/ Heatmap um ersten Überblick zu bekommen: GII Value + Ländername wird angezeigt wenn man über die Länder geht + man kann rein zoomen. Zusätzlich durch Farbskala anzeigen, ob
+Wert hoch oder niedrig ist https://espace-mondial-atlas.sciencespo.fr/en/topic-contrasts-and-inequalities/map-1C37-EN-human-development-index-gender-development-index-ecological-footprintandnbsp.html
+
+Was man dann sehen wird: In Europa ist der Wert besser als in arabischen/ afrikanischen Ländern 
+
+2. Lollipop Chart: um zu bestimmen, was die Länder mit den besten und schlechtesten Werten sind: GII Rank auf der x Achse und der GII Value auf der y-Achse -> schlechteste, beste + Deutschland in 1 Barplot: alle die nicht relevant sind werden mit Punkten dargestellt
+
+am schlechteten: Jemen, Papua Neuguinea, Chad
+am besten: Schweiz, Dänemark, Schweden
+
+
+3. Werte der Variablen für die Länder (schlechteste, beste + DL): Mütteryterblichkeitsrate, Jugendgeburtenrate, Sitze im Parlament als einzelne Barchart Visualisierungen 
+
+Sekundarabschluss + Arbeitsmarktbeteiligung als einzelne Visualisierungen in Form einer Alterspyramide: Werte für m + f rechts und links 
+
+Als Info: Hättet ihr gedacht, dass DL hinter arabischen Emirate + Korea liegt?
+
+Wo steckt Deutschland?  GII Rannking auf Platz 20 + Wert 0,084
+ Arabischen Emirate (Platz 18, Value 0,079) und Republik Korea ist (Platz 11, 0,064) 
+ -> zeigt die Limitationen des Konstrukts (siehe oben)
+ 
+## Hauptdatensatz GII 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+
+library(tidyverse)
+
+options(digits=3)
+GII <- read.csv("data/to_work_with/GII.csv")
+
+rownames(GII)
+
+arrange(GII, GII$GII_Rank)
+```
+
+## GI Ländernamen waren auf englisch, vorher in jamovi ins deutsche übersetzt
+```{r setup, include=FALSE}
+GII_bearb <- read.csv("data/to_work_with/GII_bearb.csv")
+```
+
+
+## Landkarte mit dem GII_bearbeitet Datensatz
+```{r setup, include=FALSE}
+
+library(sf)
+library(raster)
+library(dplyr)
+library(spData)
+library(spDataLarge)
+library(tmap)    
+library(leaflet) 
+library(ggplot2)
+library(sp)
+
+
+download.file("http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip",  destfile=("data/world_shape_file.zip"))
+
+list.files("data/world_shape_file")
+
+my_spdf <- shapefile("data/world_shape_file/TM_WORLD_BORDERS_SIMPL-0.3.shp")
+
+my_spdf@data$POP2005[ which(my_spdf@data$POP2005 == 0)] = NA
+my_spdf@data$POP2005 <- as.numeric(as.character(my_spdf@data$POP2005)) / 1000000 %>% round(2)
+
+
+
+
+world <- world
+
+class(world)
+
+plot(world)
+
+world_sp = as(world, Class = "Spatial")
+
+
+GII_WELT <- left_join(world, GII, by= "name_long" )
+
+
+library(RColorBrewer)
+mybins <- c(0,0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8)
+mypalette <- colorBin( palette="YlOrBr", domain=GII_bearb$GII_Value , na.color="transparent", bins=mybins)
+
+mytext <- paste(
+    "Land:", GII_bearb$name_long ,"<br/>", 
+    "GII-Platzierung:", GII_bearb$GII_Rank, "<br/>", 
+    "GII-Wert:", GII_bearb$GII_Value, 
+    sep="") %>%
+  lapply(htmltools::HTML)
+
+
+
+
+
+GII_Landkarte <- leaflet(GII_bearb) %>% 
+  addTiles()  %>% 
+  setView( lat=51.1642292, lng=10.4541194 , zoom=2) %>%
+  addPolygons(
+    data = GII_WELT,
+    fillColor = ~mypalette(GII_Value), 
+    stroke=TRUE, 
+    fillOpacity = 0.9, 
+    color="white", 
+    weight=0.3,
+label = mytext,
+    labelOptions = labelOptions( 
+      style = list("font-weight" = "normal", padding = "3px 8px"), 
+      textsize = "13px", 
+      direction = "auto")) %>%
+  addLegend( pal=mypalette, values=~GII_Value, opacity=0.9, title = "GII Wert", position = "bottomleft" )
+
+show(GII_Landkarte)
+
+```
+
+

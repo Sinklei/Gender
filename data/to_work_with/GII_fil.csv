@@ -1,8 +1,8 @@
-"A","A (2)","B","C","HDI Rank","Land","GII_Value","GII_Rank","Müttersterblichkeitsrate (Todesfälle pro 100.000 Lebendgeburten","Geburtenrate bei Jugendlichen (Geburten pro 1000 Frauen zwische","Anteil der von Frauen besetzten Plätze im Parlament (in %)","Frauen über 25 Jahren mit min. einem Sekundarabschluss (in %)","Männer über 25 Jahren mit min. einem Sekundarabschluss (in %)","Arbeitsmarktbeteiligung der weiblichen Bevölkerung ab 15 Jahren","Arbeitsmarktbeteiligung der weiblichen Bevölkerung ab 15 Jahren"
-1,3,,,2,"Switzerland",0.025,1,5,2.763,38.61788618,95.56618,96.75691,62.904,73.754
-2,10,,,10,"Denmark",0.038,2,4,4.123,39.10614525,91.15192,90.88383,58.248,66.285
-3,7,,,7,"Sweden",0.039,3,4,5.076,47.27793696,89.28605,89.54352356,61.384,67.766
-4,6,,,6,"Germany",0.084,20,7,8.095,31.61953728,95.85821,96.32719,55.275,66.565
-5,187,,,187,"Chad",0.71,160,1140,161.09,14.88095238,1.738381058,10.5268837,63.944,77.547
-6,155,,,155,"Papua New Guinea",0.725,161,145,52.655,0.0,9.987125672,15.16,46.316,48.044
-7,179,,,179,"Yemen",0.795,162,164,60.352,0.970873786,19.92,36.9182701,5.834,70.183
+"","A","B","C","HDI Rank","name_long","GII_Value","GII_Rank","Maternal_mortality ratio_(deaths_per_100k_livebirths)","Adolescent_birth rate_(births_per_1k_women_age_15-19)","Share of seats in parliament_(%_held_by_women)","f_with_at_least_some_secondary_education_in%","m_with_at_least_some_secondary_education_in%","f_Labour force participation rate_in%","m_Labour force participation rate_in%"
+"1",3,NA,NA,2,"Switzerland",0.025,1,5,2.763,38.61788618,95.56618,96.75691,62.904,73.754
+"2",10,NA,NA,10,"Denmark",0.038,2,4,4.123,39.10614525,91.15192,90.88383,58.248,66.285
+"3",7,NA,NA,7,"Sweden",0.039,3,4,5.076,47.27793696,89.28605,89.54352356,61.384,67.766
+"4",6,NA,NA,6,"Germany",0.084,20,7,8.095,31.61953728,95.85821,96.32719,55.275,66.565
+"5",187,NA,NA,187,"Chad",0.71,160,1140,161.09,14.88095238,1.738381058,10.5268837,63.944,77.547
+"6",155,NA,NA,155,"Papua New Guinea",0.725,161,145,52.655,0,9.987125672,15.16,46.316,48.044
+"7",179,NA,NA,179,"Yemen",0.795,162,164,60.352,0.970873786,19.92,36.9182701,5.834,70.183
