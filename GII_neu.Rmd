@@ -1,32 +1,9 @@
 ---
-title: "Gender Inequality Index"
+title: "GII_neu"
 author: "Linda Sinani"
-date: "17 7 2021"
+date: "29 11 2021"
 output: html_document
 ---
-# Der Hauptdatensatz GII
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-
-library(tidyverse)
-
-options(digits = 3)
-GII <- read_csv("data/to_work_with/GII.csv")
-
-#colnames(GII)
-
-#names(GII)[4]<- "HDI Platzierung"
-#names(GII)[5]<- "Land"
-#names(GII)[6] <-"GII Wert"
-#names(GII)[7]<- "GII Platzierung"
-#names(GII)[8]<- "Müttersterblichkeitsrate (Tode pro 100.000 Lebendgeburten)"
-#names(GII)[9]<- "Jugendgeburtenrate (Geburten pro 1.000 Frauen im Alter von 15-19 Jahren)"
-#names(GII)[10]<- "Anteil von Frauensitze im Parlament (in %)"
-#names(GII)[11]<- "Frauen über 25 Jahren mit mindestens Sekundarbschluss (in %)"
-#names(GII)[12]<- "Männer über 25 Jahren mit mindestens Sekundarbschluss (in %)"
-#names(GII)[13]<- "Erwerbsquote der weiblichen Bevölkerung ab 15 Jahren (in %)"
-#names(GII)[14]<- "Erwerbsquote der männlichen Bevölkerung ab 15 Jahren (in %)"
-```
 
 ## Was ist der Gender Inequality Index?
 
@@ -99,14 +76,29 @@ Als Info: Hättet ihr gedacht, dass DL hinter arabischen Emirate + Korea liegt?
 Wo steckt Deutschland?  GII Rannking auf Platz 20 + Wert 0,084
  Arabischen Emirate (Platz 18, Value 0,079) und Republik Korea ist (Platz 11, 0,064) 
  -> zeigt die Limitationen des Konstrukts (siehe oben)
-
+ 
+## Hauptdatensatz GII 
 ```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
 
-arrange(GII,GII$`GII Platzierung`)
+
+library(tidyverse)
+
+options(digits=3)
+GII <- read.csv("data/to_work_with/GII.csv")
+
+rownames(GII)
+
+arrange(GII, GII$GII_Rank)
+```
+
+## GI Ländernamen waren auf englisch, vorher in jamovi ins deutsche übersetzt
+```{r setup, include=FALSE}
+GII_bearb <- read.csv("data/to_work_with/GII_bearb.csv")
 ```
 
 
-## Landkarte  
+## Landkarte mit dem GII_bearbeitet Datensatz
 ```{r setup, include=FALSE}
 
 library(sf)
@@ -120,9 +112,6 @@ library(ggplot2)
 library(sp)
 
 
-
-# Landkarte herunterladen 
-
 download.file("http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip",  destfile=("data/world_shape_file.zip"))
 
 list.files("data/world_shape_file")
@@ -134,7 +123,7 @@ my_spdf@data$POP2005 <- as.numeric(as.character(my_spdf@data$POP2005)) / 1000000
 
 
 
-# GII + world df mergen
+
 world <- world
 
 class(world)
@@ -144,36 +133,25 @@ plot(world)
 world_sp = as(world, Class = "Spatial")
 
 
-
 GII_WELT <- left_join(world, GII, by= "name_long" )
 
-# in jamovi die englischen Ländernamen ins deutsche übersetzt: data/toworkwith/ GII_world
-GII_world <- read_csv("data/to_work_with/GII_world.csv")
 
-
-plot(GII_world)
-tm_shape(GII_world) + tm_fill(col = "GII_Value")
-
-
-
-# Farbpalette
 library(RColorBrewer)
 mybins <- c(0,0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8)
-mypalette <- colorBin( palette="YlOrBr", domain=GII_world$GII_Value , na.color="transparent", bins=mybins)
+mypalette <- colorBin( palette="YlOrBr", domain=GII_bearb$GII_Value , na.color="transparent", bins=mybins)
 
-
-
-# Text für Tooltips
 mytext <- paste(
-    "Land:", GII_world$name_long ,"<br/>", 
-    "GII-Platzierung:", GII_world$GII_Rank, "<br/>", 
-    "GII-Wert:", GII_world$GII_Value, 
+    "Land:", GII_bearb$name_long ,"<br/>", 
+    "GII-Platzierung:", GII_bearb$GII_Rank, "<br/>", 
+    "GII-Wert:", GII_bearb$GII_Value, 
     sep="") %>%
   lapply(htmltools::HTML)
 
 
-# endgültige Visualisierung
-GII_map <-leaflet(GII_world) %>% 
+
+
+
+GII_Landkarte <- leaflet(GII_bearb) %>% 
   addTiles()  %>% 
   setView( lat=51.1642292, lng=10.4541194 , zoom=2) %>%
   addPolygons(
@@ -189,101 +167,9 @@ label = mytext,
       textsize = "13px", 
       direction = "auto")) %>%
   addLegend( pal=mypalette, values=~GII_Value, opacity=0.9, title = "GII Wert", position = "bottomleft" )
-show(GII_map)
 
-library(htmlwidgets)
-saveWidget(GII_map, file=paste0( getwd(), "/data/Visualisierungen/GII_map.html"))
-```
-
-
-
-
-
-
-
-
-
-
-
-# Lollipop Chart
-```{r setup, include=FALSE}
-
-library(ggplot2)
-library(dplyr)
-library(hrbrthemes)
-library(tidyverse)
-
-
-  
-GII_fil <- filter(GII, GII$name_long %in% c("Germany", "Switzerland", "Sweden", "Denmark", "Yemen", "Papua New Guinea", "Chad"))  
-GII_fil <- arrange(GII_fil, GII_fil$GII_Value)
-  
-GII_fil$name_long <- factor(GII_fil$name_long, levels= c("Yemen", "Papua New Guinea", "Chad", "Germany", "Sweden", "Denmark", "Switzerland"))
-
-write.csv(GII_fil, file="data/GII_fil.csv")
-
-GII_fil %>%  
-ggplot(aes(x=GII_fil$name_long, y=GII_fil$GII_Value)) +
-  geom_segment(aes
-               (x=GII_fil$name_long, xend=GII_fil$name_long, y=0, yend=GII_fil$GII_Value),
-               color= ifelse(GII_fil$name_long %in% c("Germany"), "skyblue", "black"),
-               size= ifelse(GII_fil$name_long %in% c("Germany"), 1, 1), alpha= 0.6) +
-  geom_point(color= ifelse(GII_fil$name_long %in% c("Germany"), "blue", "grey"),
-              size= ifelse(GII_fil$name_long %in% c("Germany"), 4, 4), alpha=0.6, shape=16, stroke=2)+
-  scale_y_continuous(limits= c(0,1))+
-  scale_x_discrete(labels= c("#162 Jemen", "#161 Papua Neuguinea", "#160 Tschad", "#20 Deutschland", "#3 Schweden", "#2 Dänemark", "#1 Schweiz"))+
-  theme_ipsum() + 
-  coord_flip()+
-  theme(legend.position = "none",
-        panel.grid.major.y = element_blank(),
-    panel.border = element_blank(),
-    axis.ticks.y = element_blank()) +
-  xlab("Platzierung") + 
-  ylab("GII Wert") +
-  labs(title= "Gender Inequality Index (GII) - Länderranking", 
-       subtitle= "Deutschland zwischen den 3 besten und schlechtesten Ländern",
-       caption= "Quelle: UNDP - Human Development Report 2020") 
-```
-
-
-
-
-
-# fancy Tabelle
-```{r setup, include=FALSE}
-library(reactable)
-
-
-#GII_fil die unnötigen Variablen raus nehmen
-
-GII_fil2 <- GII_fil[,c(-1:-4, -6,-7)]
-
-names(GII_fil2)[1] <- "Land"
-names(GII_fil2)[2]<- "Müttersterblichkeitsrate"
-names(GII_fil2)[3]<- "Jugendgeburtenrate"
-names(GII_fil2)[4]<- "Frauensitze"
-names(GII_fil2)[5]<- "Frauen_Sekundarbschluss"
-names(GII_fil2)[6]<- "Männer_Sekundarbschluss"
-names(GII_fil2)[7]<- "Erwerbsquote_weiblich"
-names(GII_fil2)[8]<- "Erwerbsquote_männlich"
-
-reactable(GII_fil2,
-            defaultColDef = colDef(
-    header = function(value) gsub(".", " ", value, fixed = TRUE),
-    cell = function(value) format(value, nsmall = 1),
-    align = "center",
-    minWidth = 70,
-    headerStyle = list(background = "#f7f7f8")
-  ),
-          columns = list(
-            Müttersterblichkeitsrate = colDef(name= "Müttersterblichkeitsrate (Tode pro 100.000 Lebendeburten)"),
-            Jugendgeburtenrate = colDef(name= "Geburtenrate bei Jugendlichen (pro 1.000 Frauen im Alter von 15-19 Jahren"),
-            Frauensitze= colDef(name = "Anteil von Frauensitze im Parlament (in %)"),
-            Frauen_Sekundarbschluss = colDef(name=  "Frauen über 25 Jahren mit mindestens Sekundarbschluss (in %)"),
-            Männer_Sekundarbschluss= colDef(name="Männer über 25 Jahren mit mindestens Sekundarbschluss (in %)"),
-            Erwerbsquote_weiblich= colDef(name= "Erwerbsquote der weiblichen Bevölkerung ab 15 Jahren (in %)"),
-            Erwerbsquote_männlich = colDef(name = "Erwerbsquote der männlichen Bevölkerung ab 15 Jahren (in %)")))
-
-reactable(GII_fil2)
+show(GII_Landkarte)
 
 ```
+
+
