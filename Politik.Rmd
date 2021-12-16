@@ -3,6 +3,8 @@ title: "Politik"
 author: "Kevin"
 date: "7/26/2021"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -14,9 +16,33 @@ library(packcircles)
 
 ```
 
-
-```{r, include=TRUE}
+```{r datensätze, include=TRUE}
 # datensätze einlesen und cleanen/ordnen
+
+
+# SEATS-----------------------------------------
+
+# datensatz zeigt prozente von frauen in parlamenten aus verschiedenen ländern
+
+
+before_clean_seats <- read.csv("data/raw/before_clean_seats_parliaments.csv", check.names = F)
+
+seats <- before_clean_seats %>% 
+            filter(country != "") %>% 
+            pivot_longer(cols = -country, names_to = "year", values_to = "n") %>% 
+            mutate_if(is.numeric, round) %>% 
+            filter(n != "NA") %>% 
+            filter(country != "High income")
+
+
+
+names(seats)[1] <- "country"
+names(seats)[3] <- "percentage"
+seats$year <- as.numeric(seats$year)
+
+view(seats)
+
+
 # ------------------------------------------
   
 
@@ -83,28 +109,7 @@ parteien_frauen$bundestag <- ordered(parteien_frauen$bundestag, levels = scale.b
 
 view(parteien_frauen)
 
-# -----------------------------------------
 
-### 3 SEATS DATENSATZ
-
-# datensatz zeigt prozente von frauen in parlamenten aus verschiedenen ländern
-
-
-before_clean_seats <- read.csv("data/raw/before_clean_seats_parliaments.csv", check.names = F)
-
-seats <- before_clean_seats %>% 
-            filter(country != "") %>% 
-            pivot_longer(cols = -country, names_to = "year", values_to = "n") %>% 
-            mutate_if(is.numeric, round) %>% 
-            filter(n != "NA") %>% 
-            filter(country != "High income")
-
-names(seats)[1] <- "region"
-names(seats)[3] <- "percentage"
-seats$year <- as.numeric(seats$year)
-
-
-view(seats)
 
 # -----------------------------------------
 
@@ -113,34 +118,46 @@ view(seats)
 
 
 ```
-was wäre cool zu visualisieren?
-wie sich das im laufe der zeit verändert hat? mit den bundestagen an sich?
-verteilung dann von männern und frauen zeigen
 
-verteilung innerhalb der parteien zeigen und wie sich diese im laufe der zeit verändert haben.
+# Einleitungstext
 
-größe der parteien??
+* Statista. geschlechtliche Ungerechtigkeit in der Bundestagszusammensetzung etc.
+* googlen nach allgemeinem Meinungsbild zu Männer und Frauen Verteilung in der Politik
+* artikel von tagesschau zur zusammensetzung von männern und frauen im neuen bundestag
+* was gibt es sonst noch zum neuen bundestag?
+* Artikel und Dokumente von der Bundestagswebsite selbst
 
-
-
-
-# Infotext
-
-Statista. geschlechtliche Ungerechtigkeit in der Bundestagszusammensetzung etc.
-googlen nach allgemeinem Meinungsbild zu Männer und Frauen Verteilung in der Politik
-artikel von tagesschau zur zusammensetzung von männern und frauen im neuen bundestag
-was gibt es sonst noch zum neuen bundestag?
-
-
-# seats in parliament
-
-von kleinem zum großen gehen können.
 "wir haben die bundestagswahl 2021 hinter uns. so sieht es bei uns in deutschland aus. wie sieht es in der ganzen welt aus??"
 
 
-DAS SIND NUR PROZENTE, um das besser einordnen zu können wären Gesamtzahlen und davon dann Anteil Frauen natürlich sehr sinnvoll, aber das kriegt man bestimmt nicht hin, vor allem weil das ja schon übel schwer ist, das für Deutschland herauszufinden
 
-Hintergrundinfos:
+# seats in parliament
+* 2020 wie sieht das jetzt gerade so in der welt aus
+* was sind die markantesten werte
+
+der schlechteste wert in 2020 ist 0, der beste 61 prozent
+mittelwert über die ganze welt in 2020 23,865 prozent (median 23)
+Kuba, Rwanda und Ver. Arab. Emirate die einzigen die höher als 50 prozent sind
+die wenigsten länder kommen überhaupt in die 50 prozent nähe. politik ist immer noch ein vorwiegend durch männer geprägter bereich
+schlussfolgerung, da müsste sich also was tun, wenn es das ziel ist, dass man das ausgleichen will (wo ist das vielleicht das ziel? so ein EU Ding??? Regularien Gesetze???)
+einfach nur zeigen wie es auf der welt ist
+
+
+
+
+* 1997 bis 2020
+wie oben gezeigt wurde es ist bei weitem noch nicht gleich, aber es hat sich sehr positiv entwickelt
+* wie hat sich das so entwickelt?
+* kann man einen Trend erkennen?
+
+
+
+* bubble plot
+* mit dieser Visualisierung starten können, um einen allgemeinen Überblick über die Lage in der Welt geben zu können (von kleinem zum großen gehen können)
+* Achtung: das sind nur Prozente
+* seit wann gibt es regularien in deutschland bzgl. Frauenquote
+
+Hintergrundinfos über den Datensatz:
 Proportion of seats held by women in national parliaments (%)(SG.GEN.PARL.ZS)
 Definition: Women in parliaments are the percentage of parliamentary seats in a single or lower chamber held by women.
 Quelle: Inter-Parliamentary Union (IPU) (www.ipu.org). For the year of 1998, the data is as of August 10, 1998.
@@ -151,12 +168,140 @@ meine Quelle: https://databank.worldbank.org/source/gender-statistics
 könnte auch mit Bildung zusammenhängen, dass für Frauen nicht dieselben Voraussetzungen gelten wie für Männer
 
 
+```{r}
+# 2020
 
-```{r, datenlage checken}
+seats_2020 <- seats %>% filter(year == "2020")
+  
+view(o)
+
+
+seats_2020 %>% 
+  ggplot() +
+  aes(x = year,
+      y = percentage) +
+  geom_boxplot() +
+  #geom_point(alpha=0.1) +
+  coord_flip() +
+  geom_hline(yintercept = 31, color = "red", size = 1) +
+  geom_hline(yintercept = 50, color = "blue", size = 1) +
+  scale_y_continuous(limits = c(0, 100)) +
+  NULL
+
+
+seats_2020 %>% 
+  ggplot() +
+  aes(y = percentage) +
+  geom_histogram(bins = 100) +
+  coord_flip() +
+  geom_hline(yintercept = 31, color = "red", size = 1) +
+  geom_hline(yintercept = 50, color = "blue", size = 1) +
+  scale_y_continuous(limits = c(0, 100))
+
+
+o <- seats_2020 %>% filter(percentage >= 50)
+
+view(o)
+
+
+sw <- seats_2020 %>% filter(country == "Sweden")
+
+
+view(sw)
+
+
+
+# 1997 - 2020 HIER WAR ICH DRAN
+
+seats %>% 
+  ggplot() +
+  aes(x = year,
+      y = percentage) +
+  geom_point(alpha = 0.1)
+
+
+
+
+
+
+# allgmeine oder so
+view(seats)
+
+range(seats$percentage)
+
+o <- seats %>% 
+  filter(percentage == "0")
+
+view(o)
+
+z <- c("Bahrain", "Belize", "Comoros", "Djibouti", "Haiti", "Jordan", "Kiribati", "Kuwait", "Kyrgyz Republic", "Micronesia, Fed. Sts.", "Nauru", "Oman", "Palau", "Papua New Guinea", "Qatar", "Saudi Arabia", "Solomon Islands", "St. Kitts and Nevis", "St. Lucia", "Tonga", "Tuvalu", "United Arab Emirates", "Vanuatu", "Yemen, Rep.")
+
+
+seats %>% 
+  filter(country == "Belize") %>% 
+  ggplot() +
+  aes(x = year,
+      y = percentage) +
+  geom_point()
+
+
+
+
+```
+
+
+
+
+```{r bubble plot}
+# BUBBLE PLOT
+
+library(packcircles)
+
+# Create data (dataframe to work with)
+seats_bubble <- seats %>% filter(year == "2020",
+                                 region %in% c("Germany", "Switzerland", "Denmark", "Sweden", "Chad", "Papua New Guinea", "Yemen, Rep."))
+
+# Generate the layout. This function return a dataframe with one line per bubble. 
+# It gives its center (x and y) and its radius, proportional of the value
+seats_packing <- circleProgressiveLayout(seats_bubble$percentage, sizetype = "area")
+
+# We can add these packing information to the initial data frame
+seats_bubble <- cbind(seats_bubble, seats_packing)
+
+# Check that radius is proportional to value. We don't want a linear relationship, since it is the AREA that must be proportionnal to the value
+#plot(seats_bubble$radius, seats_bubble$number)
+
+# The next step is to go from one center + a radius to the coordinates of a circle that
+# is drawn by a multitude of straight lines.
+seats.gg <- circleLayoutVertices(seats_packing, npoints = 50)
+
+
+# dass man vernünftig die zahlen da reinbekommt
+seats_bubble_label <- seats_bubble %>% 
+                        mutate(y = y-0.6)
+
+# generate the plot
+ggplot() +
+  
+  # bubble
+  geom_polygon(data = seats.gg, aes(x, y, group = id, fill = as.factor(id), color = "black", alpha = 0.6)) +
+  
+   # Add text in the center of each bubble + control its size
+  geom_text(data = seats_bubble, aes(x, y, size=percentage, label = region)) +
+  geom_text(data = seats_bubble_label, aes(x, y, size=percentage, label = percentage)) +
+  scale_size_continuous(range = c(1,4)) +
+  
+  # General theme:
+  theme_void() + 
+  theme(legend.position="none") +
+  coord_equal()
+
+```
+
+
+```{r Seats datenlage checken}
 
 # Datenlage checken
-
-view(seats)
 
 seats %>% 
   filter(region %in% c("Germany", "Afghanistan", "Angola", "Bahrain")) %>% 
@@ -230,92 +375,6 @@ sd(seats$percentage)
 range(seats$percentage)
 
 seats %>% count(percentage, sort = T)
-```
-
-
-```{r, circular packing bubble plot tutorial, include=FALSE}
-## circular packing // bubble plot (tutorial)
-
-library(packcircles)
-
-# Create data
-data <- data.frame(group=paste("Group", letters[1:20]), value=sample(seq(1,100),20))
-
-# Generate the layout. This function return a dataframe with one line per bubble. 
-# It gives its center (x and y) and its radius, proportional of the value
-packing <- circleProgressiveLayout(data$value, sizetype='area')
- 
-# We can add these packing information to the initial data frame
-data <- cbind(data, packing)
- 
-# Check that radius is proportional to value. We don't want a linear relationship, since it is the AREA that must be proportionnal to the value
-# plot(data$radius, data$value)
- 
-# The next step is to go from one center + a radius to the coordinates of a circle that
-# is drawn by a multitude of straight lines.
-dat.gg <- circleLayoutVertices(packing, npoints=50)
- 
-# Make the plot
-ggplot() + 
-  
-  # Make the bubbles
-  geom_polygon(data = dat.gg, aes(x, y, group = id, fill=as.factor(id)), colour = "black", alpha = 0.6) +
-  
-  # Add text in the center of each bubble + control its size
-  geom_text(data = data, aes(x, y, size=value, label = group)) +
-  scale_size_continuous(range = c(1,4)) +
-  
-  # General theme:
-  theme_void() + 
-  theme(legend.position="none") +
-  coord_equal()
-
-```
-
-```{r, bubble plot}
-# BUBBLE PLOT
-
-library(packcircles)
-
-# Create data (dataframe to work with)
-seats_bubble <- seats %>% filter(year == "2020",
-                                 region %in% c("Germany", "Switzerland", "Denmark", "Sweden", "Chad", "Papua New Guinea", "Yemen, Rep."))
-
-# Generate the layout. This function return a dataframe with one line per bubble. 
-# It gives its center (x and y) and its radius, proportional of the value
-seats_packing <- circleProgressiveLayout(seats_bubble$percentage, sizetype = "area")
-
-# We can add these packing information to the initial data frame
-seats_bubble <- cbind(seats_bubble, seats_packing)
-
-# Check that radius is proportional to value. We don't want a linear relationship, since it is the AREA that must be proportionnal to the value
-#plot(seats_bubble$radius, seats_bubble$number)
-
-# The next step is to go from one center + a radius to the coordinates of a circle that
-# is drawn by a multitude of straight lines.
-seats.gg <- circleLayoutVertices(seats_packing, npoints = 50)
-
-
-# dass man vernünftig die zahlen da reinbekommt
-seats_bubble_label <- seats_bubble %>% 
-                        mutate(y = y-0.6)
-
-# generate the plot
-ggplot() +
-  
-  # bubble
-  geom_polygon(data = seats.gg, aes(x, y, group = id, fill = as.factor(id), color = "black", alpha = 0.6)) +
-  
-   # Add text in the center of each bubble + control its size
-  geom_text(data = seats_bubble, aes(x, y, size=percentage, label = region)) +
-  geom_text(data = seats_bubble_label, aes(x, y, size=percentage, label = percentage)) +
-  scale_size_continuous(range = c(1,4)) +
-  
-  # General theme:
-  theme_void() + 
-  theme(legend.position="none") +
-  coord_equal()
-
 ```
 
 
@@ -424,47 +483,29 @@ parteien_frauen %>%
 
 
 
-###### map
 
+```{r, Bundestag Stammdaten XML}
 
+library(XML)
 
-```{r, include=FALSE}
-# MAP
+fileName <- "data/vielleicht/MDB_STAMMDATEN.XML"
+xmlData <- xmlInternalTreeParse(fileName)
 
+print(xmlData)
 
-# Check all available geospatial objects:
-# help(package='maps')
+xmlDataFrame <- xmlToDataFrame(xmlData)
 
-library(maps)
-
-# Map of the world:
-map('world',col="grey", fill=TRUE, bg="white", lwd=0.05, mar=rep(0,4),border=0, ylim=c(-80,80))
-
-mapdata <- map_data("world")
-
-seats_map <- full_join(mapdata, seats, by = "region")
-
-seats_map1 <- seats_map %>% filter(!is.na(seats_map$number))
+xmlDataFrame %>% view()
 
 
 
 
-map1 <- ggplot(seats_map,
-        aes(x = long, y = lat, group = group)) +
-        geom_polygon(aes(fill = number), color = "black")
 
-map2 <- map1 + scale_fill_gradient(name = "Anzahl an Frauen im Parlament", low = "skyblue", high = "red", na.value = "grey50") +
-         theme(axis.text.x = element_blank(),
-                axis.text.y = element_blank(),
-                axis.ticks = element_blank(),
-                axis.title.x = element_blank(),
-                axis.title.y = element_blank(),
-                rect = element_blank())
 
-map2
+
+
+
 
 ```
-
-
 
 

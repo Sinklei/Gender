@@ -1,0 +1,85 @@
+---
+title: "politik_trash"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r, map include=FALSE}
+
+# Check all available geospatial objects:
+# help(package='maps')
+
+library(maps)
+
+# Map of the world:
+map('world',col="grey", fill=TRUE, bg="white", lwd=0.05, mar=rep(0,4),border=0, ylim=c(-80,80))
+
+mapdata <- map_data("world")
+
+seats_map <- full_join(mapdata, seats, by = "region")
+
+seats_map1 <- seats_map %>% filter(!is.na(seats_map$number))
+
+
+
+
+map1 <- ggplot(seats_map,
+        aes(x = long, y = lat, group = group)) +
+        geom_polygon(aes(fill = number), color = "black")
+
+map2 <- map1 + scale_fill_gradient(name = "Anzahl an Frauen im Parlament", low = "skyblue", high = "red", na.value = "grey50") +
+         theme(axis.text.x = element_blank(),
+                axis.text.y = element_blank(),
+                axis.ticks = element_blank(),
+                axis.title.x = element_blank(),
+                axis.title.y = element_blank(),
+                rect = element_blank())
+
+map2
+
+```
+
+
+```{r circular packing bubble plot tutorial, include=FALSE}
+## circular packing // bubble plot (tutorial)
+
+library(packcircles)
+
+# Create data
+data <- data.frame(group=paste("Group", letters[1:20]), value=sample(seq(1,100),20))
+
+# Generate the layout. This function return a dataframe with one line per bubble. 
+# It gives its center (x and y) and its radius, proportional of the value
+packing <- circleProgressiveLayout(data$value, sizetype='area')
+ 
+# We can add these packing information to the initial data frame
+data <- cbind(data, packing)
+ 
+# Check that radius is proportional to value. We don't want a linear relationship, since it is the AREA that must be proportionnal to the value
+# plot(data$radius, data$value)
+ 
+# The next step is to go from one center + a radius to the coordinates of a circle that
+# is drawn by a multitude of straight lines.
+dat.gg <- circleLayoutVertices(packing, npoints=50)
+ 
+# Make the plot
+ggplot() + 
+  
+  # Make the bubbles
+  geom_polygon(data = dat.gg, aes(x, y, group = id, fill=as.factor(id)), colour = "black", alpha = 0.6) +
+  
+  # Add text in the center of each bubble + control its size
+  geom_text(data = data, aes(x, y, size=value, label = group)) +
+  scale_size_continuous(range = c(1,4)) +
+  
+  # General theme:
+  theme_void() + 
+  theme(legend.position="none") +
+  coord_equal()
+
+```
+
