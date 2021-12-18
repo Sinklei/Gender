@@ -2,7 +2,7 @@
 title: "Gender Inequality Index"
 author: "Linda Sinani"
 date: "17 7 2021"
-output: html_document
+output: html
 ---
 # Der Hauptdatensatz GII
 ```{r setup, include=FALSE}
@@ -90,9 +90,12 @@ am schlechteten: Jemen, Papua Neuguinea, Chad
 am besten: Schweiz, Dänemark, Schweden
 
 
-3. Werte der Variablen für die Länder (schlechteste, beste + DL): Mütteryterblichkeitsrate, Jugendgeburtenrate, Sitze im Parlament als einzelne Barchart Visualisierungen 
+3. fancy Tabelle: beste Länder, schlechteste Länder + DL. Wie das aussehen soll: Links neben den Ländern sieht man die Länderflagge, und den Platz (#1). In den Daten steht direkt % oder so dahinter. Die auffälligsten Werte durch Farbe markierien (zB Chaf Müttersterb., Chad Frauen Sekundarabschluss, Papua Neu  Guinea Frauen im Parlament -> rot markieren/ grün markieren: Schweden Frauen Parlament, Frauen mind. Sekundarabschluss Deutschland  ) 
 
-Sekundarabschluss + Arbeitsmarktbeteiligung als einzelne Visualisierungen in Form einer Alterspyramide: Werte für m + f rechts und links 
+
+noch eine Idee: Sekundarabschluss + Arbeitsmarktbeteiligung als einzelne Visualisierungen in Form einer Alterspyramide: Werte für m + f rechts und links 
+
+
 
 Als Info: Hättet ihr gedacht, dass DL hinter arabischen Emirate + Korea liegt?
 
@@ -252,10 +255,12 @@ ggplot(aes(x=GII_fil$name_long, y=GII_fil$GII_Value)) +
 # fancy Tabelle
 ```{r setup, include=FALSE}
 library(reactable)
+library(htmltools)
 
 
 #GII_fil die unnötigen Variablen raus nehmen
 
+options(digits = 3)
 GII_fil2 <- GII_fil[,c(-1:-4, -6,-7)]
 
 names(GII_fil2)[1] <- "Land"
@@ -267,23 +272,27 @@ names(GII_fil2)[6]<- "Männer_Sekundarbschluss"
 names(GII_fil2)[7]<- "Erwerbsquote_weiblich"
 names(GII_fil2)[8]<- "Erwerbsquote_männlich"
 
+
+# aufgerundet auf 1 Nachkommastelle
 reactable(GII_fil2,
-            defaultColDef = colDef(
-    header = function(value) gsub(".", " ", value, fixed = TRUE),
-    cell = function(value) format(value, nsmall = 1),
-    align = "center",
-    minWidth = 70,
-    headerStyle = list(background = "#f7f7f8")
-  ),
           columns = list(
-            Müttersterblichkeitsrate = colDef(name= "Müttersterblichkeitsrate (Tode pro 100.000 Lebendeburten)"),
-            Jugendgeburtenrate = colDef(name= "Geburtenrate bei Jugendlichen (pro 1.000 Frauen im Alter von 15-19 Jahren"),
-            Frauensitze= colDef(name = "Anteil von Frauensitze im Parlament (in %)"),
-            Frauen_Sekundarbschluss = colDef(name=  "Frauen über 25 Jahren mit mindestens Sekundarbschluss (in %)"),
-            Männer_Sekundarbschluss= colDef(name="Männer über 25 Jahren mit mindestens Sekundarbschluss (in %)"),
-            Erwerbsquote_weiblich= colDef(name= "Erwerbsquote der weiblichen Bevölkerung ab 15 Jahren (in %)"),
-            Erwerbsquote_männlich = colDef(name = "Erwerbsquote der männlichen Bevölkerung ab 15 Jahren (in %)")))
+            Land = colDef(cell = function(value) {
+      img_src <- knitr::image_uri(sprintf("GII_Flag_Images/%s.png", value))
+      image <- img(src = img_src, height = "24px", alt = value)
+      tagList(
+        div(style = list(display = "inline-block", width = "45px"), image),
+        value
+      )
+    }),
+            Müttersterblichkeitsrate = colDef(name= "Müttersterblichkeitsrate (Tode pro 100.000 Lebendeburten)",format = colFormat(digits = 1) ),
+            Jugendgeburtenrate = colDef(name= "Geburtenrate bei Jugendlichen (pro 1.000 Frauen im Alter von 15-19 Jahren", format = colFormat(digits = 1) ),
+            Frauensitze= colDef(name = "Anteil von Frauensitze im Parlament", format = colFormat(suffix = "%", digits = 1)),
+            Frauen_Sekundarbschluss = colDef(name=  "Frauen über 25 Jahren mit mindestens Sekundarbschluss", format = colFormat(suffix = "%", digits = 1)), 
+            Männer_Sekundarbschluss= colDef(name="Männer über 25 Jahren mit mindestens Sekundarbschluss", format = colFormat(suffix = "%", digits = 1)),
+            Erwerbsquote_weiblich= colDef(name= "Erwerbsquote der weiblichen Bevölkerung ab 15 Jahren", format = colFormat(suffix = "%", digits = 1)),
+            Erwerbsquote_männlich = colDef(name = "Erwerbsquote der männlichen Bevölkerung ab 15 Jahren", format = colFormat(suffix = "%", digits = 1))))
 
-reactable(GII_fil2)
 
+#Flaggen erstellen und in Tabelle einbetten 
+#Flaggen von: https://www.kaggle.com/zhongtr0n/country-flag-urls Gifs in Png umwandeln
 ```
