@@ -20,7 +20,7 @@ library(packcircles)
 # datensätze einlesen und cleanen/ordnen
 
 
-# SEATS-----------------------------------------
+##### SEATS #####
 
 # datensatz zeigt prozente von frauen in parlamenten aus verschiedenen ländern
 
@@ -32,21 +32,63 @@ seats <- before_clean_seats %>%
             pivot_longer(cols = -country, names_to = "year", values_to = "n") %>% 
             mutate_if(is.numeric, round) %>% 
             filter(n != "NA") %>% 
-            filter(country != "High income")
-
+            filter(!country %in% c("Africa Eastern and Southern",
+                                   "Africa Western and Central",
+                                   "Arab World",
+                                   "Central Europe and the Baltics",
+                                   "Caribbean small states",
+                                   "Early-demographic dividend",
+                                   "East Asia & Pacific",
+                                   "East Asia & Pacific (excluding high income)",
+                                   "East Asia & Pacific (IDA & IBRD)",
+                                   "Euro area",
+                                   "Europe & Central Asia",
+                                   "Europe & Central Asia (excluding high income)",
+                                   "Europe & Central Asia (IDA & IBRD)",
+                                   "European Union",
+                                   "Fragile and conflict affected situations",
+                                   "Heavily indebted poor countries (HIPC)",
+                                   "High income",
+                                   "IBRD only",
+                                   "IDA & IBRD total",
+                                   "IDA blend",
+                                   "IDA only",
+                                   "IDA total",
+                                   "Late-demographic dividend",
+                                   "Latin America & Caribbean",
+                                   "Latin America & Caribbean (excluding high income)",
+                                   "Latin America & Caribbean (IDA & IBRD)",
+                                   "Least developed countries: UN classification",
+                                   "Low & middle income",
+                                   "Low income",
+                                   "Lower middle income",
+                                   "Middle East & North Africa",
+                                   "Middle East & North Africa (excluding high income)",
+                                   "Middle East & North Africa (IDA & IBRD)",
+                                   "Middle income",
+                                   "North America",
+                                   "OECD members",
+                                   "Other small states",
+                                   "Pacific island small states",
+                                   "Post-demographic dividend",
+                                   "Pre-demographic dividend",
+                                   "Small states",
+                                   "South Asia",
+                                   "South Asia (IDA & IBRD)",
+                                   "Sub-Saharan Africa",
+                                   "Sub-Saharan Africa (excluding high income)",
+                                   "Sub-Saharan Africa (IDA & IBRD)",
+                                   "Upper middle income",
+                                   "World"))
 
 
 names(seats)[1] <- "country"
 names(seats)[3] <- "percentage"
 seats$year <- as.numeric(seats$year)
 
-view(seats)
 
 
-# ------------------------------------------
-  
-
-### 1 bundestag
+#### 1 bundestag ####
 
 # selbst generierter Datensatz aus Wikipedia Tabelle (https://de.wikipedia.org/wiki/Frauenanteil_im_Deutschen_Bundestag_seit_1949)
 # datensatz zeigt die anzahl/prozente von männern und frauen in den bundestagen an
@@ -86,10 +128,8 @@ bundestag$bundestag <- ordered(bundestag$bundestag, levels = scale.bundestag)
 
 view(bundestag)
 
-# ------------------------------------------
 
-
-### 2 parteien_frauen
+#### 2 parteien_frauen ####
 
 # selbst generierter Datensatz aus Wikipedia Tabelle (https://de.wikipedia.org/wiki/Frauenanteil_im_Deutschen_Bundestag_seit_1949)
 # datensatz zeigt die anzahl/prozente von Frauen in den einzelnen Parteien
@@ -108,15 +148,6 @@ parteien_frauen <- read.csv("data/to_work_with/zusammensetzung_frauen_parteien.c
 parteien_frauen$bundestag <- ordered(parteien_frauen$bundestag, levels = scale.bundestag)
 
 view(parteien_frauen)
-
-
-
-# -----------------------------------------
-
-
-
-
-
 ```
 
 # Einleitungstext
@@ -132,50 +163,23 @@ view(parteien_frauen)
 
 
 # seats in parliament
-* 2020 wie sieht das jetzt gerade so in der welt aus
-* was sind die markantesten werte
-
-der schlechteste wert in 2020 ist 0, der beste 61 prozent
-mittelwert über die ganze welt in 2020 23,865 prozent (median 23)
-Kuba, Rwanda und Ver. Arab. Emirate die einzigen die höher als 50 prozent sind
-die wenigsten länder kommen überhaupt in die 50 prozent nähe. politik ist immer noch ein vorwiegend durch männer geprägter bereich
-schlussfolgerung, da müsste sich also was tun, wenn es das ziel ist, dass man das ausgleichen will (wo ist das vielleicht das ziel? so ein EU Ding??? Regularien Gesetze???)
-einfach nur zeigen wie es auf der welt ist
-
-
-
-
-* 1997 bis 2020
-wie oben gezeigt wurde es ist bei weitem noch nicht gleich, aber es hat sich sehr positiv entwickelt
-* wie hat sich das so entwickelt?
-* kann man einen Trend erkennen?
-
 
 
 * bubble plot
 * mit dieser Visualisierung starten können, um einen allgemeinen Überblick über die Lage in der Welt geben zu können (von kleinem zum großen gehen können)
 * Achtung: das sind nur Prozente
-* seit wann gibt es regularien in deutschland bzgl. Frauenquote
-
-Hintergrundinfos über den Datensatz:
-Proportion of seats held by women in national parliaments (%)(SG.GEN.PARL.ZS)
-Definition: Women in parliaments are the percentage of parliamentary seats in a single or lower chamber held by women.
-Quelle: Inter-Parliamentary Union (IPU) (www.ipu.org). For the year of 1998, the data is as of August 10, 1998.
-aggregation method: Weighted average
-
-meine Quelle: https://databank.worldbank.org/source/gender-statistics
-
-könnte auch mit Bildung zusammenhängen, dass für Frauen nicht dieselben Voraussetzungen gelten wie für Männer
 
 
-```{r}
-# 2020
+* was sind die markantesten werte
+* mittelwert über die ganzen Länder vielleicht machen? (arithmetisches mittel)
+* welches ist das mittigste land
+* wenn ich mittelwerte bilde muss ich das kontrollieren mit einträgen wie "arab world" "world" und sowas
+* vielleicht bereiche der welt miteinander vergleichen wie "arab world" und "pacific" und "euro area"
+
+```{r seats 2020}
 
 seats_2020 <- seats %>% filter(year == "2020")
   
-view(o)
-
-
 seats_2020 %>% 
   ggplot() +
   aes(x = year,
@@ -189,26 +193,128 @@ seats_2020 %>%
   NULL
 
 
+
 seats_2020 %>% 
   ggplot() +
   aes(y = percentage) +
-  geom_histogram(bins = 100) +
+  geom_histogram(bins = 237) +
   coord_flip() +
   geom_hline(yintercept = 31, color = "red", size = 1) +
   geom_hline(yintercept = 50, color = "blue", size = 1) +
   scale_y_continuous(limits = c(0, 100))
 
 
-o <- seats_2020 %>% filter(percentage >= 50)
 
-view(o)
+## austesten können
+seats_2020 %>% 
+  ggplot() +
+  aes(x = country,
+      y = percentage) +
+  geom_col() +
+  coord_flip() +
+  geom_hline(yintercept = 31, color = "red", size = 1) +
+  geom_hline(yintercept = 50, color = "blue", size = 1) +
+  scale_y_continuous(limits = c(0, 100))
+
+## vielleicht so einen bar plot der verständlich ist????
 
 
-sw <- seats_2020 %>% filter(country == "Sweden")
+```
 
 
-view(sw)
+für year == 2020 ist die Anzahl an Ländern 190
+der schlechteste wert in 2020 ist 0, der beste 61 prozent (range)
 
+das land mit der höchsten prozentzahl ist rwanda (61%), dann kommt Kuba (53%) und dann die Vereinigten Arabischen Emirate (50%)
+länder mit einem wert von 0 prozent sind Micronesia, Papua New Guinea, Vanuatu und Yemen.
+
+
+"die verteilung unter den geschlechtern in der politik ist weit davon entfernt, gerecht bei 50% zu sein. ein paar wenige ausnahmeländer haben mehr frauen in ihren parlamenten als männer. die deutliche mehrzahl der parlamente ist männerdominiert. deutschland liegt bei 31%" (ist das so, kontrollieren)
+die wenigsten länder kommen überhaupt in die 50 prozent nähe. politik ist immer noch ein vorwiegend durch männer geprägter bereich
+
+
+mittelwert über die ganze welt in 2020 23,865 prozent (median 23)
+Länder, die den Median widerspiegeln: Armenien, Chile, Malawi, Panama
+
+
+
+Unser Ziel erst mal: einfach nur zeigen wie es auf der welt ist
+schlussfolgerung, da müsste sich also was tun, wenn es das ziel ist, dass man das ausgleichen will (wo ist das vielleicht das ziel? so ein EU Ding??? Regularien Gesetze???)
+
+
+mit dem bubble plot verschiedene länder zeigen können, was es halt so gibt
+
+```{seats bubble plot, r}
+
+library(packcircles)
+
+# Create data (dataframe to work with)
+seats_bubble <- seats %>% filter(year == "2020",
+                                 country %in% c("Germany", "Rwanda", "Cuba", "United Arab Emirates", "Yemen, Rep.", "Papua New Guinea", "Micronesia, Fed. Sts.", "Malawi", "Panama", "Armenia", "Maldives", "Japan", "Kiribati", "France", "Sweden"))
+
+# Generate the layout. This function return a dataframe with one line per bubble. 
+# It gives its center (x and y) and its radius, proportional of the value
+seats_packing <- circleProgressiveLayout(seats_bubble$percentage, sizetype = "area")
+
+# We can add these packing information to the initial data frame
+seats_bubble <- cbind(seats_bubble, seats_packing)
+
+# Check that radius is proportional to value. We don't want a linear relationship, since it is the AREA that must be proportionnal to the value
+#plot(seats_bubble$radius, seats_bubble$number)
+
+# The next step is to go from one center + a radius to the coordinates of a circle that
+# is drawn by a multitude of straight lines.
+seats.gg <- circleLayoutVertices(seats_packing, npoints = 50)
+
+
+# dass man vernünftig die zahlen da reinbekommt
+seats_bubble_label <- seats_bubble %>% 
+                        mutate(y = y-0.6)
+
+# generate the plot
+ggplot() +
+  
+  # bubble
+  geom_polygon(data = seats.gg, aes(x, y, group = id, fill = as.factor(id), color = "black", alpha = 0.6)) +
+  
+   # Add text in the center of each bubble + control its size
+  geom_text(data = seats_bubble, aes(x, y, size = percentage, label = country)) +
+  geom_text(data = seats_bubble_label, aes(x, y, size = percentage, label = percentage)) +
+  scale_size_continuous(range = c(1,4)) +
+  
+  # General theme:
+  theme_void() + 
+  theme(legend.position="none") +
+  coord_equal()
+
+```
+
+
+
+
+
+
+* 1997 bis 2020
+wie oben gezeigt wurde es ist bei weitem noch nicht gleich, aber es hat sich sehr positiv entwickelt
+* wie hat sich das so entwickelt?
+* kann man einen Trend erkennen?
+
+
+
+
+
+Hintergrundinfos über den Datensatz:
+Proportion of seats held by women in national parliaments (%)(SG.GEN.PARL.ZS)
+Definition: Women in parliaments are the percentage of parliamentary seats in a single or lower chamber held by women.
+Quelle: Inter-Parliamentary Union (IPU) (www.ipu.org). For the year of 1998, the data is as of August 10, 1998.
+aggregation method: Weighted average
+
+meine Quelle: https://databank.worldbank.org/source/gender-statistics
+
+könnte auch mit Bildung zusammenhängen, dass für Frauen nicht dieselben Voraussetzungen gelten wie für Männer
+
+
+```{seats, r}
 
 
 # 1997 - 2020 HIER WAR ICH DRAN
@@ -244,71 +350,18 @@ seats %>%
       y = percentage) +
   geom_point()
 
-
-
-
 ```
 
-
-
-
-```{r bubble plot}
-# BUBBLE PLOT
-
-library(packcircles)
-
-# Create data (dataframe to work with)
-seats_bubble <- seats %>% filter(year == "2020",
-                                 region %in% c("Germany", "Switzerland", "Denmark", "Sweden", "Chad", "Papua New Guinea", "Yemen, Rep."))
-
-# Generate the layout. This function return a dataframe with one line per bubble. 
-# It gives its center (x and y) and its radius, proportional of the value
-seats_packing <- circleProgressiveLayout(seats_bubble$percentage, sizetype = "area")
-
-# We can add these packing information to the initial data frame
-seats_bubble <- cbind(seats_bubble, seats_packing)
-
-# Check that radius is proportional to value. We don't want a linear relationship, since it is the AREA that must be proportionnal to the value
-#plot(seats_bubble$radius, seats_bubble$number)
-
-# The next step is to go from one center + a radius to the coordinates of a circle that
-# is drawn by a multitude of straight lines.
-seats.gg <- circleLayoutVertices(seats_packing, npoints = 50)
-
-
-# dass man vernünftig die zahlen da reinbekommt
-seats_bubble_label <- seats_bubble %>% 
-                        mutate(y = y-0.6)
-
-# generate the plot
-ggplot() +
-  
-  # bubble
-  geom_polygon(data = seats.gg, aes(x, y, group = id, fill = as.factor(id), color = "black", alpha = 0.6)) +
-  
-   # Add text in the center of each bubble + control its size
-  geom_text(data = seats_bubble, aes(x, y, size=percentage, label = region)) +
-  geom_text(data = seats_bubble_label, aes(x, y, size=percentage, label = percentage)) +
-  scale_size_continuous(range = c(1,4)) +
-  
-  # General theme:
-  theme_void() + 
-  theme(legend.position="none") +
-  coord_equal()
-
-```
-
-
-```{r Seats datenlage checken}
+```{seats datenlage checken, r}
 
 # Datenlage checken
 
 seats %>% 
-  filter(region %in% c("Germany", "Afghanistan", "Angola", "Bahrain")) %>% 
+  filter(country %in% c("Germany", "Afghanistan", "Angola", "Bahrain")) %>% 
   ggplot() +
   aes(x = year, 
       y = percentage,
-      color = region) +
+      color = country) +
   geom_point() +
   NULL
 
@@ -353,7 +406,7 @@ seats %>%
 o <- seats %>% 
       filter(year == "2020",
              #percentage == "61",
-             region == "Germany")
+             country == "Germany")
 
 view(o)
 
@@ -364,7 +417,7 @@ seats %>%
       y = percentage) +
   geom_jitter()
 
-
+view(seats)
 
 
 max(o$percentage)
