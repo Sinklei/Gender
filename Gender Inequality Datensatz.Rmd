@@ -90,7 +90,7 @@ am schlechteten: Jemen, Papua Neuguinea, Chad
 am besten: Schweiz, Dänemark, Schweden
 
 
-3. fancy Tabelle: beste Länder, schlechteste Länder + DL. Wie das aussehen soll: Links neben den Ländern sieht man die Länderflagge, und den Platz (#1). In den Daten steht direkt % oder so dahinter. Die auffälligsten Werte durch Farbe markierien (zB Chaf Müttersterb., Chad Frauen Sekundarabschluss, Papua Neu  Guinea Frauen im Parlament -> rot markieren/ grün markieren: Schweden Frauen Parlament, Frauen mind. Sekundarabschluss Deutschland  ) 
+3. fancy Tabelle: beste Länder, schlechteste Länder + DL. Wie das aussehen soll: Links neben den Ländern sieht man die Länderflagge, und den Platz (#1). In den Daten steht direkt % oder so dahinter. Die auffälligsten Werte durch Farbe markierien (zB Chdf Müttersterb., Chad Frauen Sekundarabschluss, Papua Neu  Guinea Frauen im Parlament -> rot markieren/ grün markieren: Schweden Frauen Parlament, Frauen mind. Sekundarabschluss Deutschland) 
 
 
 noch eine Idee: Sekundarabschluss + Arbeitsmarktbeteiligung als einzelne Visualisierungen in Form einer Alterspyramide: Werte für m + f rechts und links 
@@ -195,13 +195,8 @@ label = mytext,
 show(GII_map)
 
 library(htmlwidgets)
-saveWidget(GII_map, file=paste0( getwd(), "/data/Visualisierungen/GII_map.html"))
+#saveWidget(GII_map, file=paste0( getwd(), "/data/Visualisierungen/GII_map.html"))
 ```
-
-
-
-
-
 
 
 
@@ -229,23 +224,27 @@ GII_fil %>%
 ggplot(aes(x=GII_fil$name_long, y=GII_fil$GII_Value)) +
   geom_segment(aes
                (x=GII_fil$name_long, xend=GII_fil$name_long, y=0, yend=GII_fil$GII_Value),
-               color= ifelse(GII_fil$name_long %in% c("Germany"), "skyblue", "black"),
-               size= ifelse(GII_fil$name_long %in% c("Germany"), 1, 1), alpha= 0.6) +
-  geom_point(color= ifelse(GII_fil$name_long %in% c("Germany"), "blue", "grey"),
-              size= ifelse(GII_fil$name_long %in% c("Germany"), 4, 4), alpha=0.6, shape=16, stroke=2)+
+               color= ifelse(GII_fil$name_long %in% c("Germany"), "#5e5a57", "#5e5a57"),
+               size= ifelse(GII_fil$name_long %in% c("Germany"), 1, 1)) +
+  geom_point(color= ifelse(GII_fil$name_long %in% c("Germany"), "#c95c14", "#e37328"),
+              size= ifelse(GII_fil$name_long %in% c("Germany"), 9.5, 9.5), stroke=2, col= 1, shape=16)+
+  geom_text(aes(label=GII_fil$GII_Value), color= "white", size=3)+
   scale_y_continuous(limits= c(0,1))+
-  scale_x_discrete(labels= c("#162 Jemen", "#161 Papua Neuguinea", "#160 Tschad", "#20 Deutschland", "#3 Schweden", "#2 Dänemark", "#1 Schweiz"))+
-  theme_ipsum() + 
+  scale_x_discrete(labels= c("162. Jemen", "161. Papua Neuguinea", "160. Tschad", "20. Deutschland", "3. Schweden", "2. Dänemark", "1. Schweiz"))+
+  theme_minimal() + 
   coord_flip()+
   theme(legend.position = "none",
         panel.grid.major.y = element_blank(),
     panel.border = element_blank(),
     axis.ticks.y = element_blank()) +
-  xlab("Platzierung") + 
+  xlab("Länderplatzie") + 
   ylab("GII Wert") +
   labs(title= "Gender Inequality Index (GII) - Länderranking", 
        subtitle= "Deutschland zwischen den 3 besten und schlechtesten Ländern",
        caption= "Quelle: UNDP - Human Development Report 2020") 
+
+ggsave("data/Visualisierungen/GII_fil.png", width = 8, height = 5)
+
 ```
 
 
@@ -255,7 +254,9 @@ ggplot(aes(x=GII_fil$name_long, y=GII_fil$GII_Value)) +
 # fancy Tabelle
 ```{r setup, include=FALSE}
 library(reactable)
+library(reactablefmtr)
 library(htmltools)
+library(dplyr)
 
 
 #GII_fil die unnötigen Variablen raus nehmen
@@ -274,9 +275,22 @@ names(GII_fil2)[8]<- "Erwerbsquote_männlich"
 
 
 # aufgerundet auf 1 Nachkommastelle
-reactable(GII_fil2,
+#Flaggen von: https://www.kaggle.com/zhongtr0n/country-flag-urls Gifs 
+
+
+
+tabelle <- reactable(GII_fil2, defaultColDef = colDef(headerStyle = list(background = "#e18141", color= "white"), align= "left", minWidth = 172),
+  outlined= TRUE, borderless= TRUE, striped = TRUE, highlight = TRUE, fullWidth=FALSE, resizable=TRUE,
+           theme = reactableTheme(
+    borderColor = "#fffff2",
+    stripedColor = "#fff6ec",
+    highlightColor = "#e69660",
+    cellPadding = "8px 12px",
+    style = list(fontFamily = "Arial", fontSize= "12.5px"),
+    rowStyle = list(fontFamily = "Arial", fontSize= "12px"),
+  ),
           columns = list(
-            Land = colDef(cell = function(value) {
+            Land = colDef(style = list(fontWeight= 600), minWidth= 200, cell = function(value) {
       img_src <- knitr::image_uri(sprintf("GII_Flag_Images/%s.png", value))
       image <- img(src = img_src, height = "24px", alt = value)
       tagList(
@@ -284,15 +298,33 @@ reactable(GII_fil2,
         value
       )
     }),
-            Müttersterblichkeitsrate = colDef(name= "Müttersterblichkeitsrate (Tode pro 100.000 Lebendeburten)",format = colFormat(digits = 1) ),
-            Jugendgeburtenrate = colDef(name= "Geburtenrate bei Jugendlichen (pro 1.000 Frauen im Alter von 15-19 Jahren", format = colFormat(digits = 1) ),
-            Frauensitze= colDef(name = "Anteil von Frauensitze im Parlament", format = colFormat(suffix = "%", digits = 1)),
-            Frauen_Sekundarbschluss = colDef(name=  "Frauen über 25 Jahren mit mindestens Sekundarbschluss", format = colFormat(suffix = "%", digits = 1)), 
-            Männer_Sekundarbschluss= colDef(name="Männer über 25 Jahren mit mindestens Sekundarbschluss", format = colFormat(suffix = "%", digits = 1)),
-            Erwerbsquote_weiblich= colDef(name= "Erwerbsquote der weiblichen Bevölkerung ab 15 Jahren", format = colFormat(suffix = "%", digits = 1)),
-            Erwerbsquote_männlich = colDef(name = "Erwerbsquote der männlichen Bevölkerung ab 15 Jahren", format = colFormat(suffix = "%", digits = 1))))
+            Müttersterblichkeitsrate = colDef(name= "Müttersterblichkeitsrate¹",format = colFormat(digits = 0), align= "right" ),
+            Jugendgeburtenrate = colDef(name= "Jugendgeburtenrate²", format = colFormat(digits = 1), align = "right" ),
+            Frauensitze= colDef(name = "Anteil von Frauensitzen im Parlament", format = colFormat(suffix = "%", digits = 1), align = "right"),
+            Frauen_Sekundarbschluss = colDef(name=  "Frauen über 25 Jahren mit mindestens Sekundarbschluss", format = colFormat(suffix = "%", digits = 1), align= "right"), 
+            Männer_Sekundarbschluss= colDef(name="Männer über 25 Jahren mit mindestens Sekundarbschluss", format = colFormat(suffix = "%", digits = 1), align = "right"),
+            Erwerbsquote_weiblich= colDef(name= "Erwerbsquote der weiblichen Bevölkerung über 15 Jahren", format = colFormat(suffix = "%", digits = 1), align = "right"),
+            Erwerbsquote_männlich = colDef(name = "Erwerbsquote der männlichen Bevölkerung über 15 Jahren", format = colFormat(suffix = "%", digits = 1), align = "right")))
+
+tabelle %>%  add_title("Detailansicht des GII Länderrankings", align = "left",
+font_color = "#000",
+font_family = "Arial",
+font_size = 16,
+font_style = "normal",
+text_decoration = NULL,
+margin= 2) %>% 
+  add_subtitle("Wie sehen die Werte der einzelnen Länder aus?", font_size = 14) %>% 
+  add_source("¹ Pro 100.000 Lebensgeburten, 
+             ² Pro 1.000 Frauen im Alter von 15 bis 19 Jahren", font_size= 12)
+    
+
+# für verschiedene Schriftarten
+#install.packages("extrafont")
+
+#library(extrafont)
+#loadfonts(device= "pdf", quiet= FALSE)
+#fonts()
 
 
-#Flaggen erstellen und in Tabelle einbetten 
-#Flaggen von: https://www.kaggle.com/zhongtr0n/country-flag-urls Gifs in Png umwandeln
+
 ```
