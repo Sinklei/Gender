@@ -3,6 +3,8 @@ title: "Gender Inequality Index"
 author: "Linda Sinani"
 date: "17 7 2021"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 # Der Hauptdatensatz GII
 ```{r setup, include=FALSE}
@@ -12,20 +14,6 @@ library(tidyverse)
 
 options(digits = 3)
 GII <- read_csv("data/to_work_with/GII.csv")
-
-#colnames(GII)
-
-#names(GII)[4]<- "HDI Platzierung"
-#names(GII)[5]<- "Land"
-#names(GII)[6] <-"GII Wert"
-#names(GII)[7]<- "GII Platzierung"
-#names(GII)[8]<- "Müttersterblichkeitsrate (Tode pro 100.000 Lebendgeburten)"
-#names(GII)[9]<- "Jugendgeburtenrate (Geburten pro 1.000 Frauen im Alter von 15-19 Jahren)"
-#names(GII)[10]<- "Anteil von Frauensitze im Parlament (in %)"
-#names(GII)[11]<- "Frauen über 25 Jahren mit mindestens Sekundarbschluss (in %)"
-#names(GII)[12]<- "Männer über 25 Jahren mit mindestens Sekundarbschluss (in %)"
-#names(GII)[13]<- "Erwerbsquote der weiblichen Bevölkerung ab 15 Jahren (in %)"
-#names(GII)[14]<- "Erwerbsquote der männlichen Bevölkerung ab 15 Jahren (in %)"
 ```
 
 ## Was ist der Gender Inequality Index?
@@ -126,11 +114,11 @@ library(sp)
 
 # Landkarte herunterladen 
 
-download.file("http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip",  destfile=("data/world_shape_file.zip"))
+download.file("http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip",  destfile=("data/to_work_with/borders_weltkarte/world_shape_file.zip"))
 
-list.files("data/world_shape_file")
+list.files("data/to_work_with/borders_weltkarte/world_shape_file")
 
-my_spdf <- shapefile("data/world_shape_file/TM_WORLD_BORDERS_SIMPL-0.3.shp")
+my_spdf <- shapefile("data/to_work_with/borders_weltkarte/world_shape_file/TM_WORLD_BORDERS_SIMPL-0.3.shp")
 
 my_spdf@data$POP2005[ which(my_spdf@data$POP2005 == 0)] = NA
 my_spdf@data$POP2005 <- as.numeric(as.character(my_spdf@data$POP2005)) / 1000000 %>% round(2)
@@ -150,33 +138,30 @@ world_sp = as(world, Class = "Spatial")
 
 GII_WELT <- left_join(world, GII, by= "name_long" )
 
-# in jamovi die englischen Ländernamen ins deutsche übersetzt: data/toworkwith/ GII_world
-GII_world <- read_csv("data/to_work_with/GII_world.csv")
 
-
-plot(GII_world)
-tm_shape(GII_world) + tm_fill(col = "GII_Value")
+plot(GII_WELT)
+tm_shape(GII_WELT) + tm_fill(col = "GII_Value")
 
 
 
 # Farbpalette
 library(RColorBrewer)
 mybins <- c(0,0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8)
-mypalette <- colorBin( palette="YlOrBr", domain=GII_world$GII_Value , na.color="transparent", bins=mybins)
+mypalette <- colorBin( palette="OrRd", domain=GII_WELT$GII_Value , na.color="transparent", bins=mybins)
 
 
 
 # Text für Tooltips
 mytext <- paste(
-    "Land:", GII_world$name_long ,"<br/>", 
-    "GII-Platzierung:", GII_world$GII_Rank, "<br/>", 
-    "GII-Wert:", GII_world$GII_Value, 
+    "Land:", GII_WELT$name_long ,"<br/>", 
+    "GII-Platzierung:", GII_WELT$GII_Rank, "<br/>", 
+    "GII-Wert:", GII_WELT$GII_Value, 
     sep="") %>%
   lapply(htmltools::HTML)
 
 
 # endgültige Visualisierung
-GII_map <-leaflet(GII_world) %>% 
+GII_weltkarte <-leaflet(GII_WELT) %>% 
   addTiles()  %>% 
   setView( lat=51.1642292, lng=10.4541194 , zoom=2) %>%
   addPolygons(
@@ -195,7 +180,7 @@ label = mytext,
 show(GII_map)
 
 library(htmlwidgets)
-#saveWidget(GII_map, file=paste0( getwd(), "/data/Visualisierungen/GII_map.html"))
+saveWidget(GII_weltkarte, file=paste0(getwd(),"/data/Visualisierungen/GII_weltkarte.html"))
 ```
 
 
@@ -226,7 +211,7 @@ ggplot(aes(x=GII_fil$name_long, y=GII_fil$GII_Value)) +
                (x=GII_fil$name_long, xend=GII_fil$name_long, y=0, yend=GII_fil$GII_Value),
                color= ifelse(GII_fil$name_long %in% c("Germany"), "#5e5a57", "#5e5a57"),
                size= ifelse(GII_fil$name_long %in% c("Germany"), 1, 1)) +
-  geom_point(color= ifelse(GII_fil$name_long %in% c("Germany"), "#c95c14", "#e37328"),
+  geom_point(color= ifelse(GII_fil$name_long %in% c("Germany"), "#e34a33", "#fc8d59"),
               size= ifelse(GII_fil$name_long %in% c("Germany"), 9.5, 9.5), stroke=2, col= 1, shape=16)+
   geom_text(aes(label=GII_fil$GII_Value), color= "white", size=3)+
   scale_y_continuous(limits= c(0,1))+
@@ -237,7 +222,7 @@ ggplot(aes(x=GII_fil$name_long, y=GII_fil$GII_Value)) +
         panel.grid.major.y = element_blank(),
     panel.border = element_blank(),
     axis.ticks.y = element_blank()) +
-  xlab("Länderplatzie") + 
+  xlab("Länderplatzierung") + 
   ylab("GII Wert") +
   labs(title= "Gender Inequality Index (GII) - Länderranking", 
        subtitle= "Deutschland zwischen den 3 besten und schlechtesten Ländern",
