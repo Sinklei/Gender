@@ -2,7 +2,7 @@
 title: "Gender Inequality Index"
 author: "Linda Sinani"
 date: "17 7 2021"
-output: html
+output: html_document
 ---
 # Der Hauptdatensatz GII
 ```{r setup, include=FALSE}
