@@ -177,7 +177,7 @@ label = mytext,
       textsize = "13px", 
       direction = "auto")) %>%
   addLegend( pal=mypalette, values=~GII_Value, opacity=0.9, title = "GII Wert", position = "bottomleft" )
-show(GII_map)
+show(GII_weltkarte)
 
 library(htmlwidgets)
 saveWidget(GII_weltkarte, file=paste0(getwd(),"/data/Visualisierungen/GII_weltkarte.html"))
@@ -264,18 +264,17 @@ names(GII_fil2)[8]<- "Erwerbsquote_männlich"
 
 
 
-tabelle <- reactable(GII_fil2, defaultColDef = colDef(headerStyle = list(background = "#e18141", color= "white"), align= "left", minWidth = 172),
-  outlined= TRUE, borderless= TRUE, striped = TRUE, highlight = TRUE, fullWidth=FALSE, resizable=TRUE,
+tabelle <- reactable(GII_fil2, defaultColDef = colDef(headerStyle = list(background = "#fc8d59", color= "white"), align= "left", minWidth = 172),
+  outlined= TRUE, borderless= TRUE, striped = TRUE, highlight = TRUE, fullWidth=FALSE, resizable=FALSE,
            theme = reactableTheme(
-    borderColor = "#fffff2",
-    stripedColor = "#fff6ec",
-    highlightColor = "#e69660",
+    stripedColor = "#fef0d9",
+    highlightColor = " #fc8d59",
     cellPadding = "8px 12px",
     style = list(fontFamily = "Arial", fontSize= "12.5px"),
     rowStyle = list(fontFamily = "Arial", fontSize= "12px"),
   ),
           columns = list(
-            Land = colDef(style = list(fontWeight= 600), minWidth= 200, cell = function(value) {
+            Land = colDef(style = list(fontWeight= 600), minWidth= 180, cell = function(value) {
       img_src <- knitr::image_uri(sprintf("GII_Flag_Images/%s.png", value))
       image <- img(src = img_src, height = "24px", alt = value)
       tagList(
@@ -289,7 +288,13 @@ tabelle <- reactable(GII_fil2, defaultColDef = colDef(headerStyle = list(backgro
             Frauen_Sekundarbschluss = colDef(name=  "Frauen über 25 Jahren mit mindestens Sekundarbschluss", format = colFormat(suffix = "%", digits = 1), align= "right"), 
             Männer_Sekundarbschluss= colDef(name="Männer über 25 Jahren mit mindestens Sekundarbschluss", format = colFormat(suffix = "%", digits = 1), align = "right"),
             Erwerbsquote_weiblich= colDef(name= "Erwerbsquote der weiblichen Bevölkerung über 15 Jahren", format = colFormat(suffix = "%", digits = 1), align = "right"),
-            Erwerbsquote_männlich = colDef(name = "Erwerbsquote der männlichen Bevölkerung über 15 Jahren", format = colFormat(suffix = "%", digits = 1), align = "right")))
+            Erwerbsquote_männlich = colDef(minWidth= 180, name = "Erwerbsquote der männlichen Bevölkerung über 15 Jahren", format = colFormat(suffix = "%", digits = 1), align = "right")),
+  columnGroups = list(
+    colGroup(name = "  ", columns = c("Land"), headerStyle= list(background = "#fc8d59", color= "white", fontSize= "13px")),
+    colGroup(name = "reproduktive Gesundheit", columns = c("Müttersterblichkeitsrate", "Jugendgeburtenrate"),headerStyle= list(background = "#fc8d59", color= "white", fontSize= "13px")),
+    colGroup(name = "Women Empowerment", columns = c("Frauensitze", "Frauen_Sekundarbschluss","Männer_Sekundarbschluss"),headerStyle= list(background = "#fc8d59", color= "white", fontSize= "13px")),
+    colGroup(name = "wirtschaftlicher Status", columns = c("Erwerbsquote_weiblich", "Erwerbsquote_männlich"), headerStyle= list(background = "#fc8d59", color= "white", fontSize= "13px"))))
+
 
 tabelle %>%  add_title("Detailansicht des GII Länderrankings", align = "left",
 font_color = "#000",
