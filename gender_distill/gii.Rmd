@@ -1,0 +1,322 @@
+---
+title: "Gender Inequality Index"
+description: |
+  das ist die wundervolle seite von linda
+site: distill::distill_website
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Der Hauptdatensatz GII
+
+```{r}
+library(tidyverse)
+
+options(digits = 3)
+GII <- read_csv("data/to_work_with/GII.csv")
+```
+
+
+## Was ist der Gender Inequality Index?
+
+misst geschlechtsspezifische Ungleichheiten auf 3 Ebenen der menschlchen Entwicklung in 162 Ländern:
+1. reproduktive Gesundheit -> gemessen an der Müttersterblichkeitsrate + Geburtenate bei Jugendlichen 
+2.Empowerment/Selbstbestimmung -> gemessen an Anteil der von Frauen besetzten Parlamentssitze, Anteil Frauen über 25 im Vergleich zu Männern, die mindestens Sekundarabschluss haben 
+3. wirtschaftlicher Status -> Vergleich Männer + Frauen: Arbeitsmarktbeteiligung, gemessen an Erwerbsquote der weiblichen + männlichen Bevölkerung ab 15 Jahren 
+
+## Was zeigt er? 
+
+den Verlust an potenzieller menschlicher Entwicklung aufgrund der Ungleichheit zwischen den Leistungen von Frauen und Männern in den 3 Bereichen. Der GII spiegelt wider, wie sehr Frauen in diesen Bereichen benachteiligt sind
+
+Der GII liegt zwischen 0 und 1. Je höher der GII-Wert ist, desto größer sind die Ungleichheiten zwischen Frauen und Männern und desto größer ist der Verlust für die menschliche Entwicklung.
+
+Es gibt kein Land mit perfekter Gleichstellung der Geschlechter. Alle Länder erleiden einen gewissen Verlust an Errungenschaften in Schlüsselaspekten der menschlichen Entwicklung, wenn die Ungleichheit der Geschlechter berücksichtigt wird.Die Komponentenindikatoren zeigen Bereiche auf, in denen kritische politische Maßnahmen erforderlich sind, und sie regen proaktives Denken und öffentliche Maßnahmen zur Überwindung systematischer Benachteiligungen von Frauen an.
+Er kann Regierungen und anderen helfen, das Ausmaß der geschlechtsspezifischen Ungleichheiten bei der Teilhabe zu verstehen. Die einzelnen Indikatoren zeigen Bereiche auf, in denen die Politik dringend eingreifen muss. 
+
+## Limitationen 
+
+GII hat einige Einschränkungen (wie es bei zusammengesetzen/umfassenden Messungen üblich ist): 
+
+misst nicht die Länge und Breite der Ungleichheit zwischen den Geschlechtern. Erfassung zB parlamentare Vertretung auf nationaler Ebenene, nicht aber auf lokaler Regierungsebene und in anderen Bereichen des öffentlichen kommunalen Lebens. 
+
+Bei der Arbeitsmarktbeteiligung fehlen Daten über die Qualität der Arbeitsplätze. Generell werden wichtige Dimensionen des beruflichen Lebens außer Acht gelassen: unbezahlte Arbeit + Fakt, dass Frauen typischrweise die Aufgabe der Haushaltsführung + Pflege zugesprochen wird. 
+
+Was im GII aufgrund von fehlenden Daten nicht berücksichtigt wird: 
+Vermögenseigentum
+Unterstützung bei der Kinderbetreuung 
+geschlechtsspezifische Gewalt 
+Beteiligung an kommunalen Entscheidungsprozessen 
+
+## Quellen vom GII
+
+GII stützt sich auf öffentlichen Daten aus internationalen Datenbanken:
+
+- Müttersterblichkeitsrate: WHO, UNICEF,UNFPA, World Bank Group and United Nations Population Division (2019)
+
+- Geburtenrate bei Jugendlichen: UNDESA (2019)
+
+- Frauenanteil Sitze im Parlament: IPU (2020)
+
+- Arbeitsmarktbeteiligung: International Labour Organization ILO (2020)
+
+- Vergleich Frau Mann Sekundärabschluss: UNESCO Institute for Statistics (2020) and
+Barro and Lee (2018)
+
+QUELLE: http://hdr.undp.org/en/faq-page/gender-inequality-index-gii#t294n2913
+Berechnungen der Indizes: http://hdr.undp.org/sites/default/files/hdr2020_technical_notes.pdf
+
+
+## WAS + WIE wir visualisieren können:
+
+1. interaktive Landkarte/ Heatmap um ersten Überblick zu bekommen: GII Value + Ländername wird angezeigt wenn man über die Länder geht + man kann rein zoomen. Zusätzlich durch Farbskala anzeigen, ob
+Wert hoch oder niedrig ist https://espace-mondial-atlas.sciencespo.fr/en/topic-contrasts-and-inequalities/map-1C37-EN-human-development-index-gender-development-index-ecological-footprintandnbsp.html
+
+Was man dann sehen wird: In Europa ist der Wert besser als in arabischen/ afrikanischen Ländern 
+
+2. Lollipop Chart: um zu bestimmen, was die Länder mit den besten und schlechtesten Werten sind: GII Rank auf der x Achse und der GII Value auf der y-Achse -> schlechteste, beste + Deutschland in 1 Barplot: alle die nicht relevant sind werden mit Punkten dargestellt
+
+am schlechteten: Jemen, Papua Neuguinea, Chad
+am besten: Schweiz, Dänemark, Schweden
+
+
+3. fancy Tabelle: beste Länder, schlechteste Länder + DL. Wie das aussehen soll: Links neben den Ländern sieht man die Länderflagge, und den Platz (#1). In den Daten steht direkt % oder so dahinter. Die auffälligsten Werte durch Farbe markierien (zB Chdf Müttersterb., Chad Frauen Sekundarabschluss, Papua Neu  Guinea Frauen im Parlament -> rot markieren/ grün markieren: Schweden Frauen Parlament, Frauen mind. Sekundarabschluss Deutschland) 
+
+
+noch eine Idee: Sekundarabschluss + Arbeitsmarktbeteiligung als einzelne Visualisierungen in Form einer Alterspyramide: Werte für m + f rechts und links 
+
+
+
+Als Info: Hättet ihr gedacht, dass DL hinter arabischen Emirate + Korea liegt?
+
+Wo steckt Deutschland?  GII Rannking auf Platz 20 + Wert 0,084
+ Arabischen Emirate (Platz 18, Value 0,079) und Republik Korea ist (Platz 11, 0,064) 
+ -> zeigt die Limitationen des Konstrukts (siehe oben)
+
+
+# Landkarte  
+```{r, include=FALSE}
+library(sf)
+library(raster)
+library(dplyr)
+library(spData)
+library(spDataLarge)
+library(tmap)    
+library(leaflet) 
+library(ggplot2)
+library(sp)
+
+
+
+# Landkarte herunterladen 
+
+download.file("http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip",  destfile=("data/to_work_with/borders_weltkarte/world_shape_file.zip"))
+
+list.files("data/to_work_with/borders_weltkarte/world_shape_file")
+
+my_spdf <- shapefile("data/to_work_with/borders_weltkarte/world_shape_file/TM_WORLD_BORDERS_SIMPL-0.3.shp")
+
+my_spdf@data$POP2005[ which(my_spdf@data$POP2005 == 0)] = NA
+my_spdf@data$POP2005 <- as.numeric(as.character(my_spdf@data$POP2005)) / 1000000 %>% round(2)
+
+
+
+# GII + world df mergen
+world <- world
+
+class(world)
+
+plot(world)
+
+world_sp = as(world, Class = "Spatial")
+
+
+
+GII_WELT <- left_join(world, GII, by= "name_long" )
+
+
+plot(GII_WELT)
+tm_shape(GII_WELT) + tm_fill(col = "GII_Value")
+
+
+
+# Farbpalette
+library(RColorBrewer)
+mybins <- c(0,0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8)
+mypalette <- colorBin( palette="OrRd", domain=GII_WELT$GII_Value , na.color="transparent", bins=mybins)
+
+
+
+# Text für Tooltips
+mytext <- paste(
+    "Land:", GII_WELT$name_long ,"<br/>", 
+    "GII-Platzierung:", GII_WELT$GII_Rank, "<br/>", 
+    "GII-Wert:", GII_WELT$GII_Value, 
+    sep="") %>%
+  lapply(htmltools::HTML)
+```
+
+
+```{r, include=TRUE}
+# endgültige Visualisierung
+GII_weltkarte <-leaflet(GII_WELT) %>% 
+  addTiles()  %>% 
+  setView( lat=51.1642292, lng=10.4541194 , zoom=2) %>%
+  addPolygons(
+    data = GII_WELT,
+    fillColor = ~mypalette(GII_Value), 
+    stroke=TRUE, 
+    fillOpacity = 0.9, 
+    color="white", 
+    weight=0.3,
+label = mytext,
+    labelOptions = labelOptions( 
+      style = list("font-weight" = "normal", padding = "3px 8px"), 
+      textsize = "13px", 
+      direction = "auto")) %>%
+  addLegend( pal=mypalette, values=~GII_Value, opacity=0.9, title = "GII Wert", position = "bottomleft" )
+show(GII_weltkarte)
+
+library(htmlwidgets)
+saveWidget(GII_weltkarte, file=paste0(getwd(),"/data/Visualisierungen/GII_weltkarte.html"))
+
+GII_weltkarte
+
+```
+
+
+
+
+
+
+# Lollipop Chart
+```{r, include=TRUE}
+
+library(ggplot2)
+library(dplyr)
+library(hrbrthemes)
+library(tidyverse)
+
+
+  
+GII_fil <- filter(GII, GII$name_long %in% c("Germany", "Switzerland", "Sweden", "Denmark", "Yemen", "Papua New Guinea", "Chad"))  
+GII_fil <- arrange(GII_fil, GII_fil$GII_Value)
+  
+GII_fil$name_long <- factor(GII_fil$name_long, levels= c("Yemen", "Papua New Guinea", "Chad", "Germany", "Sweden", "Denmark", "Switzerland"))
+
+write.csv(GII_fil, file="data/GII_fil.csv")
+
+GII_fil %>%  
+ggplot(aes(x=GII_fil$name_long, y=GII_fil$GII_Value)) +
+  geom_segment(aes
+               (x=GII_fil$name_long, xend=GII_fil$name_long, y=0, yend=GII_fil$GII_Value),
+               color= ifelse(GII_fil$name_long %in% c("Germany"), "#5e5a57", "#5e5a57"),
+               size= ifelse(GII_fil$name_long %in% c("Germany"), 1, 1)) +
+  geom_point(color= ifelse(GII_fil$name_long %in% c("Germany"), "#e34a33", "#fc8d59"),
+              size= ifelse(GII_fil$name_long %in% c("Germany"), 9.5, 9.5), stroke=2, col= 1, shape=16)+
+  geom_text(aes(label=GII_fil$GII_Value), color= "white", size=3)+
+  scale_y_continuous(limits= c(0,1))+
+  scale_x_discrete(labels= c("162. Jemen", "161. Papua Neuguinea", "160. Tschad", "20. Deutschland", "3. Schweden", "2. Dänemark", "1. Schweiz"))+
+  theme_minimal() + 
+  coord_flip()+
+  theme(legend.position = "none",
+        panel.grid.major.y = element_blank(),
+    panel.border = element_blank(),
+    axis.ticks.y = element_blank()) +
+  xlab("Länderplatzierung") + 
+  ylab("GII Wert") +
+  labs(title= "Gender Inequality Index (GII) - Länderranking", 
+       subtitle= "Deutschland zwischen den 3 besten und schlechtesten Ländern",
+       caption= "Quelle: UNDP - Human Development Report 2020") 
+
+ggsave("data/Visualisierungen/GII_fil.png", width = 8, height = 5)
+
+```
+
+
+
+
+
+# fancy Tabelle
+```{r, include=TRUE}
+library(reactable)
+library(reactablefmtr)
+library(htmltools)
+library(dplyr)
+
+
+#GII_fil die unnötigen Variablen raus nehmen
+
+options(digits = 3)
+GII_fil2 <- GII_fil[,c(-1:-4, -6,-7)]
+
+names(GII_fil2)[1] <- "Land"
+names(GII_fil2)[2]<- "Muettersterblichkeitsrate"
+names(GII_fil2)[3]<- "Jugendgeburtenrate"
+names(GII_fil2)[4]<- "Frauensitze"
+names(GII_fil2)[5]<- "Frauen_Sekundarbschluss"
+names(GII_fil2)[6]<- "Maenner_Sekundarbschluss"
+names(GII_fil2)[7]<- "Erwerbsquote_weiblich"
+names(GII_fil2)[8]<- "Erwerbsquote_maennlich"
+
+
+# aufgerundet auf 1 Nachkommastelle
+#Flaggen von: https://www.kaggle.com/zhongtr0n/country-flag-urls Gifs 
+
+
+
+tabelle <- reactable(GII_fil2, defaultColDef = colDef(headerStyle = list(background = "#fc8d59", color= "white"), align= "left", minWidth = 172),
+  outlined= TRUE, borderless= TRUE, striped = TRUE, highlight = TRUE, fullWidth=TRUE, resizable=TRUE,
+           theme = reactableTheme(
+    stripedColor = "#fef0d9",
+    highlightColor = " #fc8d59",
+    cellPadding = "8px 12px",
+    style = list(fontFamily = "Arial", fontSize= "12.5px"),
+    rowStyle = list(fontFamily = "Arial", fontSize= "12px"),
+  ),
+          columns = list(
+            Land = colDef(style = list(fontWeight= 600), minWidth= 180, cell = function(value) {
+      img_src <- knitr::image_uri(sprintf("GII_Flag_Images/%s.png", value))
+      image <- img(src = img_src, height = "24px", alt = value)
+      tagList(
+        div(style = list(display = "inline-block", width = "45px"), image),
+        value
+      )
+    }),
+    Muettersterblichkeitsrate = colDef(name= "Müttersterblichkeitsrate¹",format = colFormat(digits = 0), align= "right" ),
+            Jugendgeburtenrate = colDef(name= "Jugendgeburtenrate²", format = colFormat(digits = 1), align = "right" ),
+            Frauensitze= colDef(name = "Anteil von Frauensitzen im Parlament", format = colFormat(suffix = "%", digits = 1), align = "right"),
+            Frauen_Sekundarbschluss = colDef(name=  "Frauen über 25 Jahren mit mindestens Sekundarbschluss", format = colFormat(suffix = "%", digits = 1), align= "right"), 
+            Maenner_Sekundarbschluss= colDef(name="Männer über 25 Jahren mit mindestens Sekundarbschluss", format = colFormat(suffix = "%", digits = 1), align = "right"),
+            Erwerbsquote_weiblich= colDef(name= "Erwerbsquote der weiblichen Bevölkerung über 15 Jahren", format = colFormat(suffix = "%", digits = 1), align = "right"),
+            Erwerbsquote_maennlich = colDef(minWidth= 180, name = "Erwerbsquote der männlichen Bevölkerung über 15 Jahren", format = colFormat(suffix = "%", digits = 1), align = "right")),
+  columnGroups = list(
+    colGroup(name = "  ", columns = c("Land"), headerStyle= list(background = "#fc8d59", color= "white", fontSize= "13px")),
+    colGroup(name = "reproduktive Gesundheit", columns = c("Muettersterblichkeitsrate", "Jugendgeburtenrate"),headerStyle= list(background = "#fc8d59", color= "white", fontSize= "13px")),
+    colGroup(name = "Women Empowerment", columns = c("Frauensitze", "Frauen_Sekundarbschluss","Maenner_Sekundarbschluss"),headerStyle= list(background = "#fc8d59", color= "white", fontSize= "13px")),
+    colGroup(name = "wirtschaftlicher Status", columns = c("Erwerbsquote_weiblich", "Erwerbsquote_maennlich"), headerStyle= list(background = "#fc8d59", color= "white", fontSize= "13px"))))
+
+
+tabelle %>%  add_title("Detailansicht des GII Länderrankings", align = "left",
+font_color = "#000",
+font_family = "Arial",
+font_size = 16,
+font_style = "normal",
+text_decoration = NULL,
+margin= 2) %>% 
+  add_subtitle("Wie sehen die Werte der einzelnen Länder aus?", font_size = 14) %>% 
+  add_source("¹ Pro 100.000 Lebensgeburten, 
+             ² Pro 1.000 Frauen im Alter von 15 bis 19 Jahren", font_size= 12)
+    
+
+# für verschiedene Schriftarten
+#install.packages("extrafont")
+
+#library(extrafont)
+#loadfonts(device= "pdf", quiet= FALSE)
+#fonts()
+
+
+
+```

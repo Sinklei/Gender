@@ -20,4 +20,6 @@ navbar:
       href: quellen.html
     - text: "Wer sind wir?"
       href: about.html
+    - text: "Gender Inequality Index"
+      href: gii.html
 output: distill::distill_article
