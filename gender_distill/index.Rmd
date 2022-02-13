@@ -1,7 +1,6 @@
 ---
-title: "genderwebsite"
-description: |
-  Das ist unsere Website!
+title: "Gender Ungleichheit? Doch nicht bei uns! - Oder vielleicht doch?"
+description:
 site: distill::distill_website
 ---
 

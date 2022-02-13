@@ -1,15 +1,12 @@
 ---
-title: "Gender Inequality Index"
-description: |
-  das ist die wundervolle seite von linda
+title: " Index der geschlechtsspezifischen Ungleichheit"
+description:
 site: distill::distill_website
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
-
-# Der Hauptdatensatz GII
 
 ```{r}
 library(tidyverse)
@@ -19,83 +16,26 @@ GII <- read_csv("data/to_work_with/GII.csv")
 ```
 
 
-## Was ist der Gender Inequality Index?
+Der Index der geschlechtsspezifischen Ungleichheit von 2020 - auf Englisch Gender Inequality Index (GII) - misst die Ungleichheit zwischen Männer und Frauen in 162 Ländern. Der Index spiegelt wider, wie stark die Benachteiligung von Frauen ist. 3 Bereiche der menschlichen Entwicklung nimmt er dabei genauer unter die Lupe und stellt sie vor folgende Fragen: 
 
-misst geschlechtsspezifische Ungleichheiten auf 3 Ebenen der menschlchen Entwicklung in 162 Ländern:
-1. reproduktive Gesundheit -> gemessen an der Müttersterblichkeitsrate + Geburtenate bei Jugendlichen 
-2.Empowerment/Selbstbestimmung -> gemessen an Anteil der von Frauen besetzten Parlamentssitze, Anteil Frauen über 25 im Vergleich zu Männern, die mindestens Sekundarabschluss haben 
-3. wirtschaftlicher Status -> Vergleich Männer + Frauen: Arbeitsmarktbeteiligung, gemessen an Erwerbsquote der weiblichen + männlichen Bevölkerung ab 15 Jahren 
+1. **reproduktive Gesundheit¹:** Wie ist die Müttersterblichkeitsrate in dem Land? Wie ist die Geburtenrate bei Jugendlichen in dem Land?
 
-## Was zeigt er? 
+2. **Selbstbestimmung:** Wie viele Parlamentssitze sind von Frauen besetzt in dem Land? Wie hoch ist der Anteil von Frauen über 25 Jahren, die mindestens einen Sekundarabschluss haben in dem Land? Wie hoch ist dieser Anteil von Männern? 
 
-den Verlust an potenzieller menschlicher Entwicklung aufgrund der Ungleichheit zwischen den Leistungen von Frauen und Männern in den 3 Bereichen. Der GII spiegelt wider, wie sehr Frauen in diesen Bereichen benachteiligt sind
+3. **wirtschaftlicher Status:** Wie hoch ist die Erwerbsquote der männlichen Bevölkerung über 15 Jahren in dem Land? Wie hoch ist diese Quote bei der weiblichen Bevölkerung über 15 Jahren?
 
-Der GII liegt zwischen 0 und 1. Je höher der GII-Wert ist, desto größer sind die Ungleichheiten zwischen Frauen und Männern und desto größer ist der Verlust für die menschliche Entwicklung.
-
-Es gibt kein Land mit perfekter Gleichstellung der Geschlechter. Alle Länder erleiden einen gewissen Verlust an Errungenschaften in Schlüsselaspekten der menschlichen Entwicklung, wenn die Ungleichheit der Geschlechter berücksichtigt wird.Die Komponentenindikatoren zeigen Bereiche auf, in denen kritische politische Maßnahmen erforderlich sind, und sie regen proaktives Denken und öffentliche Maßnahmen zur Überwindung systematischer Benachteiligungen von Frauen an.
-Er kann Regierungen und anderen helfen, das Ausmaß der geschlechtsspezifischen Ungleichheiten bei der Teilhabe zu verstehen. Die einzelnen Indikatoren zeigen Bereiche auf, in denen die Politik dringend eingreifen muss. 
-
-## Limitationen 
-
-GII hat einige Einschränkungen (wie es bei zusammengesetzen/umfassenden Messungen üblich ist): 
-
-misst nicht die Länge und Breite der Ungleichheit zwischen den Geschlechtern. Erfassung zB parlamentare Vertretung auf nationaler Ebenene, nicht aber auf lokaler Regierungsebene und in anderen Bereichen des öffentlichen kommunalen Lebens. 
-
-Bei der Arbeitsmarktbeteiligung fehlen Daten über die Qualität der Arbeitsplätze. Generell werden wichtige Dimensionen des beruflichen Lebens außer Acht gelassen: unbezahlte Arbeit + Fakt, dass Frauen typischrweise die Aufgabe der Haushaltsführung + Pflege zugesprochen wird. 
-
-Was im GII aufgrund von fehlenden Daten nicht berücksichtigt wird: 
-Vermögenseigentum
-Unterstützung bei der Kinderbetreuung 
-geschlechtsspezifische Gewalt 
-Beteiligung an kommunalen Entscheidungsprozessen 
-
-## Quellen vom GII
-
-GII stützt sich auf öffentlichen Daten aus internationalen Datenbanken:
-
-- Müttersterblichkeitsrate: WHO, UNICEF,UNFPA, World Bank Group and United Nations Population Division (2019)
-
-- Geburtenrate bei Jugendlichen: UNDESA (2019)
-
-- Frauenanteil Sitze im Parlament: IPU (2020)
-
-- Arbeitsmarktbeteiligung: International Labour Organization ILO (2020)
-
-- Vergleich Frau Mann Sekundärabschluss: UNESCO Institute for Statistics (2020) and
-Barro and Lee (2018)
-
-QUELLE: http://hdr.undp.org/en/faq-page/gender-inequality-index-gii#t294n2913
-Berechnungen der Indizes: http://hdr.undp.org/sites/default/files/hdr2020_technical_notes.pdf
+>¹"Reproduktive Gesundheit ist ein Zustand vollkommenen physischen, geistigen und sozialen Wohlbefindens, und nicht nur die Abwesenheit von Krankheit oder Gebrechlichkeit, und zwar im Hinblick auf alle Belange in Zusammenhang mit dem reproduktiven System, seinen Funktionen und Prozessen."(International Conference on Population and Development (ICPD), Program of Action, UN Doc. A/CONF.171/13 1994, Kap. 7.A, 7.2., 7.3.)
 
 
-## WAS + WIE wir visualisieren können:
+#### Ein Wert zwischen 0 bis 1
 
-1. interaktive Landkarte/ Heatmap um ersten Überblick zu bekommen: GII Value + Ländername wird angezeigt wenn man über die Länder geht + man kann rein zoomen. Zusätzlich durch Farbskala anzeigen, ob
-Wert hoch oder niedrig ist https://espace-mondial-atlas.sciencespo.fr/en/topic-contrasts-and-inequalities/map-1C37-EN-human-development-index-gender-development-index-ecological-footprintandnbsp.html
+Der Wert der geschlechtsspezifischen Ungleichheit (GII-Wert) liegt zwischen 0 und 1. Je höher der Wert, desto größer die Ungleichheit zwischen Mann und Frau in den 3 Bereichen und desto größer ist der Verlust für die menschliche Entwicklung. 
+Wichtig ist sich im Hinterkopf zu behalten, dass nicht das Land mit dem höchsten GII- Wert an der Spitze steht. Im Gegenteil: Das Land, das der absoluten Gleichheit am nächsten kommt und am nächsten an der 0 ist führt.
 
-Was man dann sehen wird: In Europa ist der Wert besser als in arabischen/ afrikanischen Ländern 
-
-2. Lollipop Chart: um zu bestimmen, was die Länder mit den besten und schlechtesten Werten sind: GII Rank auf der x Achse und der GII Value auf der y-Achse -> schlechteste, beste + Deutschland in 1 Barplot: alle die nicht relevant sind werden mit Punkten dargestellt
-
-am schlechteten: Jemen, Papua Neuguinea, Chad
-am besten: Schweiz, Dänemark, Schweden
+Unsere Nachbarn die Niederlande liegen mit einem GII-Wert von 0.043 auf dem 4.Platz in dem Ranking des Index der geschlechtsspezifischen Ungleichheit von 2020. 
+Was glaubst du auf welchem Platz Deutschland liegt? Oder unser anderes Nachbarland Polen? Schau doch einfach mal selbst nach!
 
 
-3. fancy Tabelle: beste Länder, schlechteste Länder + DL. Wie das aussehen soll: Links neben den Ländern sieht man die Länderflagge, und den Platz (#1). In den Daten steht direkt % oder so dahinter. Die auffälligsten Werte durch Farbe markierien (zB Chdf Müttersterb., Chad Frauen Sekundarabschluss, Papua Neu  Guinea Frauen im Parlament -> rot markieren/ grün markieren: Schweden Frauen Parlament, Frauen mind. Sekundarabschluss Deutschland) 
-
-
-noch eine Idee: Sekundarabschluss + Arbeitsmarktbeteiligung als einzelne Visualisierungen in Form einer Alterspyramide: Werte für m + f rechts und links 
-
-
-
-Als Info: Hättet ihr gedacht, dass DL hinter arabischen Emirate + Korea liegt?
-
-Wo steckt Deutschland?  GII Rannking auf Platz 20 + Wert 0,084
- Arabischen Emirate (Platz 18, Value 0,079) und Republik Korea ist (Platz 11, 0,064) 
- -> zeigt die Limitationen des Konstrukts (siehe oben)
-
-
-# Landkarte  
 ```{r, include=FALSE}
 library(sf)
 library(raster)
@@ -157,8 +97,7 @@ mytext <- paste(
   lapply(htmltools::HTML)
 ```
 
-
-```{r, include=TRUE}
+```{r, include=TRUE, layout="l-body-outset", fig.width= 6, fig.height=5}
 # endgültige Visualisierung
 GII_weltkarte <-leaflet(GII_WELT) %>% 
   addTiles()  %>% 
@@ -186,12 +125,81 @@ GII_weltkarte
 ```
 
 
+#### Es gibt kein Land mit perfekter Gleichstellung der Geschlechter!
+
+Alle Länder erleiden einen gewissen Verlust an Errungenschaften in Schlüsselaspekten der menschlichen Entwicklung, wenn die Ungleichheit der Geschlechter berücksichtigt wird.Die Komponentenindikatoren zeigen Bereiche auf, in denen kritische politische Maßnahmen erforderlich sind, und sie regen proaktives Denken und öffentliche Maßnahmen zur Überwindung systematischer Benachteiligungen von Frauen an.
+Er kann Regierungen und anderen helfen, das Ausmaß der geschlechtsspezifischen Ungleichheiten bei der Teilhabe zu verstehen. Die einzelnen Indikatoren zeigen Bereiche auf, in denen die Politik dringend eingreifen muss.
+
+
+## Limitationen 
+
+GII hat einige Einschränkungen (wie es bei zusammengesetzen/umfassenden Messungen üblich ist): 
+
+misst nicht die Länge und Breite der Ungleichheit zwischen den Geschlechtern. Erfassung zB parlamentare Vertretung auf nationaler Ebenene, nicht aber auf lokaler Regierungsebene und in anderen Bereichen des öffentlichen kommunalen Lebens. 
+
+Bei der Arbeitsmarktbeteiligung fehlen Daten über die Qualität der Arbeitsplätze. Generell werden wichtige Dimensionen des beruflichen Lebens außer Acht gelassen: unbezahlte Arbeit + Fakt, dass Frauen typischrweise die Aufgabe der Haushaltsführung + Pflege zugesprochen wird. 
+
+Was im GII aufgrund von fehlenden Daten nicht berücksichtigt wird: 
+Vermögenseigentum
+Unterstützung bei der Kinderbetreuung 
+geschlechtsspezifische Gewalt 
+Beteiligung an kommunalen Entscheidungsprozessen 
+
+## Quellen vom GII
+
+GII stützt sich auf öffentlichen Daten aus internationalen Datenbanken:
+
+- Müttersterblichkeitsrate: WHO, UNICEF,UNFPA, World Bank Group and United Nations Population Division (2019)
+
+- Geburtenrate bei Jugendlichen: UNDESA (2019)
+
+- Frauenanteil Sitze im Parlament: IPU (2020)
+
+- Arbeitsmarktbeteiligung: International Labour Organization ILO (2020)
+
+- Vergleich Frau Mann Sekundärabschluss: UNESCO Institute for Statistics (2020) and
+Barro and Lee (2018)
+
+QUELLE: http://hdr.undp.org/en/faq-page/gender-inequality-index-gii#t294n2913
+Berechnungen der Indizes: http://hdr.undp.org/sites/default/files/hdr2020_technical_notes.pdf
+
+
+## WAS + WIE wir visualisieren können:
+
+1. interaktive Landkarte/ Heatmap um ersten Überblick zu bekommen: GII Value + Ländername wird angezeigt wenn man über die Länder geht + man kann rein zoomen. Zusätzlich durch Farbskala anzeigen, ob
+Wert hoch oder niedrig ist https://espace-mondial-atlas.sciencespo.fr/en/topic-contrasts-and-inequalities/map-1C37-EN-human-development-index-gender-development-index-ecological-footprintandnbsp.html
+
+Was man dann sehen wird: In Europa ist der Wert besser als in arabischen/ afrikanischen Ländern 
+
+2. Lollipop Chart: um zu bestimmen, was die Länder mit den besten und schlechtesten Werten sind: GII Rank auf der x Achse und der GII Value auf der y-Achse -> schlechteste, beste + Deutschland in 1 Barplot: alle die nicht relevant sind werden mit Punkten dargestellt
+
+am schlechteten: Jemen, Papua Neuguinea, Chad
+am besten: Schweiz, Dänemark, Schweden
+
+
+3. fancy Tabelle: beste Länder, schlechteste Länder + DL. Wie das aussehen soll: Links neben den Ländern sieht man die Länderflagge, und den Platz (#1). In den Daten steht direkt % oder so dahinter. Die auffälligsten Werte durch Farbe markierien (zB Chdf Müttersterb., Chad Frauen Sekundarabschluss, Papua Neu  Guinea Frauen im Parlament -> rot markieren/ grün markieren: Schweden Frauen Parlament, Frauen mind. Sekundarabschluss Deutschland) 
+
+
+noch eine Idee: Sekundarabschluss + Arbeitsmarktbeteiligung als einzelne Visualisierungen in Form einer Alterspyramide: Werte für m + f rechts und links 
+
+
+
+Als Info: Hättet ihr gedacht, dass DL hinter arabischen Emirate + Korea liegt?
+
+Wo steckt Deutschland?  GII Rannking auf Platz 20 + Wert 0,084
+ Arabischen Emirate (Platz 18, Value 0,079) und Republik Korea ist (Platz 11, 0,064) 
+ -> zeigt die Limitationen des Konstrukts (siehe oben)
+
+
+
+
+
 
 
 
 
 # Lollipop Chart
-```{r, include=TRUE}
+```{r, include=TRUE, layout="l-body-outset", fig.width= 9, fig.height=5.5}
 
 library(ggplot2)
 library(dplyr)
@@ -230,7 +238,7 @@ ggplot(aes(x=GII_fil$name_long, y=GII_fil$GII_Value)) +
        subtitle= "Deutschland zwischen den 3 besten und schlechtesten Ländern",
        caption= "Quelle: UNDP - Human Development Report 2020") 
 
-ggsave("data/Visualisierungen/GII_fil.png", width = 8, height = 5)
+#ggsave("data/Visualisierungen/GII_fil.png", width = 8, height = 5)
 
 ```
 
@@ -239,7 +247,7 @@ ggsave("data/Visualisierungen/GII_fil.png", width = 8, height = 5)
 
 
 # fancy Tabelle
-```{r, include=TRUE}
+```{r, include=TRUE, layout="l-body-outset", fig.width= 7, fig.height=5}
 library(reactable)
 library(reactablefmtr)
 library(htmltools)
@@ -266,21 +274,21 @@ names(GII_fil2)[8]<- "Erwerbsquote_maennlich"
 
 
 
-tabelle <- reactable(GII_fil2, defaultColDef = colDef(headerStyle = list(background = "#fc8d59", color= "white"), align= "left", minWidth = 172),
-  outlined= TRUE, borderless= TRUE, striped = TRUE, highlight = TRUE, fullWidth=TRUE, resizable=TRUE,
+tabelle <- reactable(GII_fil2, defaultColDef = colDef(headerStyle = list(background = "#fc8d59", color= "white"), align= "left", minWidth = 175),
+  outlined= TRUE, borderless= TRUE, striped = TRUE, highlight = TRUE, fullWidth=TRUE, resizable=FALSE,
            theme = reactableTheme(
     stripedColor = "#fef0d9",
     highlightColor = " #fc8d59",
-    cellPadding = "8px 12px",
-    style = list(fontFamily = "Arial", fontSize= "12.5px"),
-    rowStyle = list(fontFamily = "Arial", fontSize= "12px"),
+    cellPadding = "10px 8px",
+    style = list(fontFamily = "Arial", fontSize= "13.5px"),
+    rowStyle = list(fontFamily = "Arial", fontSize= "13px"),
   ),
           columns = list(
             Land = colDef(style = list(fontWeight= 600), minWidth= 180, cell = function(value) {
       img_src <- knitr::image_uri(sprintf("GII_Flag_Images/%s.png", value))
       image <- img(src = img_src, height = "24px", alt = value)
       tagList(
-        div(style = list(display = "inline-block", width = "45px"), image),
+        div(style = list(display = "inline-block", width = "35px"), image),
         value
       )
     }),
@@ -293,9 +301,9 @@ tabelle <- reactable(GII_fil2, defaultColDef = colDef(headerStyle = list(backgro
             Erwerbsquote_maennlich = colDef(minWidth= 180, name = "Erwerbsquote der männlichen Bevölkerung über 15 Jahren", format = colFormat(suffix = "%", digits = 1), align = "right")),
   columnGroups = list(
     colGroup(name = "  ", columns = c("Land"), headerStyle= list(background = "#fc8d59", color= "white", fontSize= "13px")),
-    colGroup(name = "reproduktive Gesundheit", columns = c("Muettersterblichkeitsrate", "Jugendgeburtenrate"),headerStyle= list(background = "#fc8d59", color= "white", fontSize= "13px")),
-    colGroup(name = "Women Empowerment", columns = c("Frauensitze", "Frauen_Sekundarbschluss","Maenner_Sekundarbschluss"),headerStyle= list(background = "#fc8d59", color= "white", fontSize= "13px")),
-    colGroup(name = "wirtschaftlicher Status", columns = c("Erwerbsquote_weiblich", "Erwerbsquote_maennlich"), headerStyle= list(background = "#fc8d59", color= "white", fontSize= "13px"))))
+    colGroup(name = "reproduktive Gesundheit", columns = c("Muettersterblichkeitsrate", "Jugendgeburtenrate"),headerStyle= list(background = "#fc8d59", color= "white", fontSize= "14px")),
+    colGroup(name = "Women Empowerment", columns = c("Frauensitze", "Frauen_Sekundarbschluss","Maenner_Sekundarbschluss"),headerStyle= list(background = "#fc8d59", color= "white", fontSize= "14px")),
+    colGroup(name = "wirtschaftlicher Status", columns = c("Erwerbsquote_weiblich", "Erwerbsquote_maennlich"), headerStyle= list(background = "#fc8d59", color= "white", fontSize= "14px"))))
 
 
 tabelle %>%  add_title("Detailansicht des GII Länderrankings", align = "left",
@@ -305,9 +313,9 @@ font_size = 16,
 font_style = "normal",
 text_decoration = NULL,
 margin= 2) %>% 
-  add_subtitle("Wie sehen die Werte der einzelnen Länder aus?", font_size = 14) %>% 
+  add_subtitle("Wie sehen die Werte der einzelnen Länder aus?", font_size = 15) %>% 
   add_source("¹ Pro 100.000 Lebensgeburten, 
-             ² Pro 1.000 Frauen im Alter von 15 bis 19 Jahren", font_size= 12)
+             ² Pro 1.000 Frauen im Alter von 15 bis 19 Jahren", font_size= 13)
     
 
 # für verschiedene Schriftarten
