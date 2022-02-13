@@ -1,7 +1,6 @@
 ---
 title: "Politik"
 author: "Kevin"
-date: "7/26/2021"
 output: html_document
 editor_options: 
   chunk_output_type: console
@@ -88,6 +87,57 @@ seats$year <- as.numeric(seats$year)
 
 
 
+seats_cont <- before_clean_seats %>% 
+            filter(country %in% c("Africa Eastern and Southern",
+                                   "Africa Western and Central",
+                                   "Arab World",
+                                   "Central Europe and the Baltics",
+                                   "Caribbean small states",
+                                   "East Asia & Pacific",
+                                   "Euro area",
+                                   "Europe & Central Asia",
+                                   "European Union",
+                                   "Fragile and conflict affected situations",
+                                   "Heavily indebted poor countries (HIPC)",
+                                   "High income",
+                                   "Latin America & Caribbean",
+                                   "Least developed countries: UN classification",
+                                   "Low & middle income",
+                                   "Low income",
+                                   "Lower middle income",
+                                   "Middle East & North Africa",
+                                   "Middle income",
+                                   "North America",
+                                   "OECD members",
+                                   "Pacific island small states",
+                                   "Small states",
+                                   "South Asia",
+                                   "Sub-Saharan Africa",
+                                   "Upper middle income",
+                                   "World")) %>% 
+            pivot_longer(cols = -country, names_to = "year", values_to = "n") %>% 
+            mutate_if(is.numeric, round)
+            #filter(n != "NA")
+
+
+names(seats_cont)[1] <- "country"
+names(seats_cont)[3] <- "percentage"
+seats_cont$year <- as.numeric(seats$year)
+
+
+
+#Hintergrundinfos über den Datensatz:
+#Proportion of seats held by women in national parliaments (%)(SG.GEN.PARL.ZS)
+#Definition: Women in parliaments are the percentage of parliamentary seats in a single or lower chamber held by women.
+#Quelle: Inter-Parliamentary Union (IPU) (www.ipu.org). For the year of 1998, the data is as of August 10, 1998.
+#aggregation method: Weighted average
+
+#meine Quelle: https://databank.worldbank.org/source/gender-statistics
+
+#könnte auch mit Bildung zusammenhängen, dass für Frauen nicht dieselben Voraussetzungen gelten wie für Männer
+
+
+
 #### 1 bundestag ####
 
 # selbst generierter Datensatz aus Wikipedia Tabelle (https://de.wikipedia.org/wiki/Frauenanteil_im_Deutschen_Bundestag_seit_1949)
@@ -165,6 +215,7 @@ view(parteien_frauen)
 # seats in parliament
 
 
+## seats datensatz introduction bubble plot 2020
 * bubble plot
 * mit dieser Visualisierung starten können, um einen allgemeinen Überblick über die Lage in der Welt geben zu können (von kleinem zum großen gehen können)
 * Achtung: das sind nur Prozente
@@ -180,6 +231,8 @@ view(parteien_frauen)
 
 seats_2020 <- seats %>% filter(year == "2020")
   
+
+### für mich
 seats_2020 %>% 
   ggplot() +
   aes(x = year,
@@ -192,8 +245,7 @@ seats_2020 %>%
   scale_y_continuous(limits = c(0, 100)) +
   NULL
 
-
-
+ 2020### für mich
 seats_2020 %>% 
   ggplot() +
   aes(y = percentage) +
@@ -242,7 +294,7 @@ Unser Ziel erst mal: einfach nur zeigen wie es auf der welt ist
 schlussfolgerung, da müsste sich also was tun, wenn es das ziel ist, dass man das ausgleichen will (wo ist das vielleicht das ziel? so ein EU Ding??? Regularien Gesetze???)
 
 
-mit dem bubble plot verschiedene länder zeigen können, was es halt so gibt
+mit dem bubble plot verschiedene länder zeigen können, was es halt so gibt (in dem Jahr 2020)
 
 ```{seats bubble plot, r}
 
@@ -290,110 +342,72 @@ ggplot() +
 ```
 
 
-
-
-
-
+## seats datensatz zeitliche entwicklung
 * 1997 bis 2020
 wie oben gezeigt wurde es ist bei weitem noch nicht gleich, aber es hat sich sehr positiv entwickelt
 * wie hat sich das so entwickelt?
-* kann man einen Trend erkennen?
+* Trend zeichnet sich aber ab, dass es positiver wird. immer mehr Frauen kommen in Parlamente (vielleicht da auch zwischen den Kontinenten unterscheiden können)
+* zeitstrahl zeigen und eine horizontale linie bei 50 prozent
 
 
+```{seats zeitliche entwicklung, r}
 
-
-
-Hintergrundinfos über den Datensatz:
-Proportion of seats held by women in national parliaments (%)(SG.GEN.PARL.ZS)
-Definition: Women in parliaments are the percentage of parliamentary seats in a single or lower chamber held by women.
-Quelle: Inter-Parliamentary Union (IPU) (www.ipu.org). For the year of 1998, the data is as of August 10, 1998.
-aggregation method: Weighted average
-
-meine Quelle: https://databank.worldbank.org/source/gender-statistics
-
-könnte auch mit Bildung zusammenhängen, dass für Frauen nicht dieselben Voraussetzungen gelten wie für Männer
-
-
-```{seats, r}
-
-
-# 1997 - 2020 HIER WAR ICH DRAN
-
-seats %>% 
+seats %>% filter(country %in% c("Germany", "Rwanda", "Cuba", "France", "Sweden")) %>% 
   ggplot() +
-  aes(x = year,
-      y = percentage) +
-  geom_point(alpha = 0.1)
+  aes(year, percentage, color = country) +
+  geom_line()
 
 
+#### man kann erkennen, dass der mittelwert global über alle Länder hinweg, steigt (genauso wie der median)
+seats2 <- seats %>% 
+  group_by(year) %>% 
+  mutate(mean = mean(percentage)) %>% 
+  mutate(median = median(percentage))
 
-
-
-
-# allgmeine oder so
-view(seats)
-
-range(seats$percentage)
-
-o <- seats %>% 
-  filter(percentage == "0")
-
-view(o)
-
-z <- c("Bahrain", "Belize", "Comoros", "Djibouti", "Haiti", "Jordan", "Kiribati", "Kuwait", "Kyrgyz Republic", "Micronesia, Fed. Sts.", "Nauru", "Oman", "Palau", "Papua New Guinea", "Qatar", "Saudi Arabia", "Solomon Islands", "St. Kitts and Nevis", "St. Lucia", "Tonga", "Tuvalu", "United Arab Emirates", "Vanuatu", "Yemen, Rep.")
-
-
-seats %>% 
-  filter(country == "Belize") %>% 
+seats2 %>% 
   ggplot() +
-  aes(x = year,
-      y = percentage) +
-  geom_point()
-
-```
-
-```{seats datenlage checken, r}
-
-# Datenlage checken
-
-seats %>% 
-  filter(country %in% c("Germany", "Afghanistan", "Angola", "Bahrain")) %>% 
-  ggplot() +
-  aes(x = year, 
-      y = percentage,
-      color = country) +
+  aes(year, mean) +
   geom_point() +
-  NULL
+  scale_y_continuous(limits = c(0, 25), breaks = c(0, 5, 10, 15, 20, 25)) +
+  scale_x_continuous(limits = c(1995, 2020), breaks = c(1995, 2000, 2005, 2010, 2015, 2020))
 
-
-seats %>% 
+seats2 %>% 
   ggplot() +
-  aes(x = as.character(year),
-      y = percentage) +
-  geom_jitter(alpha = 0.1) +
-  geom_boxplot()
+  aes(year, median, color = "median") +
+  geom_point() +
+  geom_point(aes(y = mean, color = "mean")) +
+  scale_y_continuous(limits = c(0, 25), breaks = c(0, 5, 10, 15, 20, 25)) +
+  scale_x_continuous(limits = c(1995, 2020), breaks = c(1995, 2000, 2005, 2010, 2015, 2020))
 
 
 
-seats %>%
-  filter(year == "2020") %>% 
+seats_cont %>%
+  filter(country %in% c("Africa Eastern and Southern", "Africa Western and Central", "Arab World", "Central Europe and the Baltics", "East Asia & Pacific", "Low income", "European Union")) %>% 
   ggplot() +
-  aes(x = year,
-      y = percentage) +
-  geom_boxplot() +
-  geom_jitter(alpha = 0.4) +
-  coord_flip()
-
-
-seats %>% 
-  filter(region == "Rwanda") %>% 
-  ggplot() +
-  aes(x = year,
-      y = percentage) +
+  aes(year, percentage, color = country, group = country) +
+  geom_line(size = 1) +
   geom_point()
 
 
-### Welche Lände rkönnte man so nehmen für eine Grafik??
+
+
+seats_cont %>%
+  filter(country %in% c("High income", "Low & middle income", "Low income", "Lower middle income", "Middle income", "Upper middle income")) %>% 
+  ggplot() +
+  aes(year, percentage, color = country, group = country) +
+  geom_line(size = 1) +
+  geom_point()
+
+
+
+
+                                   
+                                   
+
+
+
+### N O T I Z E N ####
+#Welche Lände rkönnte man so nehmen für eine Grafik??
 # Deutschland 31, Rwanda (max 61)
 
 
@@ -403,34 +417,8 @@ seats %>%
 # median bei 16
 # sd bei 10
 
-o <- seats %>% 
-      filter(year == "2020",
-             #percentage == "61",
-             country == "Germany")
 
-view(o)
-
-seats %>% 
-  filter(percentage > 40) %>% count()
-  ggplot() +
-  aes(x = year,
-      y = percentage) +
-  geom_jitter()
-
-view(seats)
-
-
-max(o$percentage)
-min(seats$percentage)
-mean(seats$percentage)
-median(seats$percentage)
-sd(seats$percentage)
-range(seats$percentage)
-
-seats %>% count(percentage, sort = T)
 ```
-
-
 
 
 
@@ -485,7 +473,8 @@ bundestag %>%
   ggplot() +
   aes(x = bundestag,
       y = frauen_perc) +
-  geom_point()
+  geom_point() +
+  coord_flip()
   
   
 
