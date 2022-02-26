@@ -80,50 +80,22 @@ seats <- before_clean_seats %>%
                                    "Upper middle income",
                                    "World"))
 
-
-names(seats)[1] <- "country"
-names(seats)[3] <- "percentage"
+names(seats)[3] <- "percentage_women"
 seats$year <- as.numeric(seats$year)
 
 
 
-seats_cont <- before_clean_seats %>% 
-            filter(country %in% c("Africa Eastern and Southern",
-                                   "Africa Western and Central",
-                                   "Arab World",
-                                   "Central Europe and the Baltics",
-                                   "Caribbean small states",
-                                   "East Asia & Pacific",
-                                   "Euro area",
-                                   "Europe & Central Asia",
-                                   "European Union",
-                                   "Fragile and conflict affected situations",
-                                   "Heavily indebted poor countries (HIPC)",
-                                   "High income",
-                                   "Latin America & Caribbean",
-                                   "Least developed countries: UN classification",
-                                   "Low & middle income",
-                                   "Low income",
-                                   "Lower middle income",
-                                   "Middle East & North Africa",
-                                   "Middle income",
-                                   "North America",
-                                   "OECD members",
-                                   "Pacific island small states",
-                                   "Small states",
-                                   "South Asia",
-                                   "Sub-Saharan Africa",
-                                   "Upper middle income",
-                                   "World")) %>% 
-            pivot_longer(cols = -country, names_to = "year", values_to = "n") %>% 
-            mutate_if(is.numeric, round)
-            #filter(n != "NA")
+seats <- seats %>% 
+            group_by(year) %>% 
+            mutate(percentage_men = 100 - percentage_women) %>% 
+            mutate(percentage = 100) %>% 
+            mutate(mean_w = mean(percentage_women)) %>% 
+            mutate(mean_m = mean(percentage_men))
+            
 
+options(digits = 0)
 
-names(seats_cont)[1] <- "country"
-names(seats_cont)[3] <- "percentage"
-seats_cont$year <- as.numeric(seats$year)
-
+view(seats)
 
 
 #Hintergrundinfos über den Datensatz:
@@ -214,134 +186,6 @@ view(parteien_frauen)
 
 # seats in parliament
 
-
-## seats datensatz introduction bubble plot 2020
-* bubble plot
-* mit dieser Visualisierung starten können, um einen allgemeinen Überblick über die Lage in der Welt geben zu können (von kleinem zum großen gehen können)
-* Achtung: das sind nur Prozente
-
-
-* was sind die markantesten werte
-* mittelwert über die ganzen Länder vielleicht machen? (arithmetisches mittel)
-* welches ist das mittigste land
-* wenn ich mittelwerte bilde muss ich das kontrollieren mit einträgen wie "arab world" "world" und sowas
-* vielleicht bereiche der welt miteinander vergleichen wie "arab world" und "pacific" und "euro area"
-
-```{r seats 2020}
-
-seats_2020 <- seats %>% filter(year == "2020")
-  
-
-### für mich
-seats_2020 %>% 
-  ggplot() +
-  aes(x = year,
-      y = percentage) +
-  geom_boxplot() +
-  #geom_point(alpha=0.1) +
-  coord_flip() +
-  geom_hline(yintercept = 31, color = "red", size = 1) +
-  geom_hline(yintercept = 50, color = "blue", size = 1) +
-  scale_y_continuous(limits = c(0, 100)) +
-  NULL
-
- 2020### für mich
-seats_2020 %>% 
-  ggplot() +
-  aes(y = percentage) +
-  geom_histogram(bins = 237) +
-  coord_flip() +
-  geom_hline(yintercept = 31, color = "red", size = 1) +
-  geom_hline(yintercept = 50, color = "blue", size = 1) +
-  scale_y_continuous(limits = c(0, 100))
-
-
-
-## austesten können
-seats_2020 %>% 
-  ggplot() +
-  aes(x = country,
-      y = percentage) +
-  geom_col() +
-  coord_flip() +
-  geom_hline(yintercept = 31, color = "red", size = 1) +
-  geom_hline(yintercept = 50, color = "blue", size = 1) +
-  scale_y_continuous(limits = c(0, 100))
-
-## vielleicht so einen bar plot der verständlich ist????
-
-
-```
-
-
-für year == 2020 ist die Anzahl an Ländern 190
-der schlechteste wert in 2020 ist 0, der beste 61 prozent (range)
-
-das land mit der höchsten prozentzahl ist rwanda (61%), dann kommt Kuba (53%) und dann die Vereinigten Arabischen Emirate (50%)
-länder mit einem wert von 0 prozent sind Micronesia, Papua New Guinea, Vanuatu und Yemen.
-
-
-"die verteilung unter den geschlechtern in der politik ist weit davon entfernt, gerecht bei 50% zu sein. ein paar wenige ausnahmeländer haben mehr frauen in ihren parlamenten als männer. die deutliche mehrzahl der parlamente ist männerdominiert. deutschland liegt bei 31%" (ist das so, kontrollieren)
-die wenigsten länder kommen überhaupt in die 50 prozent nähe. politik ist immer noch ein vorwiegend durch männer geprägter bereich
-
-
-mittelwert über die ganze welt in 2020 23,865 prozent (median 23)
-Länder, die den Median widerspiegeln: Armenien, Chile, Malawi, Panama
-
-
-
-Unser Ziel erst mal: einfach nur zeigen wie es auf der welt ist
-schlussfolgerung, da müsste sich also was tun, wenn es das ziel ist, dass man das ausgleichen will (wo ist das vielleicht das ziel? so ein EU Ding??? Regularien Gesetze???)
-
-
-mit dem bubble plot verschiedene länder zeigen können, was es halt so gibt (in dem Jahr 2020)
-
-```{seats bubble plot, r}
-
-library(packcircles)
-
-# Create data (dataframe to work with)
-seats_bubble <- seats %>% filter(year == "2020",
-                                 country %in% c("Germany", "Rwanda", "Cuba", "United Arab Emirates", "Yemen, Rep.", "Papua New Guinea", "Micronesia, Fed. Sts.", "Malawi", "Panama", "Armenia", "Maldives", "Japan", "Kiribati", "France", "Sweden"))
-
-# Generate the layout. This function return a dataframe with one line per bubble. 
-# It gives its center (x and y) and its radius, proportional of the value
-seats_packing <- circleProgressiveLayout(seats_bubble$percentage, sizetype = "area")
-
-# We can add these packing information to the initial data frame
-seats_bubble <- cbind(seats_bubble, seats_packing)
-
-# Check that radius is proportional to value. We don't want a linear relationship, since it is the AREA that must be proportionnal to the value
-#plot(seats_bubble$radius, seats_bubble$number)
-
-# The next step is to go from one center + a radius to the coordinates of a circle that
-# is drawn by a multitude of straight lines.
-seats.gg <- circleLayoutVertices(seats_packing, npoints = 50)
-
-
-# dass man vernünftig die zahlen da reinbekommt
-seats_bubble_label <- seats_bubble %>% 
-                        mutate(y = y-0.6)
-
-# generate the plot
-ggplot() +
-  
-  # bubble
-  geom_polygon(data = seats.gg, aes(x, y, group = id, fill = as.factor(id), color = "black", alpha = 0.6)) +
-  
-   # Add text in the center of each bubble + control its size
-  geom_text(data = seats_bubble, aes(x, y, size = percentage, label = country)) +
-  geom_text(data = seats_bubble_label, aes(x, y, size = percentage, label = percentage)) +
-  scale_size_continuous(range = c(1,4)) +
-  
-  # General theme:
-  theme_void() + 
-  theme(legend.position="none") +
-  coord_equal()
-
-```
-
-
 ## seats datensatz zeitliche entwicklung
 * 1997 bis 2020
 wie oben gezeigt wurde es ist bei weitem noch nicht gleich, aber es hat sich sehr positiv entwickelt
@@ -349,36 +193,78 @@ wie oben gezeigt wurde es ist bei weitem noch nicht gleich, aber es hat sich seh
 * Trend zeichnet sich aber ab, dass es positiver wird. immer mehr Frauen kommen in Parlamente (vielleicht da auch zwischen den Kontinenten unterscheiden können)
 * zeitstrahl zeigen und eine horizontale linie bei 50 prozent
 
+```{seats zeitliche entwicklung barplot, r}
 
-```{seats zeitliche entwicklung, r}
+#### man kann erkennen, dass der mittelwert global über alle Länder hinweg, steigt (genauso wie der median) 
 
-seats %>% filter(country %in% c("Germany", "Rwanda", "Cuba", "France", "Sweden")) %>% 
+
+seats %>% 
   ggplot() +
-  aes(year, percentage, color = country) +
-  geom_line()
-
-
-#### man kann erkennen, dass der mittelwert global über alle Länder hinweg, steigt (genauso wie der median)
-seats2 <- seats %>% 
-  group_by(year) %>% 
-  mutate(mean = mean(percentage)) %>% 
-  mutate(median = median(percentage))
-
-seats2 %>% 
-  ggplot() +
-  aes(year, mean) +
+  aes(year, mean_w) +
   geom_point() +
   scale_y_continuous(limits = c(0, 25), breaks = c(0, 5, 10, 15, 20, 25)) +
   scale_x_continuous(limits = c(1995, 2020), breaks = c(1995, 2000, 2005, 2010, 2015, 2020))
 
-seats2 %>% 
-  ggplot() +
-  aes(year, median, color = "median") +
-  geom_point() +
-  geom_point(aes(y = mean, color = "mean")) +
-  scale_y_continuous(limits = c(0, 25), breaks = c(0, 5, 10, 15, 20, 25)) +
-  scale_x_continuous(limits = c(1995, 2020), breaks = c(1995, 2000, 2005, 2010, 2015, 2020))
 
+# neuer Datensatz
+# "Germany" als Beispiel um nur eins zu nehmen. die daten sind ja für alle länder gleich, weil es ja der mittelwert über die ganzen länder sind
+# daran anknüpfend jetzt einen neuen datensatz mit jamovi gemacht, um die daten so zu bekommen, wie wir sie für den bar plot brauchen
+
+seats_world <- read.csv("data/to_work_with/barplot_data.csv") %>% na.omit()
+
+seats_world %>% 
+  ggplot() +
+  aes(year, fill = Anteil) +
+  geom_bar(position = position_stack(reverse = TRUE)) +
+  scale_x_continuous(breaks = c(1997, 2020)) +
+  scale_fill_manual(values = c("#F5504E", "#2489FF"), labels = c("weiblich", "männlich")) +
+  theme(legend.title = element_blank()) +
+  geom_hline(yintercept = 50, size = 1) +
+  labs(y = NULL, x = "Jahr")
+
+
+```
+
+```{r}
+# was mit den kontinenten
+
+
+seats_cont <- before_clean_seats %>% 
+            filter(country %in% c("Africa Eastern and Southern",
+                                   "Africa Western and Central",
+                                   "Arab World",
+                                   "Central Europe and the Baltics",
+                                   "Caribbean small states",
+                                   "East Asia & Pacific",
+                                   "Euro area",
+                                   "Europe & Central Asia",
+                                   "European Union",
+                                   "Fragile and conflict affected situations",
+                                   "Heavily indebted poor countries (HIPC)",
+                                   "High income",
+                                   "Latin America & Caribbean",
+                                   "Least developed countries: UN classification",
+                                   "Low & middle income",
+                                   "Low income",
+                                   "Lower middle income",
+                                   "Middle East & North Africa",
+                                   "Middle income",
+                                   "North America",
+                                   "OECD members",
+                                   "Pacific island small states",
+                                   "Small states",
+                                   "South Asia",
+                                   "Sub-Saharan Africa",
+                                   "Upper middle income",
+                                   "World")) %>% 
+            pivot_longer(cols = -country, names_to = "year", values_to = "n") %>% 
+            mutate_if(is.numeric, round)
+            #filter(n != "NA")
+
+
+names(seats_cont)[1] <- "country"
+names(seats_cont)[3] <- "percentage"
+seats_cont$year <- as.numeric(seats$year)
 
 
 seats_cont %>%
@@ -397,25 +283,6 @@ seats_cont %>%
   aes(year, percentage, color = country, group = country) +
   geom_line(size = 1) +
   geom_point()
-
-
-
-
-                                   
-                                   
-
-
-
-### N O T I Z E N ####
-#Welche Lände rkönnte man so nehmen für eine Grafik??
-# Deutschland 31, Rwanda (max 61)
-
-
-# max Rwanda 64
-# min mehrere Länder mit 0 (auch Papa dings da)
-# mean liegt bei 17 ca
-# median bei 16
-# sd bei 10
 
 
 ```
@@ -547,6 +414,148 @@ xmlDataFrame %>% view()
 
 
 
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# was ich vermutlich nicht brauchen werde, aber hier noch mal speichern möchte
+
+## seats datensatz introduction bubble plot 2020
+* bubble plot
+* mit dieser Visualisierung starten können, um einen allgemeinen Überblick über die Lage in der Welt geben zu können (von kleinem zum großen gehen können)
+* Achtung: das sind nur Prozente
+
+
+* was sind die markantesten werte
+* mittelwert über die ganzen Länder vielleicht machen? (arithmetisches mittel)
+* welches ist das mittigste land
+* wenn ich mittelwerte bilde muss ich das kontrollieren mit einträgen wie "arab world" "world" und sowas
+* vielleicht bereiche der welt miteinander vergleichen wie "arab world" und "pacific" und "euro area"
+
+```{r seats 2020}
+
+seats_2020 <- seats %>% filter(year == "2020")
+  
+
+### für mich
+seats_2020 %>% 
+  ggplot() +
+  aes(x = year,
+      y = percentage) +
+  geom_boxplot() +
+  #geom_point(alpha=0.1) +
+  coord_flip() +
+  geom_hline(yintercept = 31, color = "red", size = 1) +
+  geom_hline(yintercept = 50, color = "blue", size = 1) +
+  scale_y_continuous(limits = c(0, 100)) +
+  NULL
+
+ 2020### für mich
+seats_2020 %>% 
+  ggplot() +
+  aes(y = percentage) +
+  geom_histogram(bins = 237) +
+  coord_flip() +
+  geom_hline(yintercept = 31, color = "red", size = 1) +
+  geom_hline(yintercept = 50, color = "blue", size = 1) +
+  scale_y_continuous(limits = c(0, 100))
+
+
+
+## austesten können
+seats_2020 %>% 
+  ggplot() +
+  aes(x = country,
+      y = percentage) +
+  geom_col() +
+  coord_flip() +
+  geom_hline(yintercept = 31, color = "red", size = 1) +
+  geom_hline(yintercept = 50, color = "blue", size = 1) +
+  scale_y_continuous(limits = c(0, 100))
+
+## vielleicht so einen bar plot der verständlich ist????
+
+
+```
+
+
+für year == 2020 ist die Anzahl an Ländern 190
+der schlechteste wert in 2020 ist 0, der beste 61 prozent (range)
+
+das land mit der höchsten prozentzahl ist rwanda (61%), dann kommt Kuba (53%) und dann die Vereinigten Arabischen Emirate (50%)
+länder mit einem wert von 0 prozent sind Micronesia, Papua New Guinea, Vanuatu und Yemen.
+
+
+"die verteilung unter den geschlechtern in der politik ist weit davon entfernt, gerecht bei 50% zu sein. ein paar wenige ausnahmeländer haben mehr frauen in ihren parlamenten als männer. die deutliche mehrzahl der parlamente ist männerdominiert. deutschland liegt bei 31%" (ist das so, kontrollieren)
+die wenigsten länder kommen überhaupt in die 50 prozent nähe. politik ist immer noch ein vorwiegend durch männer geprägter bereich
+
+
+mittelwert über die ganze welt in 2020 23,865 prozent (median 23)
+Länder, die den Median widerspiegeln: Armenien, Chile, Malawi, Panama
+
+
+
+Unser Ziel erst mal: einfach nur zeigen wie es auf der welt ist
+schlussfolgerung, da müsste sich also was tun, wenn es das ziel ist, dass man das ausgleichen will (wo ist das vielleicht das ziel? so ein EU Ding??? Regularien Gesetze???)
+
+
+mit dem bubble plot verschiedene länder zeigen können, was es halt so gibt (in dem Jahr 2020)
+
+```{seats bubble plot, r}
+
+library(packcircles)
+
+# Create data (dataframe to work with)
+seats_bubble <- seats %>% filter(year == "2020",
+                                 country %in% c("Germany", "Rwanda", "Cuba", "United Arab Emirates", "Yemen, Rep.", "Papua New Guinea", "Micronesia, Fed. Sts.", "Malawi", "Panama", "Armenia", "Maldives", "Japan", "Kiribati", "France", "Sweden"))
+
+# Generate the layout. This function return a dataframe with one line per bubble. 
+# It gives its center (x and y) and its radius, proportional of the value
+seats_packing <- circleProgressiveLayout(seats_bubble$percentage, sizetype = "area")
+
+# We can add these packing information to the initial data frame
+seats_bubble <- cbind(seats_bubble, seats_packing)
+
+# Check that radius is proportional to value. We don't want a linear relationship, since it is the AREA that must be proportionnal to the value
+#plot(seats_bubble$radius, seats_bubble$number)
+
+# The next step is to go from one center + a radius to the coordinates of a circle that
+# is drawn by a multitude of straight lines.
+seats.gg <- circleLayoutVertices(seats_packing, npoints = 50)
+
+
+# dass man vernünftig die zahlen da reinbekommt
+seats_bubble_label <- seats_bubble %>% 
+                        mutate(y = y-0.6)
+
+# generate the plot
+ggplot() +
+  
+  # bubble
+  geom_polygon(data = seats.gg, aes(x, y, group = id, fill = as.factor(id), color = "black", alpha = 0.6)) +
+  
+   # Add text in the center of each bubble + control its size
+  geom_text(data = seats_bubble, aes(x, y, size = percentage, label = country)) +
+  geom_text(data = seats_bubble_label, aes(x, y, size = percentage, label = percentage)) +
+  scale_size_continuous(range = c(1,4)) +
+  
+  # General theme:
+  theme_void() + 
+  theme(legend.position="none") +
+  coord_equal()
 
 ```
 
