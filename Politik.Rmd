@@ -11,7 +11,12 @@ knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
 library(dplyr)
-library(packcircles)
+library(plotly)
+library(lubridate)
+library(stringr)
+library(ggthemes)
+library(extrafont)
+library(ggiraph)
 
 ```
 
@@ -24,9 +29,7 @@ library(packcircles)
 # datensatz zeigt prozente von frauen in parlamenten aus verschiedenen ländern
 
 
-before_clean_seats <- read.csv("data/raw/before_clean_seats_parliaments.csv", check.names = F)
-
-seats <- before_clean_seats %>% 
+seats <- read.csv("data/raw/before_clean_seats_parliaments.csv", check.names = F) %>%  
             filter(country != "") %>% 
             pivot_longer(cols = -country, names_to = "year", values_to = "n") %>% 
             mutate_if(is.numeric, round) %>% 
@@ -78,24 +81,16 @@ seats <- before_clean_seats %>%
                                    "Sub-Saharan Africa (excluding high income)",
                                    "Sub-Saharan Africa (IDA & IBRD)",
                                    "Upper middle income",
-                                   "World"))
-
-names(seats)[3] <- "percentage_women"
-seats$year <- as.numeric(seats$year)
-
-
-
-seats <- seats %>% 
+                                   "World")) %>% 
+            rename(percentage_women = n) %>% 
+            mutate(year = as.numeric(year)) %>% 
             group_by(year) %>% 
             mutate(percentage_men = 100 - percentage_women) %>% 
             mutate(percentage = 100) %>% 
             mutate(mean_w = mean(percentage_women)) %>% 
             mutate(mean_m = mean(percentage_men))
-            
 
 options(digits = 0)
-
-view(seats)
 
 
 #Hintergrundinfos über den Datensatz:
@@ -198,29 +193,75 @@ wie oben gezeigt wurde es ist bei weitem noch nicht gleich, aber es hat sich seh
 #### man kann erkennen, dass der mittelwert global über alle Länder hinweg, steigt (genauso wie der median) 
 
 
-seats %>% 
-  ggplot() +
-  aes(year, mean_w) +
-  geom_point() +
-  scale_y_continuous(limits = c(0, 25), breaks = c(0, 5, 10, 15, 20, 25)) +
-  scale_x_continuous(limits = c(1995, 2020), breaks = c(1995, 2000, 2005, 2010, 2015, 2020))
-
-
 # neuer Datensatz
 # "Germany" als Beispiel um nur eins zu nehmen. die daten sind ja für alle länder gleich, weil es ja der mittelwert über die ganzen länder sind
 # daran anknüpfend jetzt einen neuen datensatz mit jamovi gemacht, um die daten so zu bekommen, wie wir sie für den bar plot brauchen
 
-seats_world <- read.csv("data/to_work_with/barplot_data.csv") %>% na.omit()
+seats_world <- read.csv("data/to_work_with/barplot_data.csv") %>% na.omit() %>% rename(Jahr = year)
+
+seats_world$Anteil[seats_world$Anteil == "Frau"] <- "weiblich"
+seats_world$Anteil[seats_world$Anteil == "Mann"] <- "männlich"
+seats_world$Anteil <- factor(seats_world$Anteil, levels = c("männlich", "weiblich"))
+
 
 seats_world %>% 
   ggplot() +
-  aes(year, fill = Anteil) +
-  geom_bar(position = position_stack(reverse = TRUE)) +
+  aes(Jahr, fill = Anteil, text = as.character(seats_world$percent)) +
+  geom_bar(position = position_stack(reverse = F)) +
   scale_x_continuous(breaks = c(1997, 2020)) +
-  scale_fill_manual(values = c("#F5504E", "#2489FF"), labels = c("weiblich", "männlich")) +
-  theme(legend.title = element_blank()) +
-  geom_hline(yintercept = 50, size = 1) +
-  labs(y = NULL, x = "Jahr")
+  scale_fill_manual(values = c("#A8D8FF", "#F5504E")) +
+  theme(axis.line.x = element_line(arrow = arrow()),
+        legend.title = element_blank()) +
+  geom_hline(yintercept = 50,
+             size = 1) +
+  labs(y = NULL, x = "Zeitraum von 1997 bis 2020")
+
+
+
+### interaktiv mit plotly
+font <- list(
+  family = "Roboto",
+  size = 15,
+  color = "black"
+)
+
+box <- list(
+  #bgcolor = c("#dddddd"),
+  bordercolor = "transparent",
+  font = font
+)
+
+
+seats_world_plotly %>% ggplotly(tooltip = c("text", "x")) %>% 
+  style(hoverlabel = box) %>% 
+  layout(font = font, 
+         yaxis = list(fixedrange = TRUE), 
+         xaxis = list(fixedrange = TRUE),
+         showlegend = T) %>% 
+  config(displayModeBar = FALSE)
+
+
+
+#####
+text <- list(
+        werte = as.character(seats_world$percent),
+        jahre = as.character(seats_world$Jahr)
+)
+
+
+werte <- as.character(seats_world$percent)
+jahre <- as.character(seats_world$Jahr)
+
+
+
+
+### legend title
+## arrow line
+## add custom legend??
+
+
+
+
 
 
 ```
