@@ -190,7 +190,11 @@ view(parteien_frauen)
 wie oben gezeigt wurde es ist bei weitem noch nicht gleich, aber es hat sich sehr positiv entwickelt
 * wie hat sich das so entwickelt?
 * Trend zeichnet sich aber ab, dass es positiver wird. immer mehr Frauen kommen in Parlamente (vielleicht da auch zwischen den Kontinenten unterscheiden können)
-* zeitstrahl zeigen und eine horizontale linie bei 50 prozent
+
+Text
+wir möchten uns die gleichstellung von männern und frauen mal an einem konkreten beispiel anschauen. hier sehen wir die verteilung der geschlechter in parlamenten. daten zeigen die mittelwerte der gesamten welt. es wird sehr eindeutig, dass in der politik annähernd keine gleichstellung vorhanden ist. 2020 lag der mittelwert bei 24 Prozent! erfreulicherweise sehen wir dennoch einen klaren anstieg in den zahlen. 1997 lag der wert bei gerade einmal 10 prozent. es kommen zwar nur langsam mehr frauen in parlamente, aber dennoch stetig! wir sind gespannt, wie diese entwicklung weitergeht. was meint ihr? wann werden wir eine komplette gleichstellung haben?
+
+wie sieht das in europa aus?
 
 ```{seats zeitliche entwicklung barplot, r}
 
@@ -201,7 +205,7 @@ wie oben gezeigt wurde es ist bei weitem noch nicht gleich, aber es hat sich seh
 # "Germany" als Beispiel um nur eins zu nehmen. die daten sind ja für alle länder gleich, weil es ja der mittelwert über die ganzen länder sind
 # daran anknüpfend jetzt einen neuen datensatz mit jamovi gemacht, um die daten so zu bekommen, wie wir sie für den bar plot brauchen
 
-seats_world <- read.csv("data/to_work_with/barplot_data.csv") %>% na.omit() %>% rename(Jahr = year)
+seats_world <- read.csv("data/to_work_with/barplot_data.csv") %>% na.omit() %>%  rename(Jahr = year)
 
 seats_world$Anteil[seats_world$Anteil == "Frau"] <- "weiblich"
 seats_world$Anteil[seats_world$Anteil == "Mann"] <- "männlich"
@@ -211,6 +215,7 @@ img1 <- readPNG("png_bilder/man.png")
 g1 <- rasterGrob(img1, interpolate=FALSE)
 img2 <- readPNG("png_bilder/woman.png")
 g2 <- rasterGrob(img2, interpolate=FALSE)
+
 
 
 seats_world %>% 
@@ -226,7 +231,7 @@ seats_world %>%
     labels = label_percent(scale = 1, suffix = " %"),
     expand = c(0,3)
   ) +
-  scale_fill_manual(values = c("#A8D8FF", "#F5504E")) +
+  scale_fill_manual(values = c("#CBECFF", "#C21614")) +
   theme_minimal_hgrid(
     line_size = 1,
     color = "transparent"
@@ -234,21 +239,28 @@ seats_world %>%
   theme(
     axis.line.x = element_line(size = 1, arrow = arrow()),
     legend.title = element_blank(),
+    legend.position = "none",
     axis.text.x = element_text(size = 16, vjust = 0),
-    axis.text.y = element_text(size = 13, vjust = 0)
+    axis.text.y = element_text(size = 13, vjust = 0.5)
   ) +
-  geom_hline(
-    yintercept = 50,
-    size = 1) +
+  geom_hline(yintercept = 50, size = 1) +
+  #geom_hline(yintercept = 0, size = 0.3, alpha = 0.5) +
+  #geom_hline(yintercept = 25, size = 0.3, alpha = 0.5) +
+  #geom_hline(yintercept = 75, size = 0.3, alpha = 0.5) +
+  #geom_hline(yintercept = 100, size = 0.3, alpha = 0.5) +
   labs(y = NULL, x = NULL) +
   annotation_custom(g1, xmin = 1997, xmax = 2007, ymin = 15, ymax = 105) +
   annotation_custom(g2, xmin = 2017.5, xmax = 2020.5, ymin = -3, ymax = 25) +
   NULL
 
+# png felder mit prozentzahl drin von 1997 und 2020
+# wieder eine legende?
+# bisherige pngs schöner machen
 
 
 
-#### interaktiv mit plotly ####
+
+#### wird nicht benutzt: interaktiv mit plotly ####
 font <- list(
   family = "Roboto",
   size = 15,
@@ -272,29 +284,254 @@ seats_world_plotly %>% ggplotly(tooltip = c("text", "x")) %>%
 
 
 
-#####
-text <- list(
-        werte = as.character(seats_world$percent),
-        jahre = as.character(seats_world$Jahr)
-)
+```
 
 
-werte <- as.character(seats_world$percent)
-jahre <- as.character(seats_world$Jahr)
+in Europa ist der Frauenanteil deutlich höher im vergleich zur gesamten welt. hier liegt er bei 31%. das ist doch super! leider mussten wir aber feststellen, dass es innerhalb der länder deutliche unterschiede gibt. am besten schaut ihr einfach mal selbst! dazu könnt ihr ganz einfach die länder auswählen, die euch am meisten interessieren. mit einem doppelklick schaut ihr euch das land einzeln an.
+
+was hier nach spaghetti bolognese aussieht sind tatsächlich unsere europäischen länder
+wir haben euch den mittelwert der gesamten welt mit einem roten (haben wir das im plot??)
+schaut euch selber die entwicklung der länder an
+könnt ihr herausfinden, welches land tatsächlich mal eine komplette gleichstellung hatte??
+
+```{r europa}
+
+seats_kontinente <- read.csv("data/raw/before_clean_seats_parliaments.csv", check.names = F) %>%  
+            filter(country != "") %>% 
+            pivot_longer(cols = -country, names_to = "year", values_to = "n") %>% 
+            mutate_if(is.numeric, round) %>% 
+            filter(n != "NA") %>% 
+            filter(country %in% c("Africa Eastern and Southern",
+                                   "Africa Western and Central",
+                                   "Arab World",
+                                   "Central Europe and the Baltics",
+                                   "Caribbean small states",
+                                   "East Asia & Pacific",
+                                   "Euro area",
+                                   "Europe & Central Asia",
+                                   "European Union",
+                                   "Fragile and conflict affected situations",
+                                   "Heavily indebted poor countries (HIPC)",
+                                   "High income",
+                                   "Latin America & Caribbean",
+                                   "Least developed countries: UN classification",
+                                   "Low & middle income",
+                                   "Low income",
+                                   "Lower middle income",
+                                   "Middle East & North Africa",
+                                   "Middle income",
+                                   "North America",
+                                   "OECD members",
+                                   "Pacific island small states",
+                                   "Small states",
+                                   "South Asia",
+                                   "Sub-Saharan Africa",
+                                   "Upper middle income",
+                                   "World")) %>% 
+            rename(percentage_women = n) %>% 
+            mutate(year = as.numeric(year)) %>% 
+            group_by(country) %>% 
+            mutate(percentage_men = 100 - percentage_women) %>% 
+            mutate(percentage = 100) %>% 
+            mutate(mean_w = mean(percentage_women)) %>% 
+            mutate(mean_m = mean(percentage_men))
+
+options(digits = 0)
 
 
-### legend title
-## arrow line
-## add custom legend??
+
+seats_kontinente %>% 
+  filter(country %in% c("Africa Eastern and Southern",
+                                   "Africa Western and Central",
+                                   "Arab World",
+                                   "Central Europe and the Baltics",
+                                   "Caribbean small states",
+                                   "East Asia & Pacific",
+                                   "Europe & Central Asia",
+                                   "Latin America & Caribbean",
+                                   "Middle East & North Africa",
+                                    "North America",
+                                   "Pacific island small states",
+                                   "South Asia",
+                                   "Sub-Saharan Africa"
+                                  )) %>% 
+  ggplot() +
+  aes(year, percentage_women, color = country) +
+  geom_line() +
+  scale_y_continuous(limits = c(0, 100)) +
+geom_hline(yintercept = 24,
+           color = "red")
 
 
 
 
 
+
+seats_europe <- read.csv("data/raw/before_clean_seats_parliaments.csv", check.names = F) %>%  
+            filter(country != "") %>% 
+            pivot_longer(cols = -country, names_to = "year", values_to = "n") %>% 
+            mutate_if(is.numeric, round) %>% 
+            filter(n != "NA") %>% 
+            filter(!country %in% c("Africa Eastern and Southern",
+                                   "Africa Western and Central",
+                                   "Arab World",
+                                   "Central Europe and the Baltics",
+                                   "Caribbean small states",
+                                   "Early-demographic dividend",
+                                   "East Asia & Pacific",
+                                   "East Asia & Pacific (excluding high income)",
+                                   "East Asia & Pacific (IDA & IBRD)",
+                                   "Euro area",
+                                   "Europe & Central Asia",
+                                   "Europe & Central Asia (excluding high income)",
+                                   "Europe & Central Asia (IDA & IBRD)",
+                                   "European Union",
+                                   "Fragile and conflict affected situations",
+                                   "Heavily indebted poor countries (HIPC)",
+                                   "High income",
+                                   "IBRD only",
+                                   "IDA & IBRD total",
+                                   "IDA blend",
+                                   "IDA only",
+                                   "IDA total",
+                                   "Late-demographic dividend",
+                                   "Latin America & Caribbean",
+                                   "Latin America & Caribbean (excluding high income)",
+                                   "Latin America & Caribbean (IDA & IBRD)",
+                                   "Least developed countries: UN classification",
+                                   "Low & middle income",
+                                   "Low income",
+                                   "Lower middle income",
+                                   "Middle East & North Africa",
+                                   "Middle East & North Africa (excluding high income)",
+                                   "Middle East & North Africa (IDA & IBRD)",
+                                   "Middle income",
+                                   "North America",
+                                   "OECD members",
+                                   "Other small states",
+                                   "Pacific island small states",
+                                   "Post-demographic dividend",
+                                   "Pre-demographic dividend",
+                                   "Small states",
+                                   "South Asia",
+                                   "South Asia (IDA & IBRD)",
+                                   "Sub-Saharan Africa",
+                                   "Sub-Saharan Africa (excluding high income)",
+                                   "Sub-Saharan Africa (IDA & IBRD)",
+                                   "Upper middle income",
+                                   "World")) %>% 
+            filter(country %in% c("Albania",
+                                  "Andorra",
+                                  "Austria",
+                                  "Azerbaijan",
+                                  "Belarus",
+                                  "Belgium",
+                                  "Bosnia and Herzegovina",
+                                  "Bulgaria",
+                                  "Czech Republic",
+                                  "Denmark",
+                                  "Germany",
+                                  "Croatia",
+                                  "Cyprus",
+                                  "Estonia",
+                                  "France",
+                                  "Finland",
+                                  "Georgia",
+                                  "Greece",
+                                  "Hungary",
+                                  "Iceland",
+                                  "Ireland",
+                                  "Italy",
+                                  "Kazakhstan",
+                                  "Latvia",
+                                  "Liechtenstein",
+                                  "Lithuania",
+                                  "Luxembourg",
+                                  "Malta",
+                                  "Moldova",
+                                  "Monaco",
+                                  "Montenegro",
+                                  "Netherlands",
+                                  "North Macedonia",
+                                  "Norway",
+                                  "Poland",
+                                  "Portugal",
+                                  "Romania",
+                                  "Russian Federation",
+                                  "San Marino",
+                                  "Serbia",
+                                  "Slovakia",
+                                  "Slovenia",
+                                  "Spain",
+                                  "Sweden",
+                                  "Switzerland",
+                                  "Turkey",
+                                  "Ukraine",
+                                  "United Kingdom"
+                                  )
+                   ) %>% 
+            rename(percentage_women = n) %>% 
+            mutate(year = as.numeric(year)) %>% 
+            group_by(year) %>% 
+            mutate(percentage_men = 100 - percentage_women) %>% 
+            mutate(percentage = 100) %>% 
+            mutate(mean_w = mean(percentage_women)) %>% 
+            mutate(mean_m = mean(percentage_men))
+
+options(digits = 0)
+
+
+#group by year
+
+q <- seats_europe %>% 
+  ggplot() +
+  aes(year, percentage_women, color = country) +
+  geom_line() +
+  scale_y_continuous(limits = c(0, 50),
+                     labels = label_percent(scale = 1, suffix = " %"),
+                     expand = c(0,3)) +
+  scale_x_continuous(breaks = c(1997, 2000, 2005, 2010, 2015, 2020))
+
+
+ggplotly(q)
+
+
+  theme_minimal_hgrid(
+    line_size = 1,
+    color = "transparent"
+  ) +
+  theme(
+    axis.line.x = element_line(size = 1, arrow = arrow()),
+    legend.title = element_blank(),
+    legend.position = "right",
+    axis.text.x = element_text(size = 16, vjust = 0),
+    axis.text.y = element_text(size = 13, vjust = 0.5)
+  ) +
+  geom_hline(yintercept = 50, size = 1) +
+  labs(y = NULL, x = NULL) +
+  NULL
+
+
+
+
+
+
+
+##### komplette world reinbringen als linie?
+
+# group by country
+seats_europe %>% 
+  ggplot() +
+  aes(mean_w, fct_reorder(country, mean_w)) +
+  geom_point()
+
+
+
+seats_europe %>% filter(year == "2020") %>% view()
 
 ```
 
-```{r}
+```{r kontinente}
 # was mit den kontinenten
 
 
