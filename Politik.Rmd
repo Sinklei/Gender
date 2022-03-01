@@ -17,6 +17,10 @@ library(stringr)
 library(ggthemes)
 library(extrafont)
 library(ggiraph)
+library(scales)
+library(cowplot)
+library(png)
+library(grid)
 
 ```
 
@@ -203,22 +207,48 @@ seats_world$Anteil[seats_world$Anteil == "Frau"] <- "weiblich"
 seats_world$Anteil[seats_world$Anteil == "Mann"] <- "männlich"
 seats_world$Anteil <- factor(seats_world$Anteil, levels = c("männlich", "weiblich"))
 
+img1 <- readPNG("png_bilder/man.png")
+g1 <- rasterGrob(img1, interpolate=FALSE)
+img2 <- readPNG("png_bilder/woman.png")
+g2 <- rasterGrob(img2, interpolate=FALSE)
+
 
 seats_world %>% 
   ggplot() +
   aes(Jahr, fill = Anteil, text = as.character(seats_world$percent)) +
-  geom_bar(position = position_stack(reverse = F)) +
-  scale_x_continuous(breaks = c(1997, 2020)) +
+  geom_bar(
+    position = position_stack(reverse = F)
+  ) +
+  scale_x_continuous(
+    breaks = c(1997, 2020)
+  ) +
+  scale_y_continuous(
+    labels = label_percent(scale = 1, suffix = " %"),
+    expand = c(0,3)
+  ) +
   scale_fill_manual(values = c("#A8D8FF", "#F5504E")) +
-  theme(axis.line.x = element_line(arrow = arrow()),
-        legend.title = element_blank()) +
-  geom_hline(yintercept = 50,
-             size = 1) +
-  labs(y = NULL, x = "Zeitraum von 1997 bis 2020")
+  theme_minimal_hgrid(
+    line_size = 1,
+    color = "transparent"
+  ) +
+  theme(
+    axis.line.x = element_line(size = 1, arrow = arrow()),
+    legend.title = element_blank(),
+    axis.text.x = element_text(size = 16, vjust = 0),
+    axis.text.y = element_text(size = 13, vjust = 0)
+  ) +
+  geom_hline(
+    yintercept = 50,
+    size = 1) +
+  labs(y = NULL, x = NULL) +
+  annotation_custom(g1, xmin = 1997, xmax = 2007, ymin = 15, ymax = 105) +
+  annotation_custom(g2, xmin = 2017.5, xmax = 2020.5, ymin = -3, ymax = 25) +
+  NULL
 
 
 
-### interaktiv mit plotly
+
+#### interaktiv mit plotly ####
 font <- list(
   family = "Roboto",
   size = 15,
@@ -251,8 +281,6 @@ text <- list(
 
 werte <- as.character(seats_world$percent)
 jahre <- as.character(seats_world$Jahr)
-
-
 
 
 ### legend title
