@@ -21,6 +21,7 @@ library(scales)
 library(cowplot)
 library(png)
 library(grid)
+library(forcats)
 
 ```
 
@@ -109,46 +110,6 @@ options(digits = 0)
 
 
 
-#### 1 bundestag ####
-
-# selbst generierter Datensatz aus Wikipedia Tabelle (https://de.wikipedia.org/wiki/Frauenanteil_im_Deutschen_Bundestag_seit_1949)
-# datensatz zeigt die anzahl/prozente von männern und frauen in den bundestagen an
-
-
-bundestag_raw <- read.csv("data/to_work_with/bundestagzusammensetzung.csv") %>% 
-                  mutate(maenner_anzahl = (mitglieder-frauen_anzahl),
-                          maenner_perc = (100-frauen_perc))
-
-bundestag <- bundestag_raw[c(1,2,3,7,6,4,5)]
-
-# cleaning: ordinale variable für bundestag
-
-scale.bundestag <- c("1. Bundestag 1949-1953",
-                     "2. Bundestag 1953-1957",
-                     "3. Bundestag 1957-1961",
-                     "4. Bundestag 1961-1965",
-                     "5. Bundestag 1965-1969",
-                     "6. Bundestag 1969-1972",
-                     "7. Bundestag 1972-1976",
-                     "8. Bundestag 1976-1980",
-                     "9. Bundestag 1980-1983",
-                     "10. Bundestag 1983-1987",
-                     "11. Bundestag 1987-1990",
-                     "12. Bundestag 1990-1994",
-                     "13. Bundestag 1994-1998",
-                     "14. Bundestag 1998-2002",
-                     "15. Bundestag 2002-2005",
-                     "16. Bundestag 2005-2009",
-                     "17. Bundestag 2009-2013",
-                     "18. Bundestag 2013-2017",
-                     "19. Bundestag 2017-2021",
-                     "20. Bundestag 2021"
-                     )
-
-bundestag$bundestag <- ordered(bundestag$bundestag, levels = scale.bundestag)
-
-view(bundestag)
-
 
 #### 2 parteien_frauen ####
 
@@ -183,8 +144,6 @@ view(parteien_frauen)
 
 
 
-# seats in parliament
-
 ## seats datensatz zeitliche entwicklung
 * 1997 bis 2020
 wie oben gezeigt wurde es ist bei weitem noch nicht gleich, aber es hat sich sehr positiv entwickelt
@@ -199,6 +158,12 @@ wie sieht das in europa aus?
 ```{seats zeitliche entwicklung barplot, r}
 
 #### man kann erkennen, dass der mittelwert global über alle Länder hinweg, steigt (genauso wie der median) 
+
+
+
+
+
+
 
 
 # neuer Datensatz
@@ -287,7 +252,7 @@ seats_world_plotly %>% ggplotly(tooltip = c("text", "x")) %>%
 ```
 
 
-in Europa ist der Frauenanteil deutlich höher im vergleich zur gesamten welt. hier liegt er bei 31%. das ist doch super! leider mussten wir aber feststellen, dass es innerhalb der länder deutliche unterschiede gibt. am besten schaut ihr einfach mal selbst! dazu könnt ihr ganz einfach die länder auswählen, die euch am meisten interessieren. mit einem doppelklick schaut ihr euch das land einzeln an.
+in Europa ist der Frauenanteil deutlich höher im vergleich zur gesamten welt. hier liegt er bei ca 30%. das ist doch super (zumindest besser)! leider mussten wir aber feststellen, dass es innerhalb der länder deutliche unterschiede gibt. am besten schaut ihr einfach mal selbst! dazu könnt ihr ganz einfach die länder auswählen, die euch am meisten interessieren. mit einem doppelklick schaut ihr euch das land einzeln an.
 
 was hier nach spaghetti bolognese aussieht sind tatsächlich unsere europäischen länder
 wir haben euch den mittelwert der gesamten welt mit einem roten (haben wir das im plot??)
@@ -460,7 +425,7 @@ seats_europe <- read.csv("data/raw/before_clean_seats_parliaments.csv", check.na
                                   "Russian Federation",
                                   "San Marino",
                                   "Serbia",
-                                  "Slovakia",
+                                  "Slovak Republic",
                                   "Slovenia",
                                   "Spain",
                                   "Sweden",
@@ -480,44 +445,155 @@ seats_europe <- read.csv("data/raw/before_clean_seats_parliaments.csv", check.na
 
 options(digits = 0)
 
+seats_europe$country[seats_europe$country == "Albania"] <- "Albanien"
+seats_europe$country[seats_europe$country == "Austria"] <- "Österreich"
+seats_europe$country[seats_europe$country == "Azerbaijan"] <- "Aserbaidschan"
+seats_europe$country[seats_europe$country == "Belgium"] <- "Belgien"
+seats_europe$country[seats_europe$country == "Bosnia and Herzegovina"] <- "Bosnien und Herzegowina"
+seats_europe$country[seats_europe$country == "Bulgaria"] <- "Bulgarien"
+seats_europe$country[seats_europe$country == "Croatia"] <- "Kroatien"
+seats_europe$country[seats_europe$country == "Cyprus"] <- "Zypern"
+seats_europe$country[seats_europe$country == "Czech Republic"] <- "Tschechien"
+seats_europe$country[seats_europe$country == "Denmark"] <- "Dänemark"
+seats_europe$country[seats_europe$country == "Estonia"] <- "Estland"
+seats_europe$country[seats_europe$country == "Finland"] <- "Finnland"
+seats_europe$country[seats_europe$country == "France"] <- "Frankreich"
+seats_europe$country[seats_europe$country == "Georgia"] <- "Georgien"
+seats_europe$country[seats_europe$country == "Germany"] <- "Deutschland"
+seats_europe$country[seats_europe$country == "Greece"] <- "Griechenland"
+seats_europe$country[seats_europe$country == "Hungary"] <- "Ungarn"
+seats_europe$country[seats_europe$country == "Iceland"] <- "Island"
+seats_europe$country[seats_europe$country == "Ireland"] <- "Irland"
+seats_europe$country[seats_europe$country == "Italy"] <- "Italien"
+seats_europe$country[seats_europe$country == "Kazakhstan"] <- "Kasachstan"
+seats_europe$country[seats_europe$country == "Latvia"] <- "Lettland"
+seats_europe$country[seats_europe$country == "Lithuania"] <- "Litauen"
+seats_europe$country[seats_europe$country == "Luxembourg"] <- "Luxemburg"
+seats_europe$country[seats_europe$country == "Moldova"] <- "Moldau"
+seats_europe$country[seats_europe$country == "Netherlands"] <- "Niederlande"
+seats_europe$country[seats_europe$country == "North Macedonia"] <- "Nordmazedonien"
+seats_europe$country[seats_europe$country == "Norway"] <- "Norwegen"
+seats_europe$country[seats_europe$country == "Poland"] <- "Polen"
+seats_europe$country[seats_europe$country == "Romania"] <- "Rumänien"
+seats_europe$country[seats_europe$country == "Russian Federation"] <- "Russland"
+seats_europe$country[seats_europe$country == "Serbia"] <- "Serbien"
+seats_europe$country[seats_europe$country == "Slovenia"] <- "Slowenien"
+seats_europe$country[seats_europe$country == "Spain"] <- "Spanien"
+seats_europe$country[seats_europe$country == "Sweden"] <- "Schweden"
+seats_europe$country[seats_europe$country == "Switzerland"] <- "Schweiz"
+seats_europe$country[seats_europe$country == "Turkey"] <- "Türkei"
+seats_europe$country[seats_europe$country == "United Kingdom"] <- "Großbritannien"
+seats_europe$country[seats_europe$country == "Slovak Republic"] <- "Slowakei"
+
+
+
+
+# herausfinden, welche werte die gesamte welt im durchschnitt widerspiegeln. das sind die werte, die man oben im balkendiagramm als weibliche balken gesehen hat
+# einen datensatz generieren, der die mittlewerte der gesamten welt darstellen. dabei ist es egal, welches land man konkret auswählt, da alle werte gleich sind (stellt ja den mean über die ganze welt dar)
+seats_world_mean <- seats %>% filter(country == "France") %>% select(country, year, mean_w)
+
+# mean_w sind diese werte. diese werden nun manuell an den bisherigen datensatz angefügt
+
+# rename(percentage_women = mean_w, mean_w = percentage_women)
+# achtung percentage_women und mean_w musste vertauscht werden, damit percentage_women unten in den plot passt. die daten entsprechen aber der früheren mean_w spalte
+# wenn man diesen und den europe datensatz mit full_join zusammengefügt hätte, wäre es zwar einfacher gewesen, jedoch haben dann die prozentwere der "gesamten Welt" etliche Nachkommastellen gehabt (warum auch immer). daher die händische manuelle vorgehensweise
+# europe mit "gesamte welt" ergänzen
+
+europe_final <- seats_europe %>% ungroup() %>% 
+  add_row(country = "gesamte Welt", year = 1997, percentage_women = 10) %>% 
+  add_row(country = "gesamte Welt", year = 1998, percentage_women = 11) %>% 
+  add_row(country = "gesamte Welt", year = 1999, percentage_women = 11) %>% 
+  add_row(country = "gesamte Welt", year = 2000, percentage_women = 12) %>% 
+  add_row(country = "gesamte Welt", year = 2001, percentage_women = 12) %>% 
+  add_row(country = "gesamte Welt", year = 2002, percentage_women = 14) %>% 
+  add_row(country = "gesamte Welt", year = 2003, percentage_women = 14) %>% 
+  add_row(country = "gesamte Welt", year = 2004, percentage_women = 14) %>% 
+  add_row(country = "gesamte Welt", year = 2005, percentage_women = 15) %>% 
+  add_row(country = "gesamte Welt", year = 2006, percentage_women = 16) %>% 
+  add_row(country = "gesamte Welt", year = 2007, percentage_women = 17) %>% 
+  add_row(country = "gesamte Welt", year = 2008, percentage_women = 17) %>% 
+  add_row(country = "gesamte Welt", year = 2009, percentage_women = 17) %>% 
+  add_row(country = "gesamte Welt", year = 2010, percentage_women = 17) %>% 
+  add_row(country = "gesamte Welt", year = 2011, percentage_women = 18) %>% 
+  add_row(country = "gesamte Welt", year = 2012, percentage_women = 19) %>% 
+  add_row(country = "gesamte Welt", year = 2013, percentage_women = 20) %>% 
+  add_row(country = "gesamte Welt", year = 2014, percentage_women = 20) %>% 
+  add_row(country = "gesamte Welt", year = 2015, percentage_women = 21) %>% 
+  add_row(country = "gesamte Welt", year = 2016, percentage_women = 21) %>% 
+  add_row(country = "gesamte Welt", year = 2017, percentage_women = 21) %>% 
+  add_row(country = "gesamte Welt", year = 2018, percentage_women = 22) %>% 
+  add_row(country = "gesamte Welt", year = 2019, percentage_women = 23) %>% 
+  add_row(country = "gesamte Welt", year = 2020, percentage_women = 24)
+    group_by(year)
+
+
+
 
 #group by year
 
-q <- seats_europe %>% 
+order <- c("gesamte Welt", "Albanien", "Andorra", "Aserbaidschan", "Belarus", "Belgien", "Bosnien und Herzegowina", "Bulgarien", "Dänemark", "Deutschland", "Estland", "Finnland", "Frankreich", "Georgien", "Griechenland", "Großbritannien", "Irland", "Island", "Italien", "Kasachstan", "Kroatien", "Lettland", "Liechtenstein", "Litauen", "Luxemburg", "Malta", "Moldau", "Monaco", "Montenegro", "Niederlande", "Nordmazedonien", "Norwegen", "Österreich", "Polen", "Portugal", "Rumänien", "Russland", "San Marino", "Schweden", "Schweiz", "Serbien", "Slowakei", "Slowenien", "Spanien", "Tschechien", "Türkei", "Ukraine", "Ungarn", "Zypern")
+
+colors <- c("red", "#F00101", "#10008C", "#B8413F", "#B10019", "#FABA00", "#212F84", "#0F8063", "#B00F16", "#000000", "#0A63AC", "#084D85", "#D1A7A7", "#FF403D",  "#ABB6CC", "#162360", "#16A64D", "#163AAB", "#AD0243", "#49A7C9", "#DB2500", "#951C46", "#001078", "#C48E04", "#6E94CC", "#B83E31", "#E3B600", "#E23400", "#BA3400", "#FF8900", "#DB2000", "#8D10DB", "#DB7E97", "#DB49A3", "#304900", "#5B4968", "#864085", "#85BCED", "#EBC496", "#FF564F", "#CC445E", "#3733D9", "#3768D9", "#BA1111", "#179B96", "#D61871", "#1619FE", "#02B538", "#FFD966")
+
+
+q <- europe_final %>% 
   ggplot() +
-  aes(year, percentage_women, color = country) +
+  aes(year, percentage_women, color = fct_relevel(country, order)) +
   geom_line() +
+  geom_point(
+    aes(x = year,
+        y = percentage_women,
+        text = paste0(
+          country, " (", year, ")",
+          "\nFrauen im Parlament: ", percentage_women, " %"))) +
   scale_y_continuous(limits = c(0, 50),
                      labels = label_percent(scale = 1, suffix = " %"),
                      expand = c(0,3)) +
-  scale_x_continuous(breaks = c(1997, 2000, 2005, 2010, 2015, 2020))
+  scale_x_continuous(
+    limits = c(1997, 2020),
+    breaks = c(1997, 2020)) +
+  scale_color_manual(values = colors) +
+  geom_hline(yintercept = 0, size = 0.3, alpha = 0.3) +
+  geom_hline(yintercept = 10, size = 0.3, alpha = 0.3) +
+  geom_hline(yintercept = 20, size = 0.3, alpha = 0.3) +
+  geom_hline(yintercept = 30, size = 0.3, alpha = 0.3) +
+  geom_hline(yintercept = 40, size = 0.3, alpha = 0.3) +
+  geom_hline(yintercept = 50, size = 0.3, alpha = 0.3) +
+  labs(x = NULL, y = NULL) +
+  theme_base() +
+  theme() +
+  guides(color = guide_legend(""))
 
 
-ggplotly(q)
+font <- list(
+  family = "Roboto",
+  size = 15,
+  color = "#282828"
+)
+
+box <- list(
+  bgcolor = c("#dddddd"),
+  bordercolor = "transparent",
+  font = font
+)
 
 
-  theme_minimal_hgrid(
-    line_size = 1,
-    color = "transparent"
-  ) +
-  theme(
-    axis.line.x = element_line(size = 1, arrow = arrow()),
-    legend.title = element_blank(),
-    legend.position = "right",
-    axis.text.x = element_text(size = 16, vjust = 0),
-    axis.text.y = element_text(size = 13, vjust = 0.5)
-  ) +
-  geom_hline(yintercept = 50, size = 1) +
-  labs(y = NULL, x = NULL) +
-  NULL
+q %>%
+  ggplotly(tooltip = "text") %>% 
+  style(hoverlabel = box) %>% 
+  layout(font = font, 
+         yaxis = list(fixedrange = TRUE), 
+         xaxis = list(fixedrange = TRUE),
+         showlegend = T) %>% 
+  config(displayModeBar = FALSE)
 
 
 
 
+# flaggen noch in die legende hinzufügen? (https://stackoverflow.com/questions/64240614/need-to-show-the-country-flag)
+# group by year vielleicht einfach wegamnchen könnne, genauspo wie die ganen mutates (also percentage men, percentage und so weiter)
 
 
-
-##### komplette world reinbringen als linie?
 
 # group by country
 seats_europe %>% 
@@ -526,11 +602,199 @@ seats_europe %>%
   geom_point()
 
 
+# hieraus nen lollipop chart machen? optional
+
+
 
 seats_europe %>% filter(year == "2020") %>% view()
 
 ```
 
+
+# Zusammensetzung Bundestag (old)
+
+man kann zeigen, dass sich über die Zeit die Anzahl an Frauen im Bundestag erhöht hat
+noch einzeichnen können:
+* wahlperiode
+* prozent der frauen, prozent der männer
+* verteilung von frauen und männern?
+
+
+wahlperiode komplett weg machen?? bzw wie am besten einsetzen?
+mehrere geome in einen plot kriegen(vielleicht sogar zwei achsen.??)
+wie kann ich das umsetzen, dass die daten nicht doppelt sind? ggf datensatz umbauen? mit hovern zum beispiel zusätzliche infos?
+
+vor allen dingen auch verteilung gegenüber männer zeigen
+
+zeitliche achse ist die y achse und geht von oben nach unten, so wie die website auch gestaltet ist
+wichtig ist es zu zeigen, dass sich die anzahl und prozent an frauen über die jahre gesteigert hat, jedoch im vergleich zu den männern immer noch sehr klein ist
+
+
+in eine grafik kriegen
+
+* y achse bundestag in richtiger reihenfolge von oben nach unten
+* frauen und männer anzahl
+* vielleicht noch irgendwie prozente reinbringen
+* gesamt mitgliederanzahl
+* auf wahlperiode scheissen?? nur eine nehmen??
+
+
+# Enticklung des Frauenanteils über alle Bundestage hinweg
+
+es gibt keine frauenquote in der politik
+umso erfreulicher ist es, dass wir einen großen anstieg verzeichnen konnten!
+
+```{r}
+# datensatz
+
+# selbst generierter Datensatz aus Wikipedia Tabelle (https://de.wikipedia.org/wiki/Frauenanteil_im_Deutschen_Bundestag_seit_1949)
+# datensatz zeigt die anzahl/prozente von männern und frauen in den bundestagen an
+
+
+bundestag_raw <- read.csv("data/to_work_with/bundestagzusammensetzung.csv") %>% 
+                  mutate(maenner_anzahl = (mitglieder-frauen_anzahl),
+                          maenner_perc = (100-frauen_perc)) %>% 
+                  mutate(mitglieder = as.numeric(mitglieder))
+
+
+bundestag <- bundestag_raw[c(1,2,3,7,6,4,5)] %>%          #variablen in eine sinnvolle reihenfolge bringen
+  filter(wahlperiode == "beginn")                         #wir beziehen uns nur auf den beginn der wahlperioden
+
+# ordinale variable für bundestag
+scale.bundestag <- c("1. Bundestag 1949-1953",
+                     "2. Bundestag 1953-1957",
+                     "3. Bundestag 1957-1961",
+                     "4. Bundestag 1961-1965",
+                     "5. Bundestag 1965-1969",
+                     "6. Bundestag 1969-1972",
+                     "7. Bundestag 1972-1976",
+                     "8. Bundestag 1976-1980",
+                     "9. Bundestag 1980-1983",
+                     "10. Bundestag 1983-1987",
+                     "11. Bundestag 1987-1990",
+                     "12. Bundestag 1990-1994",
+                     "13. Bundestag 1994-1998",
+                     "14. Bundestag 1998-2002",
+                     "15. Bundestag 2002-2005",
+                     "16. Bundestag 2005-2009",
+                     "17. Bundestag 2009-2013",
+                     "18. Bundestag 2013-2017",
+                     "19. Bundestag 2017-2021",
+                     "20. Bundestag 2021"
+                     )
+
+bundestag$bundestag <- ordered(bundestag$bundestag, levels = scale.bundestag)
+options(digits = 1)
+
+view(bundestag)
+
+# https://www.bundestag.de/parlament/plenum/sitzverteilung_20wp
+# https://www.bundestag.de/datenhandbuch
+# für den verlauf aller bundestage nehme ich die wikipedia tabelle
+# für den aktuellen bundestag kann ich die aktuelle seite des bundestages nehmen
+
+
+
+bundestag %>% 
+  ggplot() +
+  geom_point(aes(y = frauen_anzahl, x = bundestag)
+             ) +
+  geom_point(aes(y = maenner_anzahl, x = bundestag)
+             ) +
+  geom_line(aes(y = frauen_anzahl, x = bundestag, group = 1),
+            size = 1,
+            color = "red"
+            ) +
+  geom_line(aes(y = maenner_anzahl, x = bundestag, group = 1),
+            size = 1,
+            color = "blue"
+            ) +
+  geom_line(aes(y = mitglieder, x = bundestag,  group = 1),
+            size = 1,
+            color = "black"
+            ) +
+  scale_x_discrete(breaks = c("1. Bundestag 1949-1953", "20. Bundestag 2021"))
+
+
+
+  
+
+
+
+
+# einfacher line plot aber wo markante werte als größere punkte rauskommen??
+
+# alterspyramide??
+# https://www.petitessen.net/bevoelkerungspyramiden/
+
+
+```
+
+# Frauenanteil in den Parteien
+
+parteimitglieder noch ergänzen?
+jahre vielleicht ganz raus machen (datensatz erneuern, oder einfach commands nutzen?)
+bundestag mit order (ordinale variable)
+noch weitere daten dann suchen
+
+sitzeverteilung der einzelnen bundestage vielleicht ergänzen
+
+
+gibt es daten zu der anzahl der parteien und den anzahl der männer
+missing values herausfindne können?
+
+```{r}
+
+# https://www.tagesschau.de/inland/btw21/bundestag-frauen-101.html
+# https://www.dw.com/de/kritik-am-niedrigen-frauenanteil-im-neuen-bundestag/a-59342271
+
+# quelle: https://www.bundestag.de/parlament/plenum/sitzverteilung_20wp
+
+
+
+
+
+parteien_frauen %>%
+  ggplot() +
+  aes(
+    x = bundestag,
+    y = frauen_anzahl,
+    color = partei
+  ) +
+  geom_point() +
+  coord_flip()
+  NULL
+
+
+  
+  
+parteien_frauen %>%
+  ggplot() +
+  aes(
+    x = partei,
+    y = frauen_anzahl
+  ) +
+  geom_col() +
+  NULL
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+# was ich vermutlich nicht brauchen werde, aber hier noch mal speichern möchte
+
+
+## das erste mal was zu kontinenten
 ```{r kontinente}
 # was mit den kontinenten
 
@@ -592,152 +856,6 @@ seats_cont %>%
 
 
 ```
-
-
-
-# aktueller Bundestag
-
-yeah
-
-
-
-# Zusammensetzung Bundestag 
-
-man kann zeigen, dass sich über die Zeit die Anzahl an Frauen im Bundestag erhöht hat
-noch einzeichnen können:
-* wahlperiode
-* prozent der frauen, prozent der männer
-* verteilung von frauen und männern?
-
-
-wahlperiode komplett weg machen?? bzw wie am besten einsetzen?
-mehrere geome in einen plot kriegen(vielleicht sogar zwei achsen.??)
-wie kann ich das umsetzen, dass die daten nicht doppelt sind? ggf datensatz umbauen? mit hovern zum beispiel zusätzliche infos?
-
-vor allen dingen auch verteilung gegenüber männer zeigen
-
-zeitliche achse ist die y achse und geht von oben nach unten, so wie die website auch gestaltet ist
-wichtig ist es zu zeigen, dass sich die anzahl und prozent an frauen über die jahre gesteigert hat, jedoch im vergleich zu den männern immer noch sehr klein ist
-
-
-in eine grafik kriegen
-
-* y achse bundestag in richtiger reihenfolge von oben nach unten
-* frauen und männer anzahl
-* vielleicht noch irgendwie prozente reinbringen
-* gesamt mitgliederanzahl
-* auf wahlperiode scheissen?? nur eine nehmen??
-
-
-```{r}
-
-bundestag %>%
-  ggplot() +
-  geom_point(mapping = aes(x = bundestag, y = frauen_anzahl, color = wahlperiode)) +
-  geom_point(mapping = aes(x = bundestag, y = maenner_anzahl, color = wahlperiode)) +
-  geom_point(mapping = aes(x = bundestag, y = mitglieder)) +
-  coord_flip()
-  NULL
-
-
-  view(bundestag)
-bundestag %>% 
-  filter(wahlperiode == "beginn") %>% 
-  ggplot() +
-  aes(x = bundestag,
-      y = frauen_perc) +
-  geom_point() +
-  coord_flip()
-  
-  
-
-
-```
-
-# Frauenanteil in den Parteien
-
-parteimitglieder noch ergänzen?
-jahre vielleicht ganz raus machen (datensatz erneuern, oder einfach commands nutzen?)
-bundestag mit order (ordinale variable)
-noch weitere daten dann suchen
-
-sitzeverteilung der einzelnen bundestage vielleicht ergänzen
-
-
-gibt es daten zu der anzahl der parteien und den anzahl der männer
-missing values herausfindne können?
-
-```{r}
-parteien_frauen %>%
-  ggplot() +
-  aes(
-    x = bundestag,
-    y = frauen_anzahl,
-    color = partei
-  ) +
-  geom_point() +
-  coord_flip()
-  NULL
-
-
-  
-  
-parteien_frauen %>%
-  ggplot() +
-  aes(
-    x = partei,
-    y = frauen_anzahl
-  ) +
-  geom_col() +
-  NULL
-
-
-```
-
-
-
-
-
-
-```{r, Bundestag Stammdaten XML}
-
-library(XML)
-
-fileName <- "data/vielleicht/MDB_STAMMDATEN.XML"
-xmlData <- xmlInternalTreeParse(fileName)
-
-print(xmlData)
-
-xmlDataFrame <- xmlToDataFrame(xmlData)
-
-xmlDataFrame %>% view()
-
-
-
-
-
-
-
-
-
-
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# was ich vermutlich nicht brauchen werde, aber hier noch mal speichern möchte
 
 ## seats datensatz introduction bubble plot 2020
 * bubble plot
