@@ -9,6 +9,10 @@ editor_options:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
+
+### um das an die seiten anzupassen {r, layout="l-body-outset", fig.width=6, fig.height=1.5}
+
+
 library(tidyverse)
 library(dplyr)
 library(plotly)
@@ -22,16 +26,38 @@ library(cowplot)
 library(png)
 library(grid)
 library(forcats)
+library(ggforce)
 
 ```
 
-```{r datensätze, include=TRUE}
-# datensätze einlesen und cleanen/ordnen
+
+# Einleitungstext
+
+* Statista. geschlechtliche Ungerechtigkeit in der Bundestagszusammensetzung etc.
+* googlen nach allgemeinem Meinungsbild zu Männer und Frauen Verteilung in der Politik
+* artikel von tagesschau zur zusammensetzung von männern und frauen im neuen bundestag
+* was gibt es sonst noch zum neuen bundestag?
+* Artikel und Dokumente von der Bundestagswebsite selbst
+
+"wir haben die bundestagswahl 2021 hinter uns. so sieht es bei uns in deutschland aus. wie sieht es in der ganzen welt aus??"
 
 
-##### SEATS #####
 
-# datensatz zeigt prozente von frauen in parlamenten aus verschiedenen ländern
+## seats datensatz zeitliche entwicklung
+* 1997 bis 2020
+wie oben gezeigt wurde es ist bei weitem noch nicht gleich, aber es hat sich sehr positiv entwickelt
+* wie hat sich das so entwickelt?
+* Trend zeichnet sich aber ab, dass es positiver wird. immer mehr Frauen kommen in Parlamente (vielleicht da auch zwischen den Kontinenten unterscheiden können)
+
+Text
+wir möchten uns die gleichstellung von männern und frauen mal an einem konkreten beispiel anschauen. hier sehen wir die verteilung der geschlechter in parlamenten. daten zeigen die mittelwerte der gesamten welt. es wird sehr eindeutig, dass in der politik annähernd keine gleichstellung vorhanden ist. 2020 lag der mittelwert bei 24 Prozent! erfreulicherweise sehen wir dennoch einen klaren anstieg in den zahlen. 1997 lag der wert bei gerade einmal 10 prozent. es kommen zwar nur langsam mehr frauen in parlamente, aber dennoch stetig! wir sind gespannt, wie diese entwicklung weitergeht. was meint ihr? wann werden wir eine komplette gleichstellung haben?
+
+wie sieht das in europa aus?
+
+```{seats zeitliche entwicklung barplot, r}
+
+# datensatz
+# zeigt prozente von frauen in parlamenten aus verschiedenen ländern
 
 
 seats <- read.csv("data/raw/before_clean_seats_parliaments.csv", check.names = F) %>%  
@@ -111,51 +137,8 @@ options(digits = 0)
 
 
 
-#### 2 parteien_frauen ####
-
-# selbst generierter Datensatz aus Wikipedia Tabelle (https://de.wikipedia.org/wiki/Frauenanteil_im_Deutschen_Bundestag_seit_1949)
-# datensatz zeigt die anzahl/prozente von Frauen in den einzelnen Parteien
 
 
-parteien_frauen <- read.csv("data/to_work_with/zusammensetzung_frauen_parteien.csv")
-
-
-# kann man vielleicht hinzufügen, wenn es genug daten geben sollte.
-#mutate(maenner_anzahl = (mitglieder-frauen_anzahl),
-#maenner_perc = (100-frauen_perc))
-
-
-# cleaning: ordinale variable für bundestag
-
-parteien_frauen$bundestag <- ordered(parteien_frauen$bundestag, levels = scale.bundestag)
-
-view(parteien_frauen)
-```
-
-# Einleitungstext
-
-* Statista. geschlechtliche Ungerechtigkeit in der Bundestagszusammensetzung etc.
-* googlen nach allgemeinem Meinungsbild zu Männer und Frauen Verteilung in der Politik
-* artikel von tagesschau zur zusammensetzung von männern und frauen im neuen bundestag
-* was gibt es sonst noch zum neuen bundestag?
-* Artikel und Dokumente von der Bundestagswebsite selbst
-
-"wir haben die bundestagswahl 2021 hinter uns. so sieht es bei uns in deutschland aus. wie sieht es in der ganzen welt aus??"
-
-
-
-## seats datensatz zeitliche entwicklung
-* 1997 bis 2020
-wie oben gezeigt wurde es ist bei weitem noch nicht gleich, aber es hat sich sehr positiv entwickelt
-* wie hat sich das so entwickelt?
-* Trend zeichnet sich aber ab, dass es positiver wird. immer mehr Frauen kommen in Parlamente (vielleicht da auch zwischen den Kontinenten unterscheiden können)
-
-Text
-wir möchten uns die gleichstellung von männern und frauen mal an einem konkreten beispiel anschauen. hier sehen wir die verteilung der geschlechter in parlamenten. daten zeigen die mittelwerte der gesamten welt. es wird sehr eindeutig, dass in der politik annähernd keine gleichstellung vorhanden ist. 2020 lag der mittelwert bei 24 Prozent! erfreulicherweise sehen wir dennoch einen klaren anstieg in den zahlen. 1997 lag der wert bei gerade einmal 10 prozent. es kommen zwar nur langsam mehr frauen in parlamente, aber dennoch stetig! wir sind gespannt, wie diese entwicklung weitergeht. was meint ihr? wann werden wir eine komplette gleichstellung haben?
-
-wie sieht das in europa aus?
-
-```{seats zeitliche entwicklung barplot, r}
 
 #### man kann erkennen, dass der mittelwert global über alle Länder hinweg, steigt (genauso wie der median) 
 
@@ -261,6 +244,7 @@ könnt ihr herausfinden, welches land tatsächlich mal eine komplette gleichstel
 
 ```{r europa}
 
+# wird vermutlich nicht gebraucht
 seats_kontinente <- read.csv("data/raw/before_clean_seats_parliaments.csv", check.names = F) %>%  
             filter(country != "") %>% 
             pivot_longer(cols = -country, names_to = "year", values_to = "n") %>% 
@@ -304,7 +288,7 @@ seats_kontinente <- read.csv("data/raw/before_clean_seats_parliaments.csv", chec
 options(digits = 0)
 
 
-
+# wird vermutlich nicht gebraucht
 seats_kontinente %>% 
   filter(country %in% c("Africa Eastern and Southern",
                                    "Africa Western and Central",
@@ -330,7 +314,7 @@ geom_hline(yintercept = 24,
 
 
 
-
+# datensatz
 
 seats_europe <- read.csv("data/raw/before_clean_seats_parliaments.csv", check.names = F) %>%  
             filter(country != "") %>% 
@@ -445,6 +429,7 @@ seats_europe <- read.csv("data/raw/before_clean_seats_parliaments.csv", check.na
 
 options(digits = 0)
 
+# englische Ländernamen ins Deutsche
 seats_europe$country[seats_europe$country == "Albania"] <- "Albanien"
 seats_europe$country[seats_europe$country == "Austria"] <- "Österreich"
 seats_europe$country[seats_europe$country == "Azerbaijan"] <- "Aserbaidschan"
@@ -595,17 +580,19 @@ q %>%
 
 
 
+
 # group by country
+# hieraus nen lollipop chart machen? optional
 seats_europe %>% 
   ggplot() +
   aes(mean_w, fct_reorder(country, mean_w)) +
   geom_point()
 
 
-# hieraus nen lollipop chart machen? optional
 
 
 
+# mittelwert von Europa im Jahr 2020
 seats_europe %>% filter(year == "2020") %>% view()
 
 ```
@@ -644,9 +631,12 @@ in eine grafik kriegen
 es gibt keine frauenquote in der politik
 umso erfreulicher ist es, dass wir einen großen anstieg verzeichnen konnten!
 
-```{r}
-# datensatz
+was wir hier ganz gut sehen können: die anzahl an männlichen abgeordneten ist seit dem ersten bundestag bei weitem nicht so stark gestiegen wie bei den weiblichen abgeordneten, wir hatten zwar beim letzten bundestag eine höhere frauenquote, dennoch ist es erfreulich zu sehen, dass die anzahl an frauen im deutschen bundestag stetig zunimmt.
+außerdem nimmt die gesamtanzahl von mitgliedern im bundestag zu. wir haben derzeit den größten bundestag überhaupt mit 736 sitzen!!
 
+```{r bundestag entwicklung}
+
+# datensatz
 # selbst generierter Datensatz aus Wikipedia Tabelle (https://de.wikipedia.org/wiki/Frauenanteil_im_Deutschen_Bundestag_seit_1949)
 # datensatz zeigt die anzahl/prozente von männern und frauen in den bundestagen an
 
@@ -694,35 +684,159 @@ view(bundestag)
 # für den aktuellen bundestag kann ich die aktuelle seite des bundestages nehmen
 
 
+# modifizieren datensatz um mit geom point einzelne punkte herausstellen zu können
+
+bundestag_point_w <- bundestag %>% 
+  select(bundestag, frauen_anzahl, mitglieder) %>% 
+  filter(bundestag %in% c("1. Bundestag 1949-1953",
+                          "18. Bundestag 2013-2017",
+                          "20. Bundestag 2021"))
+
+bundestag_point_m <- bundestag %>% 
+  select(bundestag, maenner_anzahl, mitglieder) %>% 
+  filter(bundestag %in% c("1. Bundestag 1949-1953",
+                          "20. Bundestag 2021"))
+
+
 
 bundestag %>% 
   ggplot() +
-  geom_point(aes(y = frauen_anzahl, x = bundestag)
-             ) +
-  geom_point(aes(y = maenner_anzahl, x = bundestag)
-             ) +
-  geom_line(aes(y = frauen_anzahl, x = bundestag, group = 1),
-            size = 1,
-            color = "red"
-            ) +
-  geom_line(aes(y = maenner_anzahl, x = bundestag, group = 1),
-            size = 1,
-            color = "blue"
-            ) +
-  geom_line(aes(y = mitglieder, x = bundestag,  group = 1),
-            size = 1,
-            color = "black"
-            ) +
-  scale_x_discrete(breaks = c("1. Bundestag 1949-1953", "20. Bundestag 2021"))
+  geom_hline(yintercept = 0, size = 0.3, alpha = 0.3) +
+  geom_hline(yintercept = 200, size = 0.3, alpha = 0.3) +
+  geom_hline(yintercept = 400, size = 0.3, alpha = 0.3) +
+  geom_hline(yintercept = 600, size = 0.3, alpha = 0.3) +
+  geom_hline(yintercept = 800, size = 0.3, alpha = 0.3) +
+  
+  #alle abgeordnete
+  geom_line(
+    aes(y = mitglieder, x = bundestag,  group = 1),
+    size = 1.5,
+    color = "black"
+  ) +
+  geom_point(
+    data = bundestag_point_m, aes(y = mitglieder, x = bundestag),
+    size = 5,
+    color = "black"
+  ) +
+  
+  
+  #männer
+  geom_line(
+    aes(y = maenner_anzahl, x = bundestag, group = 1),
+    size = 1.5,
+    color = "#E62200" #rote linie
+  ) +
+  geom_point(
+    data = bundestag_point_m, aes(y = maenner_anzahl, x = bundestag),
+    size = 5,
+    color = "#E62200"
+  ) +
+  
+  
+  # frauen
+  geom_line(
+    aes(y = frauen_anzahl, x = bundestag, group = 1),
+    size = 1.5,
+    color = "#FFB813" #goldene linie
+  ) +
+  geom_point(
+    data = bundestag_point_w, aes(y = frauen_anzahl, x = bundestag),
+    size = 5,
+    color = "#FFB813" #gold
+  ) +
 
 
-
+  
+  scale_x_discrete(
+    breaks = c("1. Bundestag 1949-1953", "20. Bundestag 2021"),
+    expand = c(0,3)) +
+  scale_y_continuous(
+    limits = c(0, 800),
+    breaks = c(0, 200, 400, 600, 800),
+    expand = c(0.05,1)) +
+  labs(x = NULL, y = NULL) +
+  theme_minimal_hgrid(
+    color = "transparent"
+  ) +
+  theme(
+    axis.text.x = element_text(size = 12),
+    axis.text.y = element_text(size = 11),
+    plot.background = element_rect("#F0F0F0"),
+    aspect.ratio = 6*0.618/6
+    ) +
+  
+  # labels
+  geom_label(
+    label="alle Abgeordnete", 
+    x = 23,
+    y = 746,
+    size = 5,
+    label.padding = unit(0.35, "lines"),
+    label.r = unit(0.25, "lines"),
+    label.size = 0.35,
+    color = "black",
+    fill="#F0F0F0") +
+  geom_label(
+    label="männliche Abgeordnete", 
+    x = 24.5,
+    y = 490,
+    size = 5,
+    label.padding = unit(0.35, "lines"),
+    label.r = unit(0.25, "lines"),
+    label.size = 0.35,
+    color = "#E62200",
+    fill="#F0F0F0") +
+  geom_label(
+    label="weibliche Abgeordnete", 
+    x = 25,
+    y = 276,
+    size = 5,
+    label.padding = unit(0.35, "lines"),
+    label.r = unit(0.25, "lines"),
+    label.size = 0.35,
+    color = "#FFB813",
+    fill="#F0F0F0") +
+  
+  
+  # labels
+  
+    geom_label(
+    label="28 \nlediglich 7 % Frauen im Bundestag", 
+    x = 0,
+    y = 150,
+    size = 4,
+    color = "#FFB813",
+    fill= "#F0F0F0",
+    vjust = 1,
+    hjust = 0) +
+  
+    geom_label(
+    label="256 \n35 % unserer Abgeordneten sind Frauen!", 
+    x = 20,
+    y = 150,
+    size = 4,
+    color = "#FFB813",
+    fill= "#F0F0F0",
+    vjust = 0,
+    hjust = 0) +
+  expand_limits(x = c(0, 30))
   
 
 
 
 
+
+  geom_area(aes(y = mitglieder, x = as.numeric(bundestag)), fill = "black", alpha = 0.2) +
+  geom_area(aes(y = maenner_anzahl, x = as.numeric(bundestag)), fill = "red", alpha = 0.2) +
+  geom_area(aes(y = frauen_anzahl, x = as.numeric(bundestag)), fill = "yellow", alpha = 0.2)
+
+
+
+             
+
+# mitglieder umbenennen
 # einfacher line plot aber wo markante werte als größere punkte rauskommen??
+# wo noch text hinzufügen können?
 
 # alterspyramide??
 # https://www.petitessen.net/bevoelkerungspyramiden/
@@ -744,38 +858,213 @@ gibt es daten zu der anzahl der parteien und den anzahl der männer
 missing values herausfindne können?
 
 ```{r}
+#### 2 parteien_frauen #### alter datensatz
 
+# selbst generierter Datensatz aus Wikipedia Tabelle (https://de.wikipedia.org/wiki/Frauenanteil_im_Deutschen_Bundestag_seit_1949)
+# datensatz zeigt die anzahl/prozente von Frauen in den einzelnen Parteien
+
+parteien_frauen <- read.csv("data/to_work_with/zusammensetzung_frauen_parteien.csv")
+
+# kann man vielleicht hinzufügen, wenn es genug daten geben sollte.
+#mutate(maenner_anzahl = (mitglieder-frauen_anzahl),
+#maenner_perc = (100-frauen_perc))
+
+
+# cleaning: ordinale variable für bundestag
+
+parteien_frauen$bundestag <- ordered(parteien_frauen$bundestag, levels = scale.bundestag)
+
+view(parteien_frauen)
+
+
+
+#----
 # https://www.tagesschau.de/inland/btw21/bundestag-frauen-101.html
 # https://www.dw.com/de/kritik-am-niedrigen-frauenanteil-im-neuen-bundestag/a-59342271
 
 # quelle: https://www.bundestag.de/parlament/plenum/sitzverteilung_20wp
 
 
+#ich brauche partei und sitze
+
+partei <- c("SPD", "CDU/CSU", "Bündnis 90/Die Grünen", "FDP", "AfD", "Die Linke", "fraktionslos")
+
+sitze <- c(206, 197, 118, 92, 80, 39, 4)
+
+sitze_w <- c(86, 46, 70, 23, 11, 21, 0)
+
+sitze_m <- c(120, 151, 48, 69, 69, 18, 4)
+
+ds <- data.frame(partei, sitze, sitze_w, sitze_m)
+
+
+view(ds)
+
+library(hrbrthemes)
+
+reihenfolge_sitze <- c("fraktionslos", "Die Linke", "AfD", "FDP", "Bündnis 90/Die Grünen", "CDU/CSU", "SPD")
+reihenfolge_w <- c("fraktionslos", "AfD", "Die Linke", "FDP", "CDU/CSU", "Bündnis 90/Die Grünen", "SPD")
+
+ds %>% 
+  ggplot() +
+  geom_vline(xintercept = 0, size = 0.3, alpha = 0.3) +
+  geom_vline(xintercept = 50, size = 0.3, alpha = 0.3) +
+  geom_vline(xintercept = 100, size = 0.3, alpha = 0.3) +
+  geom_vline(xintercept = 150, size = 0.3, alpha = 0.3) +
+  geom_vline(xintercept = 200, size = 0.3, alpha = 0.3) +
+  geom_vline(xintercept = 250, size = 0.3, alpha = 0.3) +
+ 
+  geom_col(
+    aes(x = sitze, y = fct_relevel(partei, reihenfolge_sitze)),
+    fill = "#737373"
+  ) +
+  geom_col(
+    aes(x = sitze_w, y = partei),
+    fill = c("#E3000F", "#000000", "#64A12D", "#ffed00", "#009EE0", "#E90098", "#737373")
+  ) + 
+  labs(x = NULL, y = NULL) +
+  scale_x_continuous(
+    limits = c(0, 250),
+    breaks = c(0, 50, 100, 150, 200, 250),
+    expand = c(0,3)) +
+  labs(x = NULL, y = NULL) +
+  theme_minimal_hgrid(
+    color = "transparent"
+  ) +
+  theme(
+    axis.text.x = element_text(size = 12),
+    axis.text.y = element_text(size = 11),
+    plot.background = element_rect("#F0F0F0"),
+    aspect.ratio = 6*0.618/6
+    )
+  
+
+
+ds %>% arrange(sitze_w)
 
 
 
-parteien_frauen %>%
+## korrelation prüfen. wenn mehr sitze vorhanden sind, ob sich die nazahl an frauen auch erhört
+
+
+
+
+```
+
+
+```{r}
+A <- c("a", "b", "c", "d")
+B <- c(4, 6, 9, 2)
+
+C <- c(23, 26, 13, 15)
+df <- data.frame(A, B, C)
+
+view(df)
+# Ensure A is a factor (we'll be using it to fill the pie)
+df$A <- factor(df$A)
+
+# compute the individual proportion in this case using var C
+df$prop <- df$C/sum(df$C) 
+
+# compute the cumulative proportion and use that to plot ymax 
+df$p_end <- cumsum(df$prop)
+
+# generate a y-min between 0 and 1 less value than p_end (using p_end) 
+df$p_start <- c(0, head(df$p_end ,-1))
+
+
+
+# -------------------------------------------------------------------------
+
+# plot 
+df %>%
+  mutate_at(c("p_start", "p_end"), rescale, to=pi*c(-.5,.5), from=0:1) %>%
+  ggplot + 
+  geom_arc_bar(aes(x0 = 0, y0 = 0, r0 = .5, r = 1, start = p_start, end = p_end, fill=A)) + 
+  coord_fixed() +xlab("X_label") + ylab("Y_lablel") + guides(fill=guide_legend(title="Legend Title"))
+
+
+
+
+
+
+
+ds <- ds %>% 
+  mutate(prop = ds$sitze/sum(ds$sitze)) %>% 
+  mutate(p_end = cumsum(ds$prop)) %>% 
+  mutate(p_start = c(0, head(ds$p_end, -1))) %>% 
+  mutate(mid_angle = 0.5*(p_start + p_end))
+
+
+ds$prop <- ds$sitze/sum(ds$sitze) 
+ds$p_end <- cumsum(ds$prop)
+ds$p_start <- c(0, head(ds$p_end ,-1))
+ds$mid_angle <- 0.5*(p_start + p_end)
+
+
+ds %>% 
+  mutate_at(c("p_start", "p_end"), rescale, to=pi*c(-0.5, 0.5), from = 0:1) %>% 
+  ggplot() +
+  aes(x0 = 0, y0 = 0, r0 = 0.5, r = 1,
+      start = p_start,
+      end = p_end,
+      fill = partei) +
+  geom_arc_bar() +
+  coord_fixed()
+
+
+
+
+# calero methode
+
+pie <- ds %>% 
+  arrange(sitze) %>% 
+  mutate(
+    end_angle = 2*pi*cumsum(sitze)/sum(sitze),
+    start_angle = lag(end_angle, default = 0),
+    mid_angle = 0.5*(start_angle + end_angle),
+    hjust = ifelse(mid_angle > pi, 1, 0),
+    vjust = ifelse(mid_angle < pi/2 | mid_angle > 3*pi/2, 0, 1)
+  )
+
+pie %>% 
   ggplot() +
   aes(
-    x = bundestag,
-    y = frauen_anzahl,
-    color = partei
+    x0 = 0, y0 = 0, r0 = 0.4, r = 1,
+    start = start_angle, end = end_angle,
+    fill = partei
   ) +
-  geom_point() +
-  coord_flip()
-  NULL
+  geom_arc_bar() +
+  geom_text(
+    aes(
+      x = 0.7*sin(mid_angle),
+      y = 0.7*cos(mid_angle),
+      label = sitze
+    )
+  ) +
+  geom_text(
+    aes(
+      x = 1.05*sin(mid_angle),
+      y = 1.05*cos(mid_angle),
+      label = partei,
+      hjust = hjust, vjust = vjust
+    )
+  ) +
+  coord_fixed(xlim = c(-1.5, 1.5),
+              ylim = c(-1.5, 1.5))
 
 
-  
-  
-parteien_frauen %>%
+# haöbkreis probieren
+pie %>% 
+  mutate_at(c("start_angle", "end_angle"), rescale, to=pi*c(-0.5, 0.5), from = 0:1) %>% 
   ggplot() +
-  aes(
-    x = partei,
-    y = frauen_anzahl
-  ) +
-  geom_col() +
-  NULL
+  aes(x0 = 0, y0 = 0, r0 = 0.5, r = 1,
+      start = start_angle,
+      end = end_angle,
+      fill = partei) +
+  geom_arc_bar() +
+  coord_fixed()
+
 
 
 ```
@@ -791,9 +1080,11 @@ parteien_frauen %>%
 
 
 
+
+
+
+
 # was ich vermutlich nicht brauchen werde, aber hier noch mal speichern möchte
-
-
 ## das erste mal was zu kontinenten
 ```{r kontinente}
 # was mit den kontinenten
