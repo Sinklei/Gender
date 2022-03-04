@@ -509,7 +509,7 @@ europe_final <- seats_europe %>% ungroup() %>%
   add_row(country = "gesamte Welt", year = 2017, percentage_women = 21) %>% 
   add_row(country = "gesamte Welt", year = 2018, percentage_women = 22) %>% 
   add_row(country = "gesamte Welt", year = 2019, percentage_women = 23) %>% 
-  add_row(country = "gesamte Welt", year = 2020, percentage_women = 24)
+  add_row(country = "gesamte Welt", year = 2020, percentage_women = 24) %>% 
     group_by(year)
 
 
@@ -522,7 +522,7 @@ order <- c("gesamte Welt", "Albanien", "Andorra", "Aserbaidschan", "Belarus", "B
 colors <- c("red", "#F00101", "#10008C", "#B8413F", "#B10019", "#FABA00", "#212F84", "#0F8063", "#B00F16", "#000000", "#0A63AC", "#084D85", "#D1A7A7", "#FF403D",  "#ABB6CC", "#162360", "#16A64D", "#163AAB", "#AD0243", "#49A7C9", "#DB2500", "#951C46", "#001078", "#C48E04", "#6E94CC", "#B83E31", "#E3B600", "#E23400", "#BA3400", "#FF8900", "#DB2000", "#8D10DB", "#DB7E97", "#DB49A3", "#304900", "#5B4968", "#864085", "#85BCED", "#EBC496", "#FF564F", "#CC445E", "#3733D9", "#3768D9", "#BA1111", "#179B96", "#D61871", "#1619FE", "#02B538", "#FFD966")
 
 
-q <- europe_final %>% 
+spaghetti <- europe_final %>% 
   ggplot() +
   aes(year, percentage_women, color = fct_relevel(country, order)) +
   geom_line() +
@@ -564,7 +564,7 @@ box <- list(
 )
 
 
-q %>%
+spaghetti %>%
   ggplotly(tooltip = "text") %>% 
   style(hoverlabel = box) %>% 
   layout(font = font, 
