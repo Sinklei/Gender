@@ -1,7 +1,5 @@
 ---
-title: "Politik"
-description: |
-  Some additional details about the website
+title: "...auch in der Politik?!"
 site: distill::distill_website
 ---
 
@@ -9,7 +7,7 @@ site: distill::distill_website
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-```{r}
+```{r libraries laden}
 ### um das an die seiten anzupassen {r, layout="l-body-outset", fig.width=6, fig.height=1.5}
 
 library(tidyverse)
@@ -31,13 +29,20 @@ library(ggparliament)
 ```
 
 
-Hier kommt noch ein Einleitungstext hin. Hallo ich bin ein Einleitungstext. Hallo hallo hallo. text text text.
+Wir konnten bereits sehen, dass uns geschlechtliche Ungleichheiten im Alltag erscheinen.
 
+Wir möchten uns die geschlechtliche Ungleichheit mal an einem konkreten Beispiel anschauen. Dazu schauen wir in die Politik!
 
+Unsere letzte Bundestagswahl liegt noch nicht lange zurück, weshalb es sich lohnt, mal einen Blick auf die Geschlechterverteilung in der Politik zu werfen.
 
-# Zeitliche Entwicklung. \nSitze von Frauen in Parlamenten
+Bevor wir uns jedoch unserem Deutschen Bundestag widmen, lasst es erst einmal einen Blick auf die gesamte Welt werfen.
 
-```{r}
+<br>
+
+```{r barplot Verteilung in Parlamenten, layout="l-body-outset", fig.width=6, fig.height=6*0.618}
+
+#### Datensatz generieren ####
+
 seats <- read.csv("data/raw/before_clean_seats_parliaments.csv", check.names = F) %>%  
             filter(country != "") %>% 
             pivot_longer(cols = -country, names_to = "year", values_to = "n") %>% 
@@ -101,10 +106,17 @@ seats <- read.csv("data/raw/before_clean_seats_parliaments.csv", check.names = F
 
 #options(digits = 0)
 
+# dieser Datensatz liefert uns umfangreiche Informationen über die Sitzeverteilung zwischen Männern und Frauen in Parlamenten der gesamten Welt
+# die Daten sind in Prozente angegeben
+# wir interessieren uns für zeitliche Entwicklung des Mittelwerts der Geschlechter über die gesamte Welt 
+# dazu wurde nach dem Jahr gruppiert (groub_by(year)) und mit mutate() die Mittelwerte errechnet.
+# mean_w und mean_m zeigen die für uns interessante Werte
 
+# da nun mean_w und mean_m für jedes Land gleich sind, können wir nach einem beliebigen Land filtern und erhalten so die Daten, die wir für unsere Visusalisierung brauchen
 
-## hier müssen noch infos oder erklärungen folgen wie man von dem datensatz auf den anderen kommt
+seats_world_mean <- seats %>% filter(country == "Germany") %>% select(year, mean_w, mean_m)
 
+# auf Basis dessen wurde mittels Jamovi ein neuer Datensatz generiert. Er enthält dieselben Daten, jedoch "liegen" diese besser, um sie mittels geom_bar() visualisieren zu können
 
 seats_world <- read.csv("data/to_work_with/barplot_data.csv") %>% na.omit() %>%  rename(Jahr = year)
 
@@ -119,7 +131,8 @@ g2 <- rasterGrob(img2, interpolate=FALSE)
 
 
 
-# visualisierung
+
+##### Visualisierung ####
 seats_world %>% 
   ggplot() +
   aes(Jahr, fill = Anteil, text = as.character(seats_world$percent)) +
@@ -133,35 +146,56 @@ seats_world %>%
     labels = label_percent(scale = 1, suffix = " %"),
     expand = c(0,3)
   ) +
-  scale_fill_manual(values = c("#CBECFF", "#C21614")) +
+  scale_fill_manual(
+    values = c("#CBECFF", "#C21614")) +
   theme_minimal_hgrid(
     line_size = 1,
     color = "transparent"
+  ) +
+  labs(
+    title = "Prozentuale Geschlechterverteilung \nin Parlamenten im Zeitraum 1997 bis 2020",
+    subtitle = "Der Frauenanteil lag 2020 nur bei 24 %!",
+    caption = "gezeigt werden die Mittelwerte der gesamten Welt \nQuelle: www.ipu.org [1]",
+    x = NULL,
+    y = NULL
   ) +
   theme(
     axis.line.x = element_line(size = 1, arrow = arrow()),
     legend.title = element_blank(),
     legend.position = "none",
-    axis.text.x = element_text(size = 16, vjust = 0),
-    axis.text.y = element_text(size = 13, vjust = 0.5)
+    axis.text.x = element_text(size = 12, vjust = 0),
+    axis.text.y = element_text(size = 10, vjust = 0.5),
+    plot.title = element_text(size = 12,
+                              vjust = 3),
+    plot.subtitle = element_text(size = 10,
+                                 vjust = 4),
+    plot.caption = element_text(size = 6,
+                                vjust = -3)
   ) +
   geom_hline(yintercept = 50, size = 1) +
-  #geom_hline(yintercept = 0, size = 0.3, alpha = 0.5) +
-  #geom_hline(yintercept = 25, size = 0.3, alpha = 0.5) +
-  #geom_hline(yintercept = 75, size = 0.3, alpha = 0.5) +
-  #geom_hline(yintercept = 100, size = 0.3, alpha = 0.5) +
-  labs(y = NULL, x = NULL) +
   annotation_custom(g1, xmin = 1997, xmax = 2007, ymin = 15, ymax = 105) +
   annotation_custom(g2, xmin = 2017.5, xmax = 2020.5, ymin = -3, ymax = 25) +
   NULL
 
 ```
 
+es wird sehr eindeutig, dass in der politik annähernd keine gleichstellung vorhanden ist. 2020 lag der mittelwert bei 24 Prozent! erfreulicherweise sehen wir dennoch einen klaren anstieg in den zahlen. 1997 lag der wert bei gerade einmal 10 prozent. es kommen zwar nur langsam mehr frauen in parlamente, aber dennoch stetig! wir sind gespannt, wie diese entwicklung weitergeht. was meint ihr? wann werden wir eine komplette gleichstellung haben?
 
-# Hier jetzt was mit Europa
+<br>
+<br>
 
-```{r, layout="l-body-outset", fig.width=6, fig.height=6*0.618}
+Wir haben nun gesehen, wie die Zahlen auf der gesamten Welt sind. Jetzt stellt sich die Frage, wie sieht es bei uns in Europa aus?
+Was auf den wie ein Spaghetti-Teller oder das Londoner U-Bahn Netz aussieht, sind tatsächlich die Verläufe der europäischen Länder. Schaut am besten Mal selbst, wie sich Verteilungen in den Parlamenten der europäischen Länder verändert haben. Entweder ihr schaut auch mit einem Doppelklick ein Land an oder ihr wählt mehrere aus. Wir haben euch auch den Verlauf der gesamten Welt, den ihr oben bereits gesehen habt, dargestellt.
 
+am besten schaut ihr einfach mal selbst! dazu könnt ihr ganz einfach die länder auswählen, die euch am meisten interessieren. mit einem doppelklick schaut ihr euch das land einzeln an.
+
+könnt ihr herausfinden, welches land tatsächlich mal eine komplette gleichstellung hatte??
+
+<br>
+
+```{r spaghetti diagramm, layout="l-page", fig.width=9, fig.height=9*0.618}
+
+#### Datensatz generieren ####
 
 seats_europe <- read.csv("data/raw/before_clean_seats_parliaments.csv", check.names = F) %>%  
             filter(country != "") %>% 
@@ -274,8 +308,6 @@ seats_europe <- read.csv("data/raw/before_clean_seats_parliaments.csv", check.na
             mutate(mean_w = mean(percentage_women)) %>% 
             mutate(mean_m = mean(percentage_men))
 
-
-
 #options(digits = 0)
 
 # englische Ländernamen ins Deutsche
@@ -322,16 +354,19 @@ seats_europe$country[seats_europe$country == "Slovak Republic"] <- "Slowakei"
 
 
 
-# herausfinden, welche werte die gesamte welt im durchschnitt widerspiegeln. das sind die werte, die man oben im balkendiagramm als weibliche balken gesehen hat
-# einen datensatz generieren, der die mittlewerte der gesamten welt darstellen. dabei ist es egal, welches land man konkret auswählt, da alle werte gleich sind (stellt ja den mean über die ganze welt dar)
-seats_world_mean <- seats %>% filter(country == "France") %>% select(country, year, mean_w)
+# zu diesem Datensatz sollen noch die Werte der gesamten Welt (oben Balkendiagramm) und die durchschnittlichen Werte aller europäischen Länder hinzugefügt werden
+# für die Werte der gesamten Welt können wir den seats_world_mean Datensatz nehmen, der oben bereits generiert wurde
+# für die Werte für Europa können wir den seats_europe Datensatz nach einem beliebigen Land filtern und erhalten die Mittelwerte für die europäischen Länder
+# die für uns relevanten Werte finden wir in der Spalte mean_w
+# diese werden dann manuell an den Datensatz angefügt
 
-# mean_w sind diese werte. diese werden nun manuell an den bisherigen datensatz angefügt
 
-# rename(percentage_women = mean_w, mean_w = percentage_women)
-# achtung percentage_women und mean_w musste vertauscht werden, damit percentage_women unten in den plot passt. die daten entsprechen aber der früheren mean_w spalte
-# wenn man diesen und den europe datensatz mit full_join zusammengefügt hätte, wäre es zwar einfacher gewesen, jedoch haben dann die prozentwere der "gesamten Welt" etliche Nachkommastellen gehabt (warum auch immer). daher die händische manuelle vorgehensweise
-# europe mit "gesamte welt" ergänzen
+seats_world_mean <- seats %>% filter(country == "Germany") %>% select(year, mean_w, mean_m)
+#view(seats_world_mean)
+
+seats_europe_mean <- seats_europe %>% filter(country == "Deutschland") %>% select(year, mean_w)
+#view(seats_europe_mean)
+
 
 europe_final <- seats_europe %>% ungroup() %>% 
   add_row(country = "gesamte Welt", year = 1997, percentage_women = 10) %>% 
@@ -357,22 +392,56 @@ europe_final <- seats_europe %>% ungroup() %>%
   add_row(country = "gesamte Welt", year = 2017, percentage_women = 21) %>% 
   add_row(country = "gesamte Welt", year = 2018, percentage_women = 22) %>% 
   add_row(country = "gesamte Welt", year = 2019, percentage_women = 23) %>% 
-  add_row(country = "gesamte Welt", year = 2020, percentage_women = 24) %>% 
+  add_row(country = "gesamte Welt", year = 2020, percentage_women = 24) %>%
+  
+  add_row(country = "Europa", year = 1997, percentage_women = 14) %>% 
+  add_row(country = "Europa", year = 1998, percentage_women = 16) %>% 
+  add_row(country = "Europa", year = 1999, percentage_women = 16) %>% 
+  add_row(country = "Europa", year = 2000, percentage_women = 17) %>% 
+  add_row(country = "Europa", year = 2001, percentage_women = 17) %>% 
+  add_row(country = "Europa", year = 2002, percentage_women = 18) %>% 
+  add_row(country = "Europa", year = 2003, percentage_women = 19) %>% 
+  add_row(country = "Europa", year = 2004, percentage_women = 20) %>% 
+  add_row(country = "Europa", year = 2005, percentage_women = 21) %>% 
+  add_row(country = "Europa", year = 2006, percentage_women = 21) %>% 
+  add_row(country = "Europa", year = 2007, percentage_women = 22) %>% 
+  add_row(country = "Europa", year = 2008, percentage_women = 22) %>% 
+  add_row(country = "Europa", year = 2009, percentage_women = 23) %>% 
+  add_row(country = "Europa", year = 2010, percentage_women = 23) %>% 
+  add_row(country = "Europa", year = 2011, percentage_women = 24) %>% 
+  add_row(country = "Europa", year = 2012, percentage_women = 25) %>% 
+  add_row(country = "Europa", year = 2013, percentage_women = 25) %>% 
+  add_row(country = "Europa", year = 2014, percentage_women = 26) %>% 
+  add_row(country = "Europa", year = 2015, percentage_women = 26) %>% 
+  add_row(country = "Europa", year = 2016, percentage_women = 26) %>% 
+  add_row(country = "Europa", year = 2017, percentage_women = 27) %>% 
+  add_row(country = "Europa", year = 2018, percentage_women = 27) %>% 
+  add_row(country = "Europa", year = 2019, percentage_women = 29) %>% 
+  add_row(country = "Europa", year = 2020, percentage_women = 30) %>% 
     group_by(year)
 
 
 
 
-#group by year
 
-order <- c("gesamte Welt", "Albanien", "Andorra", "Aserbaidschan", "Belarus", "Belgien", "Bosnien und Herzegowina", "Bulgarien", "Dänemark", "Deutschland", "Estland", "Finnland", "Frankreich", "Georgien", "Griechenland", "Großbritannien", "Irland", "Island", "Italien", "Kasachstan", "Kroatien", "Lettland", "Liechtenstein", "Litauen", "Luxemburg", "Malta", "Moldau", "Monaco", "Montenegro", "Niederlande", "Nordmazedonien", "Norwegen", "Österreich", "Polen", "Portugal", "Rumänien", "Russland", "San Marino", "Schweden", "Schweiz", "Serbien", "Slowakei", "Slowenien", "Spanien", "Tschechien", "Türkei", "Ukraine", "Ungarn", "Zypern")
 
-colors <- c("red", "#F00101", "#10008C", "#B8413F", "#B10019", "#FABA00", "#212F84", "#0F8063", "#B00F16", "#000000", "#0A63AC", "#084D85", "#D1A7A7", "#FF403D",  "#ABB6CC", "#162360", "#16A64D", "#163AAB", "#AD0243", "#49A7C9", "#DB2500", "#951C46", "#001078", "#C48E04", "#6E94CC", "#B83E31", "#E3B600", "#E23400", "#BA3400", "#FF8900", "#DB2000", "#8D10DB", "#DB7E97", "#DB49A3", "#304900", "#5B4968", "#864085", "#85BCED", "#EBC496", "#FF564F", "#CC445E", "#3733D9", "#3768D9", "#BA1111", "#179B96", "#D61871", "#1619FE", "#02B538", "#FFD966")
+order_europe <- c("gesamte Welt", "Europa", "Albanien", "Andorra", "Aserbaidschan", "Belarus", "Belgien", "Bosnien und Herzegowina", "Bulgarien", "Dänemark", "Deutschland", "Estland", "Finnland", "Frankreich", "Georgien", "Griechenland", "Großbritannien", "Irland", "Island", "Italien", "Kasachstan", "Kroatien", "Lettland", "Liechtenstein", "Litauen", "Luxemburg", "Malta", "Moldau", "Monaco", "Montenegro", "Niederlande", "Nordmazedonien", "Norwegen", "Österreich", "Polen", "Portugal", "Rumänien", "Russland", "San Marino", "Schweden", "Schweiz", "Serbien", "Slowakei", "Slowenien", "Spanien", "Tschechien", "Türkei", "Ukraine", "Ungarn", "Zypern")
 
+colors_europe <- c("red", "blue", "#F00101", "#10008C", "#B8413F", "#B10019", "#FABA00", "#212F84", "#0F8063", "#B00F16", "#000000", "#0A63AC", "#084D85", "#D1A7A7", "#FF403D",  "#ABB6CC", "#162360", "#16A64D", "#163AAB", "#AD0243", "#49A7C9", "#DB2500", "#951C46", "#001078", "#C48E04", "#6E94CC", "#B83E31", "#E3B600", "#E23400", "#BA3400", "#FF8900", "#DB2000", "#8D10DB", "#DB7E97", "#DB49A3", "#304900", "#5B4968", "#864085", "#85BCED", "#EBC496", "#FF564F", "#CC445E", "#3733D9", "#3768D9", "#BA1111", "#179B96", "#D61871", "#1619FE", "#02B538", "#FFD966")
+
+
+
+#### Visualisierung ####
 
 spaghetti <- europe_final %>% 
   ggplot() +
-  aes(year, percentage_women, color = fct_relevel(country, order)) +
+  geom_hline(yintercept = 0, size = 0.3, alpha = 0.3) +
+  geom_hline(yintercept = 10, size = 0.3, alpha = 0.3) +
+  geom_hline(yintercept = 20, size = 0.3, alpha = 0.3) +
+  geom_hline(yintercept = 30, size = 0.3, alpha = 0.3) +
+  geom_hline(yintercept = 40, size = 0.3, alpha = 0.3) +
+  geom_hline(yintercept = 50, size = 0.3, alpha = 0.3) +
+  aes(year, percentage_women, color = fct_relevel(country, order_europe)) +
   geom_line() +
   geom_point(
     aes(x = year,
@@ -386,17 +455,18 @@ spaghetti <- europe_final %>%
   scale_x_continuous(
     limits = c(1997, 2020),
     breaks = c(1997, 2020)) +
-  scale_color_manual(values = colors) +
-  geom_hline(yintercept = 0, size = 0.3, alpha = 0.3) +
-  geom_hline(yintercept = 10, size = 0.3, alpha = 0.3) +
-  geom_hline(yintercept = 20, size = 0.3, alpha = 0.3) +
-  geom_hline(yintercept = 30, size = 0.3, alpha = 0.3) +
-  geom_hline(yintercept = 40, size = 0.3, alpha = 0.3) +
-  geom_hline(yintercept = 50, size = 0.3, alpha = 0.3) +
-  labs(x = NULL, y = NULL) +
+  scale_color_manual(values = colors_europe) +
   theme_base() +
-  theme() +
-  guides(color = guide_legend(""))
+  guides(color = guide_legend("")) +
+ labs(
+    title = "Prozentualer Frauenanteilen in Parlamenten europäischer Länder",
+    x = NULL,
+    y = NULL
+  ) +
+  theme(
+    plot.title = element_text(vjust = 6)
+  ) +
+  NULL
 
 
 font <- list(
@@ -423,13 +493,22 @@ spaghetti %>%
 
 ```
 
-# Hier dann was zur Entwicklung des Bundestages
+in Europa ist der Frauenanteil deutlich höher im vergleich zur gesamten welt. hier liegt er bei ca 30%. das ist doch super (zumindest besser)!
+unterschiede zwischen den ländern
 
-```{r, layout="l-body-outset", fig.width=9, fig.height=9*0.618}
+<br>
+<br>
 
-# datensatz
-# selbst generierter Datensatz aus Wikipedia Tabelle (https://de.wikipedia.org/wiki/Frauenanteil_im_Deutschen_Bundestag_seit_1949)
-# datensatz zeigt die anzahl/prozente von männern und frauen in den bundestagen an
+Nachdem wir nun geschaut haben, wie Deutschland im Vergleich zu den anderen europäischen Ländern und der Welt abschneidet (hier der Hinweis: schaut es euch noch an ;)), wollen wir uns jetzt spezifischer den Deutschen Bundestag anschauen.
+
+Dazu haben wir hier zuerst die Entwicklung des Deutschen Bundestag vom ersten bis zum aktuellen Bundestag. Hier werden nicht die Prozente anzeigt wie bisher, sondern die konkrete Anzahl an Abgeordneten. 
+
+<br>
+
+```{r entwicklung bundestag, layout="l-page", fig.width=9, fig.height=9*0.618}
+
+#### Datensatz generieren ####
+# der Datensatz haben wir selbst in Jamovi erstellt. Als Ausgang dienen diese Daten aus der Wikipedia Tabelle 1 (https://de.wikipedia.org/wiki/Frauenanteil_im_Deutschen_Bundestag_seit_1949)
 
 
 bundestag_raw <- read.csv("data/to_work_with/bundestagzusammensetzung.csv") %>% 
@@ -467,10 +546,6 @@ scale.bundestag <- c("1. Bundestag 1949-1953",
 bundestag_ds$bundestag <- ordered(bundestag_ds$bundestag, levels = scale.bundestag)
 #options(digits = 2)
 
-# https://www.bundestag.de/parlament/plenum/sitzverteilung_20wp
-# https://www.bundestag.de/datenhandbuch
-# für den verlauf aller bundestage nehme ich die wikipedia tabelle
-# für den aktuellen bundestag kann ich die aktuelle seite des bundestages nehmen
 
 
 # modifizieren datensatz um mit geom point einzelne punkte herausstellen zu können
@@ -478,7 +553,6 @@ bundestag_ds$bundestag <- ordered(bundestag_ds$bundestag, levels = scale.bundest
 bundestag_point_w <- bundestag_ds %>% 
   select(bundestag, frauen_anzahl, mitglieder) %>% 
   filter(bundestag %in% c("1. Bundestag 1949-1953",
-                          "18. Bundestag 2013-2017",
                           "20. Bundestag 2021"))
 
 bundestag_point_m <- bundestag_ds %>% 
@@ -488,6 +562,7 @@ bundestag_point_m <- bundestag_ds %>%
 
 
 
+#### Visualisierung ####
 bundestag_ds %>% 
   ggplot() +
   geom_hline(yintercept = 0, size = 0.3, alpha = 0.3) +
@@ -543,25 +618,35 @@ bundestag_ds %>%
     limits = c(0, 800),
     breaks = c(0, 200, 400, 600, 800),
     expand = c(0.05,1)) +
-  labs(x = NULL,
-       y = "Anzahl der Abgeordneten") +
   theme_minimal_hgrid(
     color = "transparent"
   ) +
+  labs(title = "Anzahl der Abgeordneten im Deutschen Bundestag nach Geschlecht",
+       subtitle = "Entwicklung vom 1. bis zum 20. Bundestag",
+       caption = "Quelle: Wikipedia [2]",
+       x = NULL,
+       y = "Anzahl der Abgeordneten"
+      ) +
   theme(
     axis.text.x = element_text(size = 12),
-    axis.text.y = element_text(size = 11),
+    axis.text.y = element_text(size = 10),
     axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)),
-    plot.background = element_rect("#F0F0F0"),
-    #aspect.ratio = 6*0.618/6
+    #plot.background = element_rect("#F0F0F0"),
+    plot.title = element_text(size = 16,
+                              vjust = 3),
+    plot.subtitle = element_text(size = 12,
+                                 vjust = 4),
+    plot.caption = element_text(size = 8,
+                                vjust = -3)
     ) +
+
   
   
   
   # labels
   geom_label(
     label="alle Abgeordnete", 
-    x = 23,
+    x = 24,
     y = 746,
     size = 5,
     label.padding = unit(0.35, "lines"),
@@ -571,7 +656,7 @@ bundestag_ds %>%
     fill="#F0F0F0") +
   geom_label(
     label="männliche Abgeordnete", 
-    x = 24.5,
+    x = 25,
     y = 490,
     size = 5,
     label.padding = unit(0.35, "lines"),
@@ -596,7 +681,7 @@ bundestag_ds %>%
     geom_label(
     label="28 \nlediglich 7 % Frauen im Bundestag", 
     x = 0,
-    y = 150,
+    y = 160,
     size = 4,
     color = "#FFB813",
     fill= "#F0F0F0",
@@ -604,9 +689,9 @@ bundestag_ds %>%
     hjust = 0) +
   
     geom_label(
-    label="256 \n35 % unserer Abgeordneten sind Frauen!", 
+    label="256 \n35 % unserer Abgeordneten \nsind Frauen!", 
     x = 20,
-    y = 150,
+    y = 90,
     size = 4,
     color = "#FFB813",
     fill= "#F0F0F0",
@@ -617,8 +702,26 @@ bundestag_ds %>%
 
 ```
 
-# aktueller Bundestag
-```{r}
+<br> 
+es gibt keine frauenquote in der politik
+umso erfreulicher ist es, dass wir einen großen anstieg verzeichnen konnten!
+
+was wir hier ganz gut sehen können: die anzahl an männlichen abgeordneten ist seit dem ersten bundestag bei weitem nicht so stark gestiegen wie bei den weiblichen abgeordneten, wir hatten zwar beim letzten bundestag eine höhere frauenquote, dennoch ist es erfreulich zu sehen, dass die anzahl an frauen im deutschen bundestag stetig zunimmt.
+außerdem nimmt die gesamtanzahl von mitgliedern im bundestag zu. wir haben derzeit den größten bundestag überhaupt mit 736 sitzen!!
+
+<br>
+
+lasst uns also mal unseren aktuellen Bundestag anschauen. gerade weil gleichberechtitung zwischen den geschlechtern sehr aktuell und brisant ist, lohnt es sich anzuschauen, wie die verteilung zwischen männern und frauen in der deutschen politik ist.
+
+dazu schauen wir uns erst mal detaillierter die sitzeverteilung zwischen den parteien an. vielleicht hat das ja auch etwas mit dem frauenanteil zu tun?! was denkst du dazu?
+
+<br>
+
+
+```{r aktueller bundestag sitze, layout="l-page", fig.width=9, fig.height=9*0.618}
+
+#### Datensatz generieren ####
+# als Quelle für den Datensatz dient die offzielle Seite des Bundestages: https://www.bundestag.de/parlament/plenum/sitzverteilung_20wp
 
 partei <- c("SPD", "CDU/CSU", "Bündnis 90/Die Grünen", "FDP", "AfD", "Die Linke", "fraktionslos")
 
@@ -630,31 +733,20 @@ sitze_m <- c(120, 151, 48, 69, 69, 18, 4)
 
 farben <- c("#E3000F", "#000000", "#64A12D", "#ffed00", "#009EE0", "#E90098", "#737373")
 
-order <- c(6, 3, 5, 4, 2, 7, 1)
+reihenfolge <- c(6, 3, 5, 4, 2, 7, 1)
 
-ds <- data.frame(partei, sitze, sitze_w, sitze_m, farben, order)
-
-
-reihenfolge_sitze <- c("fraktionslos", "Die Linke", "AfD", "FDP", "Bündnis 90/Die Grünen", "CDU/CSU", "SPD")
-reihenfolge_sitze_umgekehrt <- c("SPD", "CDU/CSU", "Bündnis 90/Die Grünen", "FDP", "AfD", "Die Linke", "fraktionslos")
-reihenfolge_w <- c("fraktionslos", "AfD", "Die Linke", "FDP", "CDU/CSU", "Bündnis 90/Die Grünen", "SPD")
-
-farben_sitze <- c("#737373", "#E90098", "#009EE0", "#ffed00", "#64A12D", "#000000", "#E3000F")
-farben_sitze_umgekehrt <- c("#E3000F", "#000000", "#64A12D", "#ffed00", "#009EE0", "#E90098", "#737373")
+seats_bundestag <- data.frame(partei, sitze, sitze_w, sitze_m, farben, reihenfolge)
 
 
-f <- ds %>% filter(partei != "fraktionslos")
-d <- ds %>% filter(partei == "SPD")
 
-```
-
-
-```{r, layout="l-body-outset", fig.width=9, fig.height=9*0.618}
-bt <- parliament_data(election_data = ds,
+bt <- parliament_data(election_data = seats_bundestag,
                       parl_rows = 15,
                       type = "semicircle",
-                      party_seats = ds$sitze,
-                      plot_order = ds$order)
+                      party_seats = seats_bundestag$sitze,
+                      plot_order = seats_bundestag$reihenfolge)
+
+
+#### Visualisierung ####
 
 bt %>% 
   ggplot() +
@@ -670,41 +762,32 @@ bt %>%
   scale_color_manual(values = bt$farben,
                      limits = bt$partei) +
   theme_ggparliament(legend = T) +
+  labs(title = "Sitzeverteilung des aktuellen Bundestags",
+       subtitle = "SPD, Grüne und FDP bilden die Regierung",
+       caption = "Quelle: Seite des Bundestags [3]") +
    theme(
     legend.title = element_blank(),
     legend.text = element_text(size = 15),
-    plot.background = element_rect("white") ##F0F0F0
-  
+    plot.title = element_text(hjust = 0.5),
+    plot.subtitle = element_text(hjust = 0.5)
     ) +
   coord_fixed(xlim = c(-3, 3), ylim = c(-1, 3))
 
+
 ```
 
-# Frauenanteil in den Parteien
 
-```{r}
+<br>
 
-# https://www.tagesschau.de/inland/btw21/bundestag-frauen-101.html
-# https://www.dw.com/de/kritik-am-niedrigen-frauenanteil-im-neuen-bundestag/a-59342271
+Nun wollen wir uns mal die Geschlechterverteilung innerhalb der Parteien anschauen.
 
-# quelle: https://www.bundestag.de/parlament/plenum/sitzverteilung_20wp
+<br>
 
 
-#ich brauche partei und sitze
+```{r verteilung parteien, layout="l-page", fig.width=9, fig.height=9*0.618}
 
-partei <- c("SPD", "CDU/CSU", "Bündnis 90/Die Grünen", "FDP", "AfD", "Die Linke", "fraktionslos")
-
-sitze <- c(206, 197, 118, 92, 80, 39, 4)
-
-sitze_w <- c(86, 46, 70, 23, 11, 21, 0)
-
-sitze_m <- c(120, 151, 48, 69, 69, 18, 4)
-
-farben <- c("#E3000F", "#000000", "#64A12D", "#ffed00", "#009EE0", "#E90098", "#737373")
-
-order <- c(6, 3, 5, 4, 2, 7, 1)
-
-ds <- data.frame(partei, sitze, sitze_w, sitze_m, farben, order)
+#### Datensatz generieren ####
+# als Datensatz können wir wieder seats_bundestag nehmen, den wir oben generiert haben
 
 
 reihenfolge_sitze <- c("fraktionslos", "Die Linke", "AfD", "FDP", "Bündnis 90/Die Grünen", "CDU/CSU", "SPD")
@@ -714,11 +797,9 @@ reihenfolge_w <- c("fraktionslos", "AfD", "Die Linke", "FDP", "CDU/CSU", "Bündn
 farben_sitze <- c("#737373", "#E90098", "#009EE0", "#ffed00", "#64A12D", "#000000", "#E3000F")
 farben_sitze_umgekehrt <- c("#E3000F", "#000000", "#64A12D", "#ffed00", "#009EE0", "#E90098", "#737373")
 
+f <- seats_bundestag %>% filter(partei != "fraktionslos")
 
-f <- ds %>% filter(partei != "fraktionslos")
-d <- ds %>% filter(partei == "SPD")
-
-ds %>% 
+seats_bundestag %>% 
   ggplot() +
   geom_vline(xintercept = 0, size = 0.3, alpha = 0.3) +
   geom_vline(xintercept = 50, size = 0.3, alpha = 0.3) +
@@ -740,20 +821,33 @@ ds %>%
     limits = c(0, 250),
     breaks = c(0, 50, 100, 150, 200, 250),
     expand = c(0,3)) +
-  labs(x = NULL, y = NULL) +
+  labs(
+    title = "Geschlechterverteilung innerhalb der Parteien",
+    subtitle = "Frauenanteil ist in den Farben der Parteien dargestellt",
+    caption = "Quelle: Seite des Bundestags [3]",
+    x = "Anzahl der Sitze",
+    y = NULL) +
   theme_minimal_hgrid(
     color = "transparent"
   ) +
   theme(
     axis.text.x = element_text(size = 12),
     axis.text.y = element_text(size = 11),
-    plot.background = element_rect("#F0F0F0"),
-    aspect.ratio = 6*0.618/6
+    plot.title = element_text(size = 16,
+                              vjust = 3),
+    plot.subtitle = element_text(size = 12,
+                                 vjust = 4),
+    plot.caption = element_text(size = 8,
+                                vjust = -3),
+    axis.title.x = element_text(size = 10, vjust = 0)
     ) +
   geom_text(data = f, aes(x = sitze_w, y = partei, label = sitze_w), hjust = -1.2, color = "black") +
   geom_text(aes(x = sitze, y = partei, label = sitze), hjust = -1.2, color = "black")
 
 
 ```
+
+
+WIr können sehen dass sososososoososos
 
 

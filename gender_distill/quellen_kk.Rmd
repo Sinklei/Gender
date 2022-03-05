@@ -1,0 +1,16 @@
+---
+title: "quellen_kk"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+[1] https://www.ipu.org/
+
+[2] (https://de.wikipedia.org/wiki/Frauenanteil_im_Deutschen_Bundestag_seit_1949)
+
+[3] https://www.bundestag.de/parlament/plenum/sitzverteilung_20wp

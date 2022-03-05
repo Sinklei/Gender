@@ -31,6 +31,20 @@ library(ggparliament)
 
 ```
 
+```{r backup appearance}
+
+bei theme()
+    axis.text.x = element_text(size = 12, vjust = 0),
+    axis.text.y = element_text(size = 10, vjust = 0.5),
+    plot.title = element_text(size = 12,
+                              vjust = 3),
+    plot.subtitle = element_text(size = 10,
+                                 vjust = 4),
+    plot.caption = element_text(size = 6,
+                                vjust = -3)
+
+
+```
 
 # Einleitungstext
 
@@ -133,15 +147,6 @@ options(digits = 0)
 
 #meine Quelle: https://databank.worldbank.org/source/gender-statistics
 
-#könnte auch mit Bildung zusammenhängen, dass für Frauen nicht dieselben Voraussetzungen gelten wie für Männer
-
-
-
-
-
-
-
-#### man kann erkennen, dass der mittelwert global über alle Länder hinweg, steigt (genauso wie der median) 
 
 
 
@@ -205,7 +210,7 @@ seats_world %>%
 # png felder mit prozentzahl drin von 1997 und 2020
 # wieder eine legende?
 # bisherige pngs schöner machen
-
+# Jahreszahl größer machen 2020?
 
 
 
