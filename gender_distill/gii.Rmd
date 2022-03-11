@@ -229,15 +229,15 @@ margin= 2) %>%
 #fonts()
 ```
 
-### In Deutschland...?
+**In Deutschland...?**
 
 - ...ist die Müttersterblichkeitsrate mit 7 pro 100.000 Lebendgeburten nah an den Top 3 Werten dran.
 
 - ...gilt das gleiche auch für die Jugendgeburtenrate.
 
-- liegt der Anteil von Frauensitze im Parlament mit 31,6% fast so hoch wie in der Schweiz (38,6%), aber schon noch ein Stück weit entfernt von Schweden. Schweden hat mit 47,3% den größten Anteil an Frauensitze im Parlament.
+-...liegt der Anteil von Frauensitze im Parlament mit 31,6% fast so hoch wie in der Schweiz (38,6%), aber schon noch ein Stück weit entfernt von Schweden. Schweden hat mit 47,3% den größten Anteil an Frauensitze im Parlament.
 
-- ist der Anteil von Frauen, die mindestens einen Sekundarabschluss haben sehr hoch, fast so hoch wie der Anteil der Männer.
+-...ist der Anteil von Frauen, die mindestens einen Sekundarabschluss haben sehr hoch, fast so hoch wie der Anteil der Männer.
 
-- arbeiten mehr als die Häfte der Mädchen und Frauen die mindestens 15 Jahre alt sind. 
+-...arbeiten mehr als die Häfte der Mädchen und Frauen die mindestens 15 Jahre alt sind. 
 
