@@ -1,5 +1,5 @@
 name: "gender_distill"
-title: "genderwebsite"
+title: "Home"
 description: |
   genderwebsite
 output_dir: "_site"

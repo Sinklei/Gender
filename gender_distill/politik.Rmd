@@ -29,7 +29,7 @@ library(ggparliament)
 
 Wir haben bereits gesehen, dass uns Ungleichstellungen zwischen den Geschlechtern begegnen. Aber wie sieht es denn in einem konkreten Bereich unseres Lebens aus?
 
-Auf dieser Seite wollen wir uns die Gleichheit zwischen Männern und Frauen in der Politik anschauen!
+Auf dieser Seite wollen wir uns die (Un)Gleichheit zwischen Männern und Frauen in der Politik anschauen!
 
 Lasst uns dazu mal zu Beginn einen Blick auf die gesamte Welt werfen.
 
@@ -180,17 +180,17 @@ Das Balkendiagramm zeigt uns die prozentualen Anteile zwischen Männern und Frau
 Es wird deutlich, dass in der Politik annähernd keine Gleichstellung vorhanden ist. In 2020 lag der Frauenanteil in Parlamenten gerade mal bei _24 %_.
 Erfreulicherweise kann man jedoch eine positive Entwicklung feststellen. Von 1997 bis 2020 ist der Wert stetig gestiegen. Wir nähern uns langsam unserem Ziel der Gleichstellung. Langsam, aber stetig!
 
-**Was meint ihr? Wann werden wir eine komplette Gleichstellung zwischen Männern und Frauen in der Politik haben?**
+**Was meinst du? Wann werden wir eine komplette Gleichstellung zwischen Männern und Frauen in der Politik haben?**
 
 <br>
 <br>
 
-Wir haben nun gesehen, wie die Zahlen auf der gesamten Welt aussehen. Jetzt stellt sich die Frage, wie sieht es bei uns in Europa aus?
+Wir haben nun gesehen, wie die Zahlen auf der gesamten Welt aussehen. Jetzt stellt sich die Frage, wie es bei uns in Europa aussieht?
 Was auf den ersten Blick wie ein Spaghetti-Teller oder das Londoner U-Bahn Netz aussieht, sind tatsächlich die Verläufe der europäischen Länder. Sie zeigen uns den Frauenanteil in Prozent in den Parlamenten der einzelnen Länder.
 
-Schaut am besten Mal selbst, wie sich die Anteile im Laufe der Zeit verändert haben. Entweder ihr schaut auch mit einem Doppelklick ein Land an oder ihr wählt mehrere aus und könnt sie miteinander vergleichen. Wir haben euch auch den Verlauf der gesamten Welt, den ihr oben bereits gesehen habt, und den Verlauf der europäischen Länder (im Durchschnitt) auch dargestellt. Wenn ihr mit der Maus über die Verläufe schwebt, werden euch zusätzliche Informationen angezeigt.
+Schaue am besten mal selbst, wie sich die Anteile im Laufe der Zeit verändert haben. Entweder du schaust dir mit einem Doppelklick ein Land an oder du wählst mehrere aus und kannst sie miteinander vergleichen. Wir haben dir auch den Verlauf der gesamten Welt, den du oben bereits gesehen hast, und den Verlauf der europäischen Länder (im Durchschnitt) dargestellt. Wenn du mit der Maus über die Verläufe schwebst, werden dir zusätzliche Informationen angezeigt.
 
-**Könnt ihr herausfinden, welches Land tatsächlich mal eine komplette Gleichstellung hatte?**
+**Kannst du herausfinden, welches Land tatsächlich mal eine komplette Gleichstellung hatte?**
 
 <br>
 
@@ -499,7 +499,7 @@ _Andorra_ hatte von 2011 bis 2014 eine Verteilung zwischen Männern und Frauen v
 Im Vergleich zur gesamten Welt ist der Durchschnitt der europäischen Länder höher. 2020 lag er zumindest bei _30 %_.
 Wir können allgemein sehen, dass der Frauenanteil in (fast) allen europäischen Ländern zunimmt.
 
-**Habt ihr euch auch den Verlauf von Deutschland angeschaut?**
+**Hast du dir auch den Verlauf von Deutschland angeschaut?**
 
 <br>
 <br>
@@ -784,7 +784,7 @@ Die SPD verzeichnet die meisten Sitze im Bundestag und bildet zusammen mit den G
 
 Lasst uns nun die Geschlechterverteilung innerhalb der Parteien anschauen.
 
-**Was glaubt ihr? In welcher Partei gibt es die meisten Frauen?**
+**Was glaubst du? In welcher Partei gibt es die meisten Frauen?**
 
 <br>
 <br>
@@ -866,7 +866,7 @@ Bisher konnten wir sehen, dass die Männer bislang immer die Überhand hatten. D
 **In der Politik...?**
 
 * ...sind immer noch mehr Männer als Frauen vertreten.
-* ...gibt es wenig Länder mit einer Gleichstellung zwischen Männern und Frauen.
+* ...gibt es wenig bis keine Länder mit einer Gleichstellung zwischen Männern und Frauen.
 * ...sehen wir einen deutlichen Anstieg des Frauenanteils.
 * ...sehen wir den größten Deutschen Bundestag bisher.
 * ...haben die Grünen und die Linken im Bundestag mehr Frauen als Männer.
