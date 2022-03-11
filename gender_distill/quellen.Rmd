@@ -7,7 +7,7 @@ site: distill::distill_website
 
 ### Quellen für ... in Deutschland?
 
-Der GII stützt sich auf öffentliche Daten aus internationalen Datenbanken:
+Die Angaben auf dieser Seite basieren auf dem Gender Inequality Index der UNPD. Der Index stützt sich auf öffentliche Daten aus internationalen Datenbanken:
 
 - Müttersterblichkeitsrate: WHO, UNICEF,UNFPA, World Bank Group and United Nations Population Division (2019)
 
@@ -21,20 +21,8 @@ Der GII stützt sich auf öffentliche Daten aus internationalen Datenbanken:
 
 Näheres zu den Quellen und der Berechnung der Indikatoren: https://hdr.undp.org/sites/default/files/hdr2020_technical_notes.pdf 
 
+weitere Informationen zum Index: https://hdr.undp.org/en/faq-page/gender-inequality-index-gii#t294n2913
+
 Datensatz: https://hdr.undp.org/en/composite/GII 
-
-https://hdr.undp.org/en/faq-page/gender-inequality-index-gii#t294n2913
-
-#### Die 3 Bereiche, die mit dem GII-Wert gemessen werden:
-
-ie Ungleichheit bezieht sich auf 3 Bereiche der menschlichen Entwicklung. Er stellt sie vor folgende Fragen: 
-1. **reproduktive Gesundheit:** Wie ist die Müttersterblichkeitsrate in dem Land? Wie ist die Geburtenrate bei Jugendlichen in dem Land?
-
->"Reproduktive Gesundheit ist ein Zustand vollkommenen physischen, geistigen und sozialen Wohlbefindens, und nicht nur die Abwesenheit von Krankheit oder Gebrechlichkeit, und zwar im Hinblick auf alle Belange in Zusammenhang mit dem reproduktiven System, seinen Funktionen und Prozessen."(International Conference on Population and Development (ICPD), Program of Action, UN Doc. A/CONF.171/13 1994, Kap. 7.A, 7.2., 7.3.)
-
-2. **Selbstbestimmung:** Wie viele Parlamentssitze sind von Frauen besetzt in dem Land? Wie hoch ist der Anteil von Frauen über 25 Jahren, die mindestens einen Sekundarabschluss haben in dem Land? Wie hoch ist dieser Anteil von Männern? 
-
-3. **wirtschaftlicher Status:** Wie hoch ist die Erwerbsquote der männlichen Bevölkerung über 15 Jahren in dem Land? Wie hoch ist diese Quote bei der weiblichen Bevölkerung über 15 Jahren?
-
 
 ### Quellen für ... auch in der Politik?
