@@ -1,7 +1,5 @@
 ---
 title: "Woher wissen wir das?"
-description: |
-  some infos
 site: distill::distill_website
 ---
 
@@ -26,3 +24,18 @@ weitere Informationen zum Index: https://hdr.undp.org/en/faq-page/gender-inequal
 Datensatz: https://hdr.undp.org/en/composite/GII 
 
 ### Quellen für ... auch in der Politik?
+
+
+[1] "Prozentuale Geschlechterverteilung in Parlamenten im Zeitraum 1997 bis 2020"
+
+- Die Daten stammen von der Inter-Parliamentary Union (IPU). Zu finden unter: www.ipu.org
+- Dieselben Daten wurden bei der Visualisierung "Prozentualer Frauenanteil in Parlamenten europäischer Länder" genutzt.
+
+
+[2] "Anzahl der Abgeordneten im Deutschen Bundestag nach Geschlecht"
+
+- Die Daten stammen von einer Wikipedia-Seite, die sich mit dem Frauenanteil im Deutschen Bundestag befasst. Sie sind der Tabelle 1 zu entnehmen. Zu finden unter: https://de.wikipedia.org/wiki/Frauenanteil_im_Deutschen_Bundestag_seit_1949
+
+[3] "Sitzeverteilung des aktuellen Bundestags" und "Geschlechterverteilung innerhalb der Parteien"
+
+- Die Daten stammen von der offiziellen Seite des Deutschen Bundestages. Zu finden unter: https://www.bundestag.de/parlament/plenum/sitzverteilung_20wp

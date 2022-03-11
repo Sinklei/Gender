@@ -460,7 +460,7 @@ spaghetti <- europe_final %>%
   theme_base() +
   guides(color = guide_legend("")) +
  labs(
-    title = "Prozentualer Frauenanteilen in Parlamenten europäischer Länder",
+    title = "Prozentualer Frauenanteil in Parlamenten europäischer Länder",
     x = NULL,
     y = NULL
   ) +
