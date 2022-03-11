@@ -12,6 +12,12 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ```
 
-das hier ist die startseite für unsere website
+Frauen und Männer sind nicht in jedem Bereich des Lebens gleichgestellt - das ist Tatsache. Aber wie sieht die Ungleichstellung aus? In welchen Ländern zeigt sie sich? Und auch in Deutschland? Und in welchen Bereichen? 
 
-hier könnten dann die ersten informationstexte und visualisierungen zu finden sein
+Auf dieser Website probieren wir all diese Fragen zu beantworten. 
+
+Dafür kannst du 
+
+- ... in Deutschland? schauen, was der Entwicklungsprogramm der Vereinten Nation (UNDP) zur Geschlechterungleichheit auf der ganzen Welt sagt. Du findest Antwort auf die Frage, wie Deutschland im internationalen Vergleich der Ungleichstellung abschneidet.
+
+- ... etwa auch in der Politik?

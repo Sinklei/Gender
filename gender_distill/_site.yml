@@ -4,22 +4,14 @@ description: |
   genderwebsite
 output_dir: "_site"
 navbar:
-  search: true
+  search: false
   right:
-    - text: "Home"
+    - text: "Geschlechtsspezifische Ungleichheit"
       href: index.html
-    - text: "Gendergleichheit"
-      href: gendergleichheit.html
-    - text: "Arbeit"
-      href: arbeit.html
-    - text: "Bildung"
-      href: bildung.html
-    - text: "Politik"
-      href: politik.html
-    - text: "Quellen"
-      href: quellen.html
-    - text: "Wer sind wir?"
-      href: about.html
-    - text: "Gender Inequality Index"
+    - text: "...in Deutschland?"
       href: gii.html
+    - text: "...auch in der Politik?"
+      href: politik.html
+    - text: "Woher wissen wir das?"
+      href: quellen.html 
 output: distill::distill_article

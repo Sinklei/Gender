@@ -1,16 +1,40 @@
 ---
-title: "Quellen"
+title: "Woher wissen wir das?"
 description: |
   some infos
 site: distill::distill_website
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+### Quellen für ... in Deutschland?
 
-# Learn more about creating websites with Distill at:
-# https://rstudio.github.io/distill/website.html
+Der GII stützt sich auf öffentliche Daten aus internationalen Datenbanken:
 
-```
+- Müttersterblichkeitsrate: WHO, UNICEF,UNFPA, World Bank Group and United Nations Population Division (2019)
 
-hier werden wir unsere Quellen aufzeigen, damit wir sagen können, woher wir das alles haben und beweisen können, dass wir uns die Scheisse nicht aus der Nase gezogen haben.
+- Jugendgeburtenrate: UNDESA (2019)
+
+- Anteil von Frauensitzen im Parlament: IPU (2020)
+
+- Vergleich der Erwerbsquote der weiblichen und männlichen Bevölerung über 15 Jahren: International Labour Organization ILO (2020)
+
+- Vergleich zwischen Frauen und Männern über 25 Jahren mit mindestens einem Sekundärabschluss: UNESCO Institute for Statistics (2020) and Barro and Lee (2018)
+
+Näheres zu den Quellen und der Berechnung der Indikatoren: https://hdr.undp.org/sites/default/files/hdr2020_technical_notes.pdf 
+
+Datensatz: https://hdr.undp.org/en/composite/GII 
+
+https://hdr.undp.org/en/faq-page/gender-inequality-index-gii#t294n2913
+
+#### Die 3 Bereiche, die mit dem GII-Wert gemessen werden:
+
+ie Ungleichheit bezieht sich auf 3 Bereiche der menschlichen Entwicklung. Er stellt sie vor folgende Fragen: 
+1. **reproduktive Gesundheit:** Wie ist die Müttersterblichkeitsrate in dem Land? Wie ist die Geburtenrate bei Jugendlichen in dem Land?
+
+>"Reproduktive Gesundheit ist ein Zustand vollkommenen physischen, geistigen und sozialen Wohlbefindens, und nicht nur die Abwesenheit von Krankheit oder Gebrechlichkeit, und zwar im Hinblick auf alle Belange in Zusammenhang mit dem reproduktiven System, seinen Funktionen und Prozessen."(International Conference on Population and Development (ICPD), Program of Action, UN Doc. A/CONF.171/13 1994, Kap. 7.A, 7.2., 7.3.)
+
+2. **Selbstbestimmung:** Wie viele Parlamentssitze sind von Frauen besetzt in dem Land? Wie hoch ist der Anteil von Frauen über 25 Jahren, die mindestens einen Sekundarabschluss haben in dem Land? Wie hoch ist dieser Anteil von Männern? 
+
+3. **wirtschaftlicher Status:** Wie hoch ist die Erwerbsquote der männlichen Bevölkerung über 15 Jahren in dem Land? Wie hoch ist diese Quote bei der weiblichen Bevölkerung über 15 Jahren?
+
+
+### Quellen für ... auch in der Politik?

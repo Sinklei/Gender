@@ -1,5 +1,5 @@
 ---
-title: " Index der geschlechtsspezifischen Ungleichheit"
+title: "... in Deutschland?"
 description:
 site: distill::distill_website
 ---
@@ -14,25 +14,16 @@ library(tidyverse)
 options(digits = 3)
 GII <- read_csv("data/to_work_with/GII.csv")
 ```
+Ungleichheit der Geschlechter in Deutschland?
 
+Zur Messung der geschlechtsspezifischen Ungleichheit gibt es vom UNPD einen Wert, der die Geschlechter Ungleichheit in 162 Ländern misst - der GII-Wert.
 
-Der Index der geschlechtsspezifischen Ungleichheit - im Originalen *Gender Inequality Index (GII)* - von 2020 misst die Gleichstellung zwischen Männer und Frauen 162 Ländern. Der Index spiegelt wider, wie stark die Benachteiligung von Frauen ist. Die Gleichstellung bezieht sich auf 3 Bereiche der menschlichen Entwicklung. Er stellt sie vor folgende Fragen: 
+Der GII-Wert liegt zwischen einem Wert von 0 bis 1 und spiegelt wider, wie stark die Benachteiligung von Frauen ist. Je höher der Wert, desto größer die Ungleichheit zwischen Mann und Frau. 
 
-1. **reproduktive Gesundheit:** Wie ist die Müttersterblichkeitsrate in dem Land? Wie ist die Geburtenrate bei Jugendlichen in dem Land?
+Wichtig ist sich im Hinterkopf zu behalten, dass nicht das Land mit dem höchsten GII-Wert an der Spitze steht. Im Gegenteil: Das Land, das einem Wert von 0 am nächsten kommt führt. Warum? Je näher der GII-Wert an der 0 ist, desto weniger sind Frauen gegenüber Männern benachteiligt.
 
->"Reproduktive Gesundheit ist ein Zustand vollkommenen physischen, geistigen und sozialen Wohlbefindens, und nicht nur die Abwesenheit von Krankheit oder Gebrechlichkeit, und zwar im Hinblick auf alle Belange in Zusammenhang mit dem reproduktiven System, seinen Funktionen und Prozessen."(International Conference on Population and Development (ICPD), Program of Action, UN Doc. A/CONF.171/13 1994, Kap. 7.A, 7.2., 7.3.)
-
-2. **Selbstbestimmung:** Wie viele Parlamentssitze sind von Frauen besetzt in dem Land? Wie hoch ist der Anteil von Frauen über 25 Jahren, die mindestens einen Sekundarabschluss haben in dem Land? Wie hoch ist dieser Anteil von Männern? 
-
-3. **wirtschaftlicher Status:** Wie hoch ist die Erwerbsquote der männlichen Bevölkerung über 15 Jahren in dem Land? Wie hoch ist diese Quote bei der weiblichen Bevölkerung über 15 Jahren?
-
-
-#### Ein Wert zwischen 0 und 1
-Der Wert der geschlechtsspezifischen Ungleichheit (GII-Wert) liegt zwischen 0 und 1. Je höher der Wert, desto größer die Ungleichheit zwischen Mann und Frau in den 3 Bereichen und desto größer ist der Verlust für die menschliche Entwicklung. 
-
-Wichtig ist sich im Hinterkopf zu behalten, dass nicht das Land mit dem höchsten GII-Wert an der Spitze steht. Im Gegenteil: Das Land, das einem Wert von 0 am nächsten kommt führt. Warum? Je näher der GII-Wert an der 0 ist, desto weniger sind Frauen gegenüber Männern in den 3 Bereichen benachteiligt.
-
-Deutschland liegt mit einem GII-Wert von 0.084 auf Platz 20 des GII-Rankings. Was glaubst du, welches Land steht auf dem 1.Platz? Schau doch einfach mal selbst in der Karte nach!
+Wie sieht denn nun die Ungleichstellung in den Ländern aus? Werfen wir einen Blick auf die Karte!
+Der GII-Wert der Länder ist aus dem Jahr 2020.
 
 ```{r, include=FALSE}
 library(sf)
@@ -110,11 +101,18 @@ GII_weltkarte
 
 ```
 
-#### Es gibt kein Land mit perfekter Gleichstellung der Geschlechter
-Die Schweiz liegt mit einem Wert von 0.025 auf dem 1.Platz des Rankings. Kein Land besitzt einen Wert von 0. Das bedeutet, dass in keinem Land eine absolute Gleichstellung der Geschlechter herrscht. Jedenfalls nicht in den Bereichen der reproduktiven Gesundheit, der Selbstbestimmtheit und dem wirtschaftlichen Status. Alle Länder büßen durch die geschlechtsspezifische Ungleichheit einen gewissen Defizit in der menschlichen Entwicklung ein. 
+**Es gibt kein Land mit perfekter Gleichstellung der Geschlechter**
+Die Schweiz liegt mit einem Wert von 0.025 auf dem 1.Platz im Ranking. Das bedeutet, dass in der Schweiz die Ungleichstellung von Mann und Frau am geringsten ist und Frauen nur schwach gegenüber Männern benachteiligt sind. 
+**Aber:** Kein Land besitzt einen Wert von 0. Das bedeutet, dass in keinem Land eine absolute Gleichstellung herrscht. Jedenfalls nicht in den Bereichen, die mit dem GII gemessen wurden: 
+-der reproduktiven Gesundheit
+- der Selbstbestimmtheit 
+- dem wirtschaftlichen Status.
+
+Mehr zu den 3 Bereichen findest du hier.
 
 
-#### Deutschland im Vergleich zwischen besten und schlechtesten Ländern im GII-Ranking
+### Deutschland
+Deutschland liegt mit einem GII-Wert von 0.084 auf Platz 20 im internationalen Vergleich. Was glaubst du, welches Land steht auf dem 1.Platz?
 
 ```{r, include=TRUE, layout="l-body-outset", fig.width= 10, fig.height=5.5}
 
