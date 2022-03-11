@@ -105,7 +105,7 @@ Notiz: Der GII-Wert der Länder ist aus dem Jahr 2020.
 Die Schweiz liegt mit einem Wert von 0.025 auf dem 1.Platz im Ranking. Das bedeutet, dass in der Schweiz die Ungleichstellung von Mann und Frau am geringsten ist und Frauen nur schwach gegenüber Männern benachteiligt sind. 
 **Aber:** Kein Land besitzt einen Wert von 0. Das bedeutet, dass in keinem Land eine absolute Gleichstellung herrscht. Jedenfalls nicht in den Bereichen, die mit dem GII gemessen wurden: 
 
--der reproduktiven Gesundheit
+- der reproduktiven Gesundheit
 
 - der Selbstbestimmtheit 
 
