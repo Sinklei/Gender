@@ -8,8 +8,6 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ```{r libraries laden}
-### um das an die seiten anzupassen {r, layout="l-body-outset", fig.width=6, fig.height=1.5}
-
 library(tidyverse)
 library(dplyr)
 library(plotly)
@@ -29,13 +27,11 @@ library(ggparliament)
 ```
 
 
-Wir konnten bereits sehen, dass uns geschlechtliche Ungleichheiten im Alltag erscheinen.
+Wir haben bereits gesehen, dass uns Ungleichstellungen zwischen den Geschlechtern begegnen. Aber wie sieht es denn in einem konkreten Bereich unseres Lebens aus?
 
-Wir möchten uns die geschlechtliche Ungleichheit mal an einem konkreten Beispiel anschauen. Dazu schauen wir in die Politik!
+Auf dieser Seite wollen wir uns die Gleichheit zwischen Männern und Frauen in der Politik anschauen!
 
-Unsere letzte Bundestagswahl liegt noch nicht lange zurück, weshalb es sich lohnt, mal einen Blick auf die Geschlechterverteilung in der Politik zu werfen.
-
-Bevor wir uns jedoch unserem Deutschen Bundestag widmen, lasst es erst einmal einen Blick auf die gesamte Welt werfen.
+Lasst uns dazu mal zu Beginn einen Blick auf die gesamte Welt werfen.
 
 <br>
 
@@ -154,7 +150,6 @@ seats_world %>%
   ) +
   labs(
     title = "Prozentuale Geschlechterverteilung \nin Parlamenten im Zeitraum 1997 bis 2020",
-    subtitle = "Der Frauenanteil lag 2020 nur bei 24 %!",
     caption = "gezeigt werden die Mittelwerte der gesamten Welt \nQuelle: www.ipu.org [1]",
     x = NULL,
     y = NULL
@@ -179,17 +174,23 @@ seats_world %>%
 
 ```
 
-es wird sehr eindeutig, dass in der politik annähernd keine gleichstellung vorhanden ist. 2020 lag der mittelwert bei 24 Prozent! erfreulicherweise sehen wir dennoch einen klaren anstieg in den zahlen. 1997 lag der wert bei gerade einmal 10 prozent. es kommen zwar nur langsam mehr frauen in parlamente, aber dennoch stetig! wir sind gespannt, wie diese entwicklung weitergeht. was meint ihr? wann werden wir eine komplette gleichstellung haben?
+
+Das Balkendiagramm zeigt uns die prozentualen Anteile zwischen Männern und Frauen in den Parlamenten der Welt. Die Werte sind auf alle Länder bezogen. Sie zeigen uns also den Durchschnitt.
+
+Es wird deutlich, dass in der Politik annähernd keine Gleichstellung vorhanden ist. In 2020 lag der Frauenanteil in Parlamenten gerade mal bei _24 %_.
+Erfreulicherweise kann man jedoch eine positive Entwicklung feststellen. Von 1997 bis 2020 ist der Wert stetig gestiegen. Wir nähern uns langsam unserem Ziel der Gleichstellung. Langsam, aber stetig!
+
+**Was meint ihr? Wann werden wir eine komplette Gleichstellung zwischen Männern und Frauen in der Politik haben?**
 
 <br>
 <br>
 
-Wir haben nun gesehen, wie die Zahlen auf der gesamten Welt sind. Jetzt stellt sich die Frage, wie sieht es bei uns in Europa aus?
-Was auf den wie ein Spaghetti-Teller oder das Londoner U-Bahn Netz aussieht, sind tatsächlich die Verläufe der europäischen Länder. Schaut am besten Mal selbst, wie sich Verteilungen in den Parlamenten der europäischen Länder verändert haben. Entweder ihr schaut auch mit einem Doppelklick ein Land an oder ihr wählt mehrere aus. Wir haben euch auch den Verlauf der gesamten Welt, den ihr oben bereits gesehen habt, dargestellt.
+Wir haben nun gesehen, wie die Zahlen auf der gesamten Welt aussehen. Jetzt stellt sich die Frage, wie sieht es bei uns in Europa aus?
+Was auf den ersten Blick wie ein Spaghetti-Teller oder das Londoner U-Bahn Netz aussieht, sind tatsächlich die Verläufe der europäischen Länder. Sie zeigen uns den Frauenanteil in Prozent in den Parlamenten der einzelnen Länder.
 
-am besten schaut ihr einfach mal selbst! dazu könnt ihr ganz einfach die länder auswählen, die euch am meisten interessieren. mit einem doppelklick schaut ihr euch das land einzeln an.
+Schaut am besten Mal selbst, wie sich die Anteile im Laufe der Zeit verändert haben. Entweder ihr schaut auch mit einem Doppelklick ein Land an oder ihr wählt mehrere aus und könnt sie miteinander vergleichen. Wir haben euch auch den Verlauf der gesamten Welt, den ihr oben bereits gesehen habt, und den Verlauf der europäischen Länder (im Durchschnitt) auch dargestellt. Wenn ihr mit der Maus über die Verläufe schwebt, werden euch zusätzliche Informationen angezeigt.
 
-könnt ihr herausfinden, welches land tatsächlich mal eine komplette gleichstellung hatte??
+**Könnt ihr herausfinden, welches Land tatsächlich mal eine komplette Gleichstellung hatte?**
 
 <br>
 
@@ -427,7 +428,7 @@ europe_final <- seats_europe %>% ungroup() %>%
 
 order_europe <- c("gesamte Welt", "Europa", "Albanien", "Andorra", "Aserbaidschan", "Belarus", "Belgien", "Bosnien und Herzegowina", "Bulgarien", "Dänemark", "Deutschland", "Estland", "Finnland", "Frankreich", "Georgien", "Griechenland", "Großbritannien", "Irland", "Island", "Italien", "Kasachstan", "Kroatien", "Lettland", "Liechtenstein", "Litauen", "Luxemburg", "Malta", "Moldau", "Monaco", "Montenegro", "Niederlande", "Nordmazedonien", "Norwegen", "Österreich", "Polen", "Portugal", "Rumänien", "Russland", "San Marino", "Schweden", "Schweiz", "Serbien", "Slowakei", "Slowenien", "Spanien", "Tschechien", "Türkei", "Ukraine", "Ungarn", "Zypern")
 
-colors_europe <- c("red", "blue", "#F00101", "#10008C", "#B8413F", "#B10019", "#FABA00", "#212F84", "#0F8063", "#B00F16", "#000000", "#0A63AC", "#084D85", "#D1A7A7", "#FF403D",  "#ABB6CC", "#162360", "#16A64D", "#163AAB", "#AD0243", "#49A7C9", "#DB2500", "#951C46", "#001078", "#C48E04", "#6E94CC", "#B83E31", "#E3B600", "#E23400", "#BA3400", "#FF8900", "#DB2000", "#8D10DB", "#DB7E97", "#DB49A3", "#304900", "#5B4968", "#864085", "#85BCED", "#EBC496", "#FF564F", "#CC445E", "#3733D9", "#3768D9", "#BA1111", "#179B96", "#D61871", "#1619FE", "#02B538", "#FFD966")
+colors_europe <- c("#C21614", "blue", "#F00101", "#10008C", "#B8413F", "#B10019", "#FABA00", "#212F84", "#0F8063", "#B00F16", "#000000", "#0A63AC", "#084D85", "#D1A7A7", "#FF403D",  "#ABB6CC", "#162360", "#16A64D", "#163AAB", "#AD0243", "#49A7C9", "#DB2500", "#951C46", "#001078", "#C48E04", "#6E94CC", "#B83E31", "#E3B600", "#E23400", "#BA3400", "#FF8900", "#DB2000", "#8D10DB", "#DB7E97", "#DB49A3", "#304900", "#5B4968", "#864085", "#85BCED", "#EBC496", "#FF564F", "#CC445E", "#3733D9", "#3768D9", "#BA1111", "#179B96", "#D61871", "#1619FE", "#02B538", "#FFD966")
 
 
 
@@ -493,15 +494,17 @@ spaghetti %>%
 
 ```
 
-in Europa ist der Frauenanteil deutlich höher im vergleich zur gesamten welt. hier liegt er bei ca 30%. das ist doch super (zumindest besser)!
-unterschiede zwischen den ländern
+Im Vergleich zur gesamten Welt ist der Durchschnitt der europäischen Länder höher. 2020 lag er zumindest bei _30 %_.
+Wir können allgemein sehen, dass der Frauenanteil in (fast) allen europäischen Ländern zunimmt.
+
+**Habt ihr euch auch den Verlauf von Deutschland angeschaut?**
 
 <br>
 <br>
 
-Nachdem wir nun geschaut haben, wie Deutschland im Vergleich zu den anderen europäischen Ländern und der Welt abschneidet (hier der Hinweis: schaut es euch noch an ;)), wollen wir uns jetzt spezifischer den Deutschen Bundestag anschauen.
+In unserer Spaghetti-Grafik oben konnten wir sehen, dass Deutschland 2020 _31 %_ Frauen im Bundestag hatte. 1997 waren es _26 %_. Auch in Deutschland gibt es also einen Anstieg!
 
-Dazu haben wir hier zuerst die Entwicklung des Deutschen Bundestag vom ersten bis zum aktuellen Bundestag. Hier werden nicht die Prozente anzeigt wie bisher, sondern die konkrete Anzahl an Abgeordneten. 
+Bisher haben wir uns die Prozente in Parlamenten angesehen. Jetzt wollen wir uns die konkreten Zahlen im Bundestag zwischen Männern und Frauen anschauen.
 
 <br>
 
@@ -703,19 +706,17 @@ bundestag_ds %>%
 ```
 
 <br> 
-es gibt keine frauenquote in der politik
-umso erfreulicher ist es, dass wir einen großen anstieg verzeichnen konnten!
 
-was wir hier ganz gut sehen können: die anzahl an männlichen abgeordneten ist seit dem ersten bundestag bei weitem nicht so stark gestiegen wie bei den weiblichen abgeordneten, wir hatten zwar beim letzten bundestag eine höhere frauenquote, dennoch ist es erfreulich zu sehen, dass die anzahl an frauen im deutschen bundestag stetig zunimmt.
-außerdem nimmt die gesamtanzahl von mitgliedern im bundestag zu. wir haben derzeit den größten bundestag überhaupt mit 736 sitzen!!
+Hier sehen wir die Entwicklung der Abgeordnetenanzahl aller Bundestage. Auch hier können wir einen deutlichen Anstieg der Frauen erkennen. Zwar sehen wir auch einen Anstieg der männlichen Abgeordneten, dennoch ist dieser nicht so deutlich wie bei den Frauen. Die meisten Abgeordneten sind weiterhin männlich.
 
-<br>
-
-lasst uns also mal unseren aktuellen Bundestag anschauen. gerade weil gleichberechtitung zwischen den geschlechtern sehr aktuell und brisant ist, lohnt es sich anzuschauen, wie die verteilung zwischen männern und frauen in der deutschen politik ist.
-
-dazu schauen wir uns erst mal detaillierter die sitzeverteilung zwischen den parteien an. vielleicht hat das ja auch etwas mit dem frauenanteil zu tun?! was denkst du dazu?
+Im Vergleichen zu anderen Bereichen gibt es in der Politik keine Frauenquote. Umso erfreulicher ist es, dass immer mehr Frauen im Deutschen Bundestag sitzen!
 
 <br>
+<br>
+
+Unsere letzte Bundestagswahl liegt noch nicht so lange zurück. Lasst uns mal die Geschlechterverteilung innerhalb der Parteien anschauen. Zuerst betrachten wir aber die Sitzeverteilung des Bundestages. Wie wir oben schon sehen konnten, ist unser aktueller Bundestag mit _736 Sitzen_ der größte bisher!
+
+
 
 
 ```{r aktueller bundestag sitze, layout="l-page", fig.width=9, fig.height=9*0.618}
@@ -777,10 +778,13 @@ bt %>%
 ```
 
 
+Die SPD verzeichnet die meisten Sitze im Bundestag und bildet zusammen mit den Grünen und der FDP die aktuelle Regierung. Die CDU als ehemalige Regierungspartei hat aber immer noch relativ viel Sitze erhalten.
+
+Lasst uns nun die Geschlechterverteilung innerhalb der Parteien anschauen.
+
+**Was glaubt ihr? In welcher Partei gibt es die meisten Frauen?**
+
 <br>
-
-Nun wollen wir uns mal die Geschlechterverteilung innerhalb der Parteien anschauen.
-
 <br>
 
 
@@ -823,7 +827,7 @@ seats_bundestag %>%
     expand = c(0,3)) +
   labs(
     title = "Geschlechterverteilung innerhalb der Parteien",
-    subtitle = "Frauenanteil ist in den Farben der Parteien dargestellt",
+    subtitle = "Der Frauenanteil ist in den Farben der Parteien dargestellt",
     caption = "Quelle: Seite des Bundestags [3]",
     x = "Anzahl der Sitze",
     y = NULL) +
@@ -848,6 +852,10 @@ seats_bundestag %>%
 ```
 
 
-WIr können sehen dass sososososoososos
+<br>
+
+Die meisten Frauen gibt es in der **SPD**! Dicht gefolgt von den Grünen. Es ist erstaunlich, dass in der CDU deutlich weniger Frauen als in der SPD sind, obwohl sie nur 9 Sitze weniger haben.
+
+Bisher konnten wir sehen, dass die Männer bislang immer die Überhand hatten. Daher ist es noch erstaunlicher, dass die meisten Abgeordneten bei den Grünen und den Linken Frauen sind!
 
 
