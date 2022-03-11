@@ -9,10 +9,92 @@ knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
 
+options(digits=3)
 GDI <- read_csv("data/to_work_with/GDI.csv")
-View(GDI)
 
 ```
+
+## Landkarte  
+```{r setup, include=FALSE}
+
+library(sf)
+library(raster)
+library(dplyr)
+library(spData)
+library(spDataLarge)
+library(tmap)    
+library(leaflet) 
+library(ggplot2)
+library(sp)
+
+
+
+# Landkarte herunterladen 
+
+online_weltkarte <- shapefile("data/to_work_with/borders_weltkarte/world_shape_file/TM_WORLD_BORDERS_SIMPL-0.3.shp")
+
+online_weltkarte@data$POP2005[ which(online_weltkarte@data$POP2005 == 0)] = NA
+online_weltkarte@data$POP2005 <- as.numeric(as.character(online_weltkarte@data$POP2005)) / 1000000 %>% round(2)
+
+
+
+# GDI + world df mergen
+world <- world
+
+class(world)
+
+plot(world)
+
+world_sp = as(world, Class = "Spatial")
+
+
+
+GDI_WELTKARTE <- left_join(world, GDI, by= "name_long")
+
+
+plot(GDI_WELTKARTE)
+tm_shape(GDI_WELTKARTE) + tm_fill(col = "GDI_value")
+
+
+
+# Text für Tooltips
+mytext <- paste(
+    "Land:", GDI_WELTKARTE$name_long ,"<br/>", 
+    "HDI-Platzierung:", GDI_WELTKARTE$`HDI Rank`, "<br/>", 
+    "GDI-Wert:", GDI_WELTKARTE$GDI_value, 
+    sep="") %>%
+  lapply(htmltools::HTML)
+
+#Palette
+library(RColorBrewer)
+mypalette <- colorBin( palette="Greens", domain=GDI_WELTKARTE$GDI_value , na.color="gainsboro", reverse = TRUE, bins=7)
+
+# endgültige Visualisierung
+GDI_final <-leaflet(GDI_WELTKARTE) %>% 
+  addTiles()  %>% 
+  setView( lat=51.1642292, lng=10.4541194 , zoom=2) %>%
+  addPolygons(
+    data = GDI_WELTKARTE,
+    fillColor = ~mypalette(GDI_value), 
+    stroke=TRUE, 
+    fillOpacity = 0.9, 
+    color="white", 
+    weight=0.3,
+label = mytext,
+    labelOptions = labelOptions( 
+      style = list("font-weight" = "normal", padding = "3px 8px"), 
+      textsize = "13px", 
+      direction = "auto")) %>%
+  addLegend(position = "bottomleft", opacity = 0.9, title= "GDI-Wert" ,
+            colors= c("#EDF8E9", "#C7E9C0", "#A1D99B", "#74C476", "#41AB5D", "#238B45", "#005A32"),
+            labels = c("hoch", " " , " ", " ", " ", " ", "niedrig"), na.label = "fehlende Daten")  
+show(GDI_final)
+
+```
+
+
+
+
 
 ## Gender Development Index - was misst der Datensatz?
 misst die geschlechtsspezifischen Unterschiede bei den Errungenschaften der menschlichen Entwicklung in 167 Ländern, indem er die Ungleichheiten zwischen Frauen und Männern in den drei grundlegenden Dimensionen der menschlichen Entwicklung aufteilt:
@@ -30,8 +112,8 @@ ein langes und gesundes Leben, Zugang zu Wissen und ein angenmessener Lebensstan
 GDI ist ein Zusatz zum HDI seit 2014. Er nimmt die gleichen Variablen des HDI und teilt diese auf die Geschlechter auf. Er teilt den HDI Wert in Werte für Frauen und Männer und ist das Verhältnis aus beiden.Je näher der Wert bei 1 liegt, desto geringer ist der Unterschied zwischen Frauen und Männern. Er liegt zwischen 0 und 1 (0= Ungleich -> desto mehr sind Frauen benachteiligt gegenüber Männern, 1=Gleichstand). Bei Werten über 1 fehlt es an Gleichstellung von Männern. Da sind Frauen gegenüber Männern im Vorteil. 
 
 Als zusätzlichen Vergleichsmaßstab zur Gleichberechtigung gibt es seit 2010 den GII.
-Geschlechtsspezifische Ungleichheit (GII)
-Index der geschlechtsspezifischen Entwicklung (GDI)
+Geschlechtsspezifische Ungleichheit (GII) -> optimalWert bei 0
+Index der geschlechtsspezifischen Entwicklung (GDI) ->optimalwert bei 1
 
 
 ## Was zeigt er?

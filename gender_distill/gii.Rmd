@@ -72,7 +72,7 @@ tm_shape(GII_WELT) + tm_fill(col = "GII_Value")
 # Farbpalette
 library(RColorBrewer)
 mybins <- c(0,0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8)
-mypalette <- colorBin( palette="OrRd", domain=GII_WELT$GII_Value , na.color="transparent", bins=mybins)
+mypalette <- colorBin( palette="OrRd", domain=GII_WELT$GII_Value , na.color="gainsboro", bins=mybins)
 
 # Text für Tooltips
 mytext <- paste(
@@ -100,7 +100,7 @@ label = mytext,
       style = list("font-weight" = "normal", padding = "3px 8px"), 
       textsize = "13px", 
       direction = "auto")) %>%
-  addLegend( pal=mypalette, values=~GII_Value, opacity=0.9, title = "GII Wert", position = "bottomleft" )
+  addLegend( pal=mypalette, values=~GII_Value, opacity=0.9, title = "GII Wert", position = "bottomleft", na.label = "Kein Wert" )
 show(GII_weltkarte)
 
 library(htmlwidgets)

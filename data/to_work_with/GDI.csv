@@ -1,4 +1,4 @@
-"HDI Rank","Country","GDI_value","HDI_f","HDI_m","Life_expectancy_at_birth_f","Life_Expectancy_at_birth_m","Expected_years_of_schooling_f","Expected_years_of_schooling_m","Mean_years_of_schooling_f","Mean_years_of_schooling_m","2017_Estimated _gross _ national_income_per_capita_f","2017_Estimated _gross _ national_income_per_capita_m"
+"HDI Rank","name_long","GDI_value","HDI_f","HDI_m","Life_expectancy_at_birth_f","Life_Expectancy_at_birth_m","Expected_years_of_schooling_f","Expected_years_of_schooling_m","Mean_years_of_schooling_f","Mean_years_of_schooling_m","2017_Estimated _gross _ national_income_per_capita_f","2017_Estimated _gross _ national_income_per_capita_m"
 1,"Norway",0.9899386579617451,0.94895635201451,0.9586011662261813,84.377,80.447,18.75945,17.41359,12.977,12.81661,58548.43907513327,74279.89501600877
 2,"Ireland",0.9810242976135434,0.9430427884882875,0.9612838242460963,83.909,80.667,18.79073,18.62423,12.89739912,12.42200863,55540.14540196465,81400.50775398177
 2,"Switzerland",0.9675128179073542,0.9338774340881767,0.9652352059873192,85.596,81.874,16.23563,16.41916,12.6696,13.5584,57840.35006751253,81136.60858556404
