@@ -23,7 +23,6 @@ Der GII-Wert liegt zwischen einem Wert von 0 bis 1 und spiegelt wider, wie stark
 Wichtig ist sich im Hinterkopf zu behalten, dass nicht das Land mit dem höchsten GII-Wert an der Spitze steht. Im Gegenteil: Das Land, das einem Wert von 0 am nächsten kommt führt. Warum? Je näher der GII-Wert an der 0 ist, desto weniger sind Frauen gegenüber Männern benachteiligt.
 
 Wie sieht denn nun die Ungleichstellung in den Ländern aus? Werfen wir einen Blick auf die Karte!
-Der GII-Wert der Länder ist aus dem Jahr 2020.
 
 ```{r, include=FALSE}
 library(sf)
@@ -74,7 +73,7 @@ mytext <- paste(
   lapply(htmltools::HTML)
 ```
 
-```{r, include=TRUE, layout="l-body-outset", fig.width= 6, fig.height=5}
+```{r, include=TRUE, layout="l-screen", fig.width= 9, fig.height=9*0.618}
 # endgültige Visualisierung
 GII_weltkarte <-leaflet(GII_WELT) %>% 
   addTiles()  %>% 
@@ -100,21 +99,23 @@ saveWidget(GII_weltkarte, file=paste0(getwd(),"/data/Visualisierungen/GII_weltka
 GII_weltkarte
 
 ```
+Notiz: Der GII-Wert der Länder ist aus dem Jahr 2020.
 
 **Es gibt kein Land mit perfekter Gleichstellung der Geschlechter**
 Die Schweiz liegt mit einem Wert von 0.025 auf dem 1.Platz im Ranking. Das bedeutet, dass in der Schweiz die Ungleichstellung von Mann und Frau am geringsten ist und Frauen nur schwach gegenüber Männern benachteiligt sind. 
 **Aber:** Kein Land besitzt einen Wert von 0. Das bedeutet, dass in keinem Land eine absolute Gleichstellung herrscht. Jedenfalls nicht in den Bereichen, die mit dem GII gemessen wurden: 
--der reproduktiven Gesundheit
-- der Selbstbestimmtheit 
-- dem wirtschaftlichen Status.
 
-Mehr zu den 3 Bereichen findest du hier.
+-der reproduktiven Gesundheit
+
+- der Selbstbestimmtheit 
+
+- dem wirtschaftlichen Status
+
 
 
 ### Deutschland
-Deutschland liegt mit einem GII-Wert von 0.084 auf Platz 20 im internationalen Vergleich. Was glaubst du, welches Land steht auf dem 1.Platz?
 
-```{r, include=TRUE, layout="l-body-outset", fig.width= 10, fig.height=5.5}
+```{r, include=TRUE, layout="l-body-outset", fig.width= 9, fig.height=9*0.618}
 
 library(ggplot2)
 library(dplyr)
@@ -135,7 +136,7 @@ ggplot(aes(x=GII_fil$name_long, y=GII_fil$GII_Value)) +
                color= ifelse(GII_fil$name_long %in% c("Germany"), "#5e5a57", "#5e5a57"),
                size= ifelse(GII_fil$name_long %in% c("Germany"), 1, 1)) +
   geom_point(color= ifelse(GII_fil$name_long %in% c("Germany"), "#e34a33", "#fc8d59"),
-              size= ifelse(GII_fil$name_long %in% c("Germany"), 9.5, 9.5), stroke=2, col= 1, shape=16)+
+              size= ifelse(GII_fil$name_long %in% c("Germany"), 12, 12), stroke=2, col= 1, shape=16)+
   geom_text(aes(label=GII_fil$GII_Value), color= "white", size=3)+
   scale_y_continuous(limits= c(0,1))+
   scale_x_discrete(labels= c("162. Jemen", "161. Papua Neuguinea", "160. Tschad", "20. Deutschland", "3. Schweden", "2. Dänemark", "1. Schweiz"))+
@@ -147,14 +148,15 @@ ggplot(aes(x=GII_fil$name_long, y=GII_fil$GII_Value)) +
     axis.ticks.y = element_blank()) +
   xlab("Länderplatzierung") + 
   ylab("GII Wert") +
-  labs(caption= "Quelle: UNDP - Human Development Report 2020") 
+  labs(title= "Die 3 besten Länder, Deutschland und die 3 schlechtesten Länder",
+         subtitle= "Wo liegt der GII-Wert im Vergleich zu den Top und Worst 3 Ländern?",
+         caption= "Quelle: UNDP - Human Development Report 2020") 
 ```
 
 
-Jemen, Papua Neuginea und Tschad sind die Länder mit den schlechtesten GII-Werten und stehen demnach an letzter Stelle im Ranking um die Geschlechter-Gleichstellung. Die Länder, die der Gleichstellung am nächsten kömmen, sind neben der Schweiz Dänemark und Schweden. 
+Jemen, Papua Neuginea und Tschad sind die Länder mit den schlechtesten GII-Werten und stehen demnach an letzter Stelle im Ranking um die Geschlechter-Gleichstellung. Die Länder, die der Gleichstellung am nächsten kömmen, sind neben der Schweiz Dänemark und Schweden. Deutschland liegt mit einem GII-Wert von 0.084 auf Platz 20 im internationalen Vergleich.
 
-#### Ein genauerer Blick auf die Indikatoren verrät uns das Zustandekommen der Länderplatzierungen
-
+Wie kommt das? Schauen wir uns die einzelnen Werte für die Bereiche der GII-Wertes genauer an.
 
 ```{r, include=TRUE, layout="l-body-outset", fig.width= 7, fig.height=5}
 library(reactable)
@@ -198,7 +200,7 @@ tabelle <- reactable(GII_fil2, defaultColDef = colDef(headerStyle = list(backgro
     }),
     Muettersterblichkeitsrate = colDef(name= "Müttersterblichkeitsrate¹",format = colFormat(digits = 0), align= "right" ),
             Jugendgeburtenrate = colDef(name= "Jugendgeburtenrate²", format = colFormat(digits = 1), align = "right" ),
-            Frauensitze= colDef(name = "Anteil von Frauensitzen im Parlament", format = colFormat(suffix = "%", digits = 1), align = "right"),
+            Frauensitze= colDef(name = "Anteil von Frauensitze im Parlament", format = colFormat(suffix = "%", digits = 1), align = "right"),
             Frauen_Sekundarbschluss = colDef(name=  "Frauen über 25 Jahren mit mindestens Sekundarbschluss", format = colFormat(suffix = "%", digits = 1), align= "right"), 
             Maenner_Sekundarbschluss= colDef(name="Männer über 25 Jahren mit mindestens Sekundarbschluss", format = colFormat(suffix = "%", digits = 1), align = "right"),
             Erwerbsquote_weiblich= colDef(name= "Erwerbsquote der weiblichen Bevölkerung über 15 Jahren", format = colFormat(suffix = "%", digits = 1), align = "right"),
@@ -206,7 +208,7 @@ tabelle <- reactable(GII_fil2, defaultColDef = colDef(headerStyle = list(backgro
   columnGroups = list(
     colGroup(name = "  ", columns = c("Land"), headerStyle= list(background = "#fc8d59", color= "white", fontSize= "13px")),
     colGroup(name = "reproduktive Gesundheit", columns = c("Muettersterblichkeitsrate", "Jugendgeburtenrate"),headerStyle= list(background = "#fc8d59", color= "white", fontSize= "14px")),
-    colGroup(name = "Selbstbestimmung", columns = c("Frauensitze", "Frauen_Sekundarbschluss","Maenner_Sekundarbschluss"),headerStyle= list(background = "#fc8d59", color= "white", fontSize= "14px")),
+    colGroup(name = "Selbstbestimmtheit", columns = c("Frauensitze", "Frauen_Sekundarbschluss","Maenner_Sekundarbschluss"),headerStyle= list(background = "#fc8d59", color= "white", fontSize= "14px")),
     colGroup(name = "wirtschaftlicher Status", columns = c("Erwerbsquote_weiblich", "Erwerbsquote_maennlich"), headerStyle= list(background = "#fc8d59", color= "white", fontSize= "14px"))))
 
 tabelle %>%  add_title("Detailansicht des GII Länderrankings", align = "left",
@@ -227,63 +229,15 @@ margin= 2) %>%
 #fonts()
 ```
 
+### In Deutschland...?
 
-### Was ist auffällig?
--  Die 3 besten Länder sind europäische Länder.
+- ...ist die Müttersterblichkeitsrate mit 7 pro 100.000 Lebendgeburten nah an den Top 3 Werten dran.
 
-- Vergleichsweise hohe Werte bei der Müttersterblichkeitsrate (1149) und der Jugendgeburtenrate (161.1) in Tschad.
+- ...gilt das gleiche auch für die Jugendgeburtenrate.
 
--  Anteil der Frauensitze im Parlament liegt nirgendwo über 50%. Schweden kommt dem mit einem Wert von 47.3% allerdings sehr nahe.In Papua Neuginea dagegen sind keine Frauen im Parlament vertreten (0%).
+- liegt der Anteil von Frauensitze im Parlament mit 31,6% fast so hoch wie in der Schweiz (38,6%), aber schon noch ein Stück weit entfernt von Schweden. Schweden hat mit 47,3% den größten Anteil an Frauensitze im Parlament.
 
-- Beim Anteil von Frauen über 25 Jahren mit einem Sekundarabschluss ist ein Unterschied zwischen den europäischen (ca. 89% aufwärts) und nicht-europäischen Ländern (maximal 19%) sichtbar.
+- ist der Anteil von Frauen, die mindestens einen Sekundarabschluss haben sehr hoch, fast so hoch wie der Anteil der Männer.
 
-- Unterschied auch beim Anteil von Männern über 25 Jahren mit Sekundarabschluss feststellbar. Die europäischen Länder haben einen Wert von ca.89% aufwärts, wohingegen die nicht-europäischen Länder maximal einen Wert von ca.37% haben.
+- arbeiten mehr als die Häfte der Mädchen und Frauen die mindestens 15 Jahre alt sind. 
 
-- In den europäischen Ländern sind die Anteile zwischen den Geschlechtern also ungefähr gleich. In Tschad, Papua Neu Guinea und Jemen  ist der Anteil von Männern über 25 Jahren mit Sekundarabschluss höher als der von Frauen. 
-
-
-- Bei der Erwebsquote der weiblichen Bevölkerung über 15 Jahren sticht sofort hervor: Sie ist in allen Ländern mit ca.46.63% hoch. Eine Ausnahme bildet der Jemen (5.8%). 
-
-- Hoch ist auch die Erwebsquote der männlichen Bevölerung über 15 Jahren. Selbst der geringste Anteil liegt bei 48% in Papua Neuguinea. In den restlichen Ländern liegt der Wert zwischen ca.66-77%. 
-
-
-### Und nun? 
-Der Index der geschlechtsspezifischen Ungleichheit zeigt, dass die Benachteiligung von Frauen in jedem der 162 erfassten Länder in der reproduktiven Gesundheit, der Selbstbestimmtheit und dem wirtschaftlichen Status existent ist. Er soll uns dabei helfen, das Ausmaß der Ungleichheit zu verstehen. 
-
-Nicht nur Otto-Normalverbraucher sollen durch die Ergebnisse des GII zum Nachdenken angeregt werden. Auch auf politischer Ebene kann er helfen: Er zeigt, dass Maßnahmen erforderlich sind, um die Benachteiligung der Frauen in den jeweiligen Indikatoren zu überwinden. 
-
-#### Deutschland liegt mit einem Wert von 0.084 auf dem 20.Platz und somit relativ weit vorne. Trotzdem liegen 19 Länder vor Deutschland. In 19 Ländern ist die Gleichstellung von Mann und Frau besser.
-
-Eines dieser Länder sind die Vereinigten Arabischen Emirate (VAE). Mit einem Wert von 0.079 liegen sie auf Platz 18 Laut dem Index der geschlechtsspezifischen Ungleichheit sind Frauen demnach dort weniger benachteiligt als in Deutschland. Kommt dir komisch vor? 
-
-
-### Ist der GII etwa nicht verlässlich?
-
-Wie jedes zusammengesetzte Konstrukt mit umfassenden Messungen hat der GII einige Einschränkungen:
-
-- Er misst nicht die Länge und Breite der Ungleichheiten zwischen den Geschlechtern. Bei dem Indikator des Anteils der Frauensitze im Parlament, wird beispielsweise nur auf die parlamentare Ebene eingegangen Nicht aber auf die Vertretung auf nationaler, kommunaler oder lokaler Regierungsebene. 
-
-- Bei der Arbeitsmarktbeteiligung fehlen Daten über die Qualität der Arbeitsplätze. Generell werden wichtige Dimensionen des beruflichen Lebens nicht berücksichtigt. Zum Beispiel der Fakt, dass typischerweise Frauen die Aufgabe der Haushaltsführung und der Pflege zugesprochen wird.
-
-- es fehlen Daten über Vermögenseigentum, Unterstützung bei der Kinderbetreuung, geschlechtsspezifische Gewalt oder der Beteiligung an kommunalen Entscheidungsprozessen. Alles Indikatoren, die zu den 3 Bereichen der menschlichen Entwicklung fallen. 
-
-
-### Quellen zum Index der geschlechtsspezifischen Ungleichheit 
-
-Der GII stützt sich auf öffentliche Daten aus internationalen Datenbanken:
-
-- Müttersterblichkeitsrate: WHO, UNICEF,UNFPA, World Bank Group and United Nations Population Division (2019)
-
-- Jugendgeburtenrate: UNDESA (2019)
-
-- Anteil von Frauensitzen im Parlament: IPU (2020)
-
-- Vergleich der Erwerbsquote der weiblichen und männlichen Bevölerung über 15 Jahren: International Labour Organization ILO (2020)
-
-- Vergleich zwischen Frauen und Männern über 25 Jahren mit mindestens einem Sekundärabschluss: UNESCO Institute for Statistics (2020) and Barro and Lee (2018)
-
-Näheres zu den Quellen und der Berechnung der Indikatoren: https://hdr.undp.org/sites/default/files/hdr2020_technical_notes.pdf 
-
-Datensatz: https://hdr.undp.org/en/composite/GII 
-
-https://hdr.undp.org/en/faq-page/gender-inequality-index-gii#t294n2913
