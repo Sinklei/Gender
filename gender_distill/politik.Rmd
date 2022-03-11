@@ -494,6 +494,8 @@ spaghetti %>%
 
 ```
 
+_Andorra_ hatte von 2011 bis 2014 eine Verteilung zwischen Männern und Frauen von _50/50_. Die Länder mit dem geringsten Frauenanteil in 2020 sind _Ungarn_ und _Liechtenstein_. Dieser beträgt lediglich _12 %_. _Schweden_ ist mit _47 %_ das Land mit dem höchsten Frauenanteil. Hier ist bald eine komplette Gleichstellung zwischen Männern und Frauen erreicht!
+
 Im Vergleich zur gesamten Welt ist der Durchschnitt der europäischen Länder höher. 2020 lag er zumindest bei _30 %_.
 Wir können allgemein sehen, dass der Frauenanteil in (fast) allen europäischen Ländern zunimmt.
 
@@ -857,5 +859,17 @@ seats_bundestag %>%
 Die meisten Frauen gibt es in der **SPD**! Dicht gefolgt von den Grünen. Es ist erstaunlich, dass in der CDU deutlich weniger Frauen als in der SPD sind, obwohl sie nur 9 Sitze weniger haben.
 
 Bisher konnten wir sehen, dass die Männer bislang immer die Überhand hatten. Daher ist es noch erstaunlicher, dass die meisten Abgeordneten bei den Grünen und den Linken Frauen sind!
+
+<br>
+<br>
+
+**In der Politik...?**
+
+* ...sind immer noch mehr Männer als Frauen vertreten.
+* ...gibt es wenig Länder mit einer Gleichstellung zwischen Männern und Frauen.
+* ...sehen wir einen deutlichen Anstieg des Frauenanteils.
+* ...sehen wir den größten Deutschen Bundestag bisher.
+* ...haben die Grünen und die Linken im Bundestag mehr Frauen als Männer.
+
 
 
